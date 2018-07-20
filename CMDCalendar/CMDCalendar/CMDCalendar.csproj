@@ -96,6 +96,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Database\DatabaseUtils.cs" />
+    <Compile Include="Database\IDatabaseUtils.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -139,6 +140,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite">
+      <Version>2.1.1</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.1.5</Version>
     </PackageReference>
@@ -150,8 +154,11 @@
     <Folder Include="ViewModels\" />
   </ItemGroup>
   <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\CMDCalendar.Db\CMDCalendar.DB.csproj">
-      <Project>{55CD7CBE-86D0-4544-908F-AF603FA1205D}</Project>
+      <Project>{55cd7cbe-86d0-4544-908f-af603fa1205d}</Project>
       <Name>CMDCalendar.DB</Name>
     </ProjectReference>
   </ItemGroup>

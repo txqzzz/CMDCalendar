@@ -125,6 +125,9 @@
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite">
+      <Version>2.1.1</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.1.5</Version>
     </PackageReference>
@@ -136,14 +139,13 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.EntityFrameworkCore">
-      <HintPath>..\..\..\..\..\.nuget\packages\microsoft.entityframeworkcore\2.1.1\lib\netstandard2.0\Microsoft.EntityFrameworkCore.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\CMDCalendar.Db\CMDCalendar.DB.csproj">
       <Project>{55cd7cbe-86d0-4544-908f-af603fa1205d}</Project>
       <Name>CMDCalendar.DB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CMDCalendar\CMDCalendar.csproj">
+      <Project>{0dfd09a0-3aa6-4020-8b70-e77c898e3b0e}</Project>
+      <Name>CMDCalendar</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

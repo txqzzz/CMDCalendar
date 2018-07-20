@@ -3,14 +3,16 @@ using System;
 using CMDCalendar.DB;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CMDCalendar.DB.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20180720142146_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,38 +46,6 @@ namespace CMDCalendar.DB.Migrations
                     b.ToTable("Events");
                 });
 
-            modelBuilder.Entity("CMDCalendar.DB.Task", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Comments");
-
-                    b.Property<string>("Content");
-
-                    b.Property<int>("Emergency");
-
-                    b.Property<DateTime>("EndTime");
-
-                    b.Property<DateTime>("EventDay");
-
-                    b.Property<bool>("IsCompleted");
-
-                    b.Property<bool>("IsNotify");
-
-                    b.Property<bool>("IsReapeatable");
-
-                    b.Property<int>("LeftTime");
-
-                    b.Property<string>("Location");
-
-                    b.Property<DateTime>("StartTime");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Tasks");
-                });
-
             modelBuilder.Entity("CMDCalendar.DB.User", b =>
                 {
                     b.Property<int>("Id")
@@ -106,42 +76,11 @@ namespace CMDCalendar.DB.Migrations
                     b.ToTable("UserEvents");
                 });
 
-            modelBuilder.Entity("CMDCalendar.DB.UserTask", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("TaskId");
-
-                    b.Property<int>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TaskId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserTasks");
-                });
-
             modelBuilder.Entity("CMDCalendar.DB.UserEvent", b =>
                 {
                     b.HasOne("CMDCalendar.DB.Event", "Event")
                         .WithMany()
                         .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("CMDCalendar.DB.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("CMDCalendar.DB.UserTask", b =>
-                {
-                    b.HasOne("CMDCalendar.DB.Task", "Task")
-                        .WithMany()
-                        .HasForeignKey("TaskId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("CMDCalendar.DB.User", "User")

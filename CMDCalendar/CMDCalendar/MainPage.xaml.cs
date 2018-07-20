@@ -23,10 +23,11 @@ namespace CMDCalendar
 
         private void MigrateButton_OnClick(object sender, RoutedEventArgs e)
         {
-            using (var db = new DataContext())
+            /*using (var db = new DataContext())
             {
                 db.Database.Migrate();
-            }
+            }*/
+            throw new NotImplementedException();
         }
 
         private void InsertButton_OnClick(object sender, RoutedEventArgs e)
@@ -38,6 +39,7 @@ namespace CMDCalendar
                 db.Users.Add(user);
                 db.Users.Add(user2);
                 db.SaveChanges();
+                
 
                 var evt = new Event { Content = "Debug" };
                 db.Events.Add(evt);
@@ -47,44 +49,56 @@ namespace CMDCalendar
                     { User = user, Event = evt };
                 db.UserEvents.Add(userevt);
                 db.SaveChanges();
-
-                
-                
-
-
-
-                /*var sms = db.UserEvents.Include(p => p.Event)
-                    .Include(p => p.User)
-                    .Where(p => p.Event.Content.Contains("Debug"))
-                    .ToList();*/
-              
-                
-                /*var sms2 = db.Events
-                    .Where(p => p.Content.Contains("Hello"))
-                    .Include(p => p.UserEvent).ThenInclude(p => p.User)
-                    .First();*/
-
-                /*var missions = db.Events.Include(p => p.UserEvents)
-                    .ThenInclude(p => p.Student).ToList*/
             }
         }
 
-        private async void Test_Button_OnClick(object sender, RoutedEventArgs e)
+        private void Test_Button_OnClick(object sender, RoutedEventArgs e)
         {
-            using (var db = new DataContext())
-            {
-                    
-               // var user = db.Users.FromSql("SELECT * from User").ToList();
-                //if (db.Users.Contains())
-                //{
-                    await new MessageDialog("hello").ShowAsync();
-                //}
-            }
-
+            //TestGetUserList();
+            //TestDeleteUser();
+            TestUpdateAsync();
+        }
+        public async void TestGetUserList()
+        {
             var dbu = new DatabaseUtils();
-            var userlist = await dbu.GetUserList();
+            var userList = await dbu.GetUserListAsync();
+            /*for (int i = 0; i < userList.Count(); i++)
+            {
+                var message = new MessageDialog(userList[i].Username);
+                await message.ShowAsync();
+                message = new MessageDialog("" + userList[i].Id);
+                await message.ShowAsync();
+            }*/
+        }
 
+        public async void TestDeleteUser()
+        {
+            var dbu = new DatabaseUtils();
+            var user = new User {Id = 3};
+            await dbu.UpdateUserAsync(user);
+            
+            
+        }
 
+        private void DeleteButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async void TestUpdateAsync()
+        {
+            var dbu = new DatabaseUtils();
+            var user = new User {Id = 4, Username = "Yuyang"};
+            await dbu.UpdateUserAsync(user);
+
+            var userList = await dbu.GetUserListAsync();
+            for (int i = 0; i < userList.Count(); i++)
+            {
+                var message = new MessageDialog(i + "   " + userList[i].Username);
+                await message.ShowAsync();
+                message = new MessageDialog(i + "   " + userList[i].Id);
+                await message.ShowAsync();
+            }
         }
     }
 }
