@@ -9,6 +9,9 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-
+        <Button Name="Test_Button"  Click="Test_Button_OnClick"></Button>
+        <Button Name="MigrateButton" Click="MigrateButton_OnClick" HorizontalAlignment="Left" Height="67" Margin="147,334,0,0" VerticalAlignment="Top">Migrate</Button>
+        
+        <Button Name="InsertButton" Click="InsertButton_OnClick" HorizontalAlignment="Left" Height="60" Margin="147,450,0,0" VerticalAlignment="Top" Width="72">Insert</Button>
     </Grid>
 </Page>

@@ -1,0 +1,18 @@
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+
+namespace CMDCalendar.DB
+{
+    public class DataContext: DbContext
+    {
+        public DbSet<Event> Events { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<UserEvent> UserEvents { get; set; }
+
+        protected override void OnConfiguring(
+            DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlite("Data Source=cmddb.db");
+        }
+    }
+}
