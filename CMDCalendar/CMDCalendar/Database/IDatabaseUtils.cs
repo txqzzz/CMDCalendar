@@ -5,12 +5,11 @@ using CMDCalendar.DB;
 
 namespace CMDCalendar.Database
 {
-    public class IDatabaseUtils
-    {
+    
         /// <summary>
         /// <interface>database access interface</interface>
         /// </summary>
-        public interface IDatabaseAccess
+        public interface IDatabaseUtils
         {
             /* new items */
             Task<Boolean> NewUserAsync(User user);
@@ -29,5 +28,4 @@ namespace CMDCalendar.Database
             Task<Boolean> UpdateUserAsync(User user);
             Task<Boolean> UpdateEventAsync(Event evt);
         }
-    }
 }
