@@ -6,6 +6,10 @@ using Windows.UI.Xaml.Controls;
 using CMDCalendar.DB;
 using CMDCalendar.Database;
 using Microsoft.EntityFrameworkCore;
+using Windows.ApplicationModel.Core;
+using Windows.UI.ViewManagement;
+using Windows.UI.Core;
+using CMDCalendar.Views;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -99,11 +103,53 @@ namespace CMDCalendar
                 await message.ShowAsync();
             }
         }
-
+        /// <summary>
+        /// 下面是弹出子窗口的功能部分，出现冲突请自行修改。
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        static bool viewShown = false;
+        static bool viewClosed = false;
+        static int newViewId;
+        static int currentViewId;
+        static Frame frame;
         private async void SummonDragon(object sender, RoutedEventArgs e)
         {
-            var message = new MessageDialog("召唤神龙!");
-            await message.ShowAsync();
+            CoreApplicationView newView = CoreApplication.CreateNewView();
+            if (viewShown)
+            {
+                if (viewClosed)
+                {
+                    await ApplicationViewSwitcher.TryShowAsStandaloneAsync(newViewId);
+                    viewClosed = false;
+                }
+                else
+                {
+                    await ApplicationViewSwitcher.SwitchAsync(newViewId);
+                }
+            }
+            else
+            {
+                await newView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    var newWindow = Window.Current;
+                    var newAppView = ApplicationView.GetForCurrentView();
+                    newAppView.Consolidated += NewAppView_Consolidated;
+                    newAppView.Title = "商品比较";
+                    ApplicationViewTitleBar titleBar = newAppView.TitleBar;
+                    frame = new Frame();
+                    frame.Navigate(typeof(Myassistant));
+                    newWindow.Content = frame;
+                    newWindow.Activate();
+                    newViewId = newAppView.Id;
+                });
+                viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(newViewId);
+            }
+        }
+
+        private void NewAppView_Consolidated(ApplicationView sender, ApplicationViewConsolidatedEventArgs args)
+        {
+            viewClosed = true;
         }
     }
-}
+    }
