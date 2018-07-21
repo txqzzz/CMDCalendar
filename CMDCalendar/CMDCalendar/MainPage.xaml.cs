@@ -6,6 +6,10 @@ using Windows.UI.Xaml.Controls;
 using CMDCalendar.Database;
 using CMDCalendar.DB;
 using Microsoft.EntityFrameworkCore;
+using Windows.ApplicationModel.Core;
+using Windows.UI.ViewManagement;
+using Windows.UI.Core;
+using CMDCalendar.Views;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -100,11 +104,55 @@ namespace CMDCalendar
                 await message.ShowAsync();
             }
         }
-
-        private async void SummonDragon(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// 从这之后是打开子窗口的代码，其中的变量名称冲突请改自己的变量名
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        static bool viewShown = false;
+        static bool viewClosed = false;
+        static int newViewId;
+        static int currentViewId;
+        static Frame frame;
+        public async void Summon_Click(object sender, bool e)
         {
-            var message = new MessageDialog("召唤神龙!");
-            await message.ShowAsync();
+            CoreApplicationView newView = CoreApplication.CreateNewView();
+            if (viewShown)
+            {
+                if (viewClosed)
+                {
+                    await ApplicationViewSwitcher.TryShowAsStandaloneAsync(newViewId);
+                    viewClosed = false;
+                }
+                else
+                {
+                    await ApplicationViewSwitcher.SwitchAsync(newViewId);
+                }
+            }
+            else
+            {
+                await newView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    var newWindow = Window.Current;
+                    var newAppView = ApplicationView.GetForCurrentView();
+                    frame = new Frame();
+                    frame.Navigate(typeof(Myassistant));
+                    newWindow.Content = frame;
+                    newWindow.Activate();
+                    newViewId = newAppView.Id;
+                });
+                viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(newViewId);
+            }
+        }
+
+        private void NewAppView_Consolidated(ApplicationView sender, ApplicationViewConsolidatedEventArgs args)
+        {
+            viewClosed = true;
+        }
+
+        private void Summon_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
