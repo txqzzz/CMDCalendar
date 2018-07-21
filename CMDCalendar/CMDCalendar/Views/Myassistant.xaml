@@ -1,0 +1,99 @@
+﻿<Page
+    x:Class="CMDCalendar.Views.Myassistant"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CMDCalendar.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
+        <Grid.RowDefinitions>
+                <RowDefinition Height="40px"></RowDefinition>
+                <RowDefinition Height="20px"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="20px"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button  Margin="12,4,12,4">
+                    最小化
+                </Button>
+                <Button  Margin="12,4,12,4">
+                    要退出
+                </Button>
+                <Button Margin="12,4,12,4">
+                    刷新下
+                </Button>
+                <Button  Margin="12,4,12,4">
+                    背景色
+                </Button>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Height="20px" HorizontalAlignment="Center" Grid.Row="1" Background="AliceBlue">
+                <TextBlock TextAlignment="Center">任务</TextBlock>
+            </StackPanel>
+            <ListView Background="AliceBlue" Grid.Row="2" Grid.Column="1">
+                <ListViewItem>
+                    <TextBlock>1231223</TextBlock>
+                </ListViewItem>
+                <ListViewItem>
+                    <TextBlock>1231223</TextBlock>
+                </ListViewItem>
+                <ListViewItem>
+                    <TextBlock>1231223</TextBlock>
+                </ListViewItem>
+                <ListViewItem>
+                    <TextBlock>1231223</TextBlock>
+                </ListViewItem>
+                <ListViewItem>
+                    <TextBlock>1231223</TextBlock>
+                </ListViewItem>
+                <ListViewItem>
+                    <TextBlock>1231223</TextBlock>
+                </ListViewItem>
+                <ListViewItem>
+                    <TextBlock>1231223</TextBlock>
+                </ListViewItem>
+                <ListViewItem>
+                    <TextBlock>1231223</TextBlock>
+                </ListViewItem>
+                <ListViewItem>
+                    <TextBlock>1231223</TextBlock>
+                </ListViewItem>
+                <ListViewItem>
+                    <TextBlock>1231223</TextBlock>
+                </ListViewItem>
+                <ListViewItem>
+                    <TextBlock>1231223</TextBlock>
+                </ListViewItem>
+                <ListViewItem>
+                    <TextBlock>1231223</TextBlock>
+                </ListViewItem>
+            </ListView>
+            <StackPanel Grid.Column="1" Height="20px" HorizontalAlignment="Center" Grid.Row="3" Background="Snow">
+                <TextBlock TextAlignment="Center">日程</TextBlock>
+            </StackPanel>
+            <ListView Grid.Row="4" Background="Snow" Grid.Column="1">
+                <ListViewItem>
+                    <TextBlock>1231223</TextBlock>
+                </ListViewItem>
+                <ListViewItem>
+                    <TextBlock>1231223</TextBlock>
+                </ListViewItem>
+                <ListViewItem>
+                    <TextBlock>1231223</TextBlock>
+                </ListViewItem>
+                <ListViewItem>
+                    <TextBlock>1231223</TextBlock>
+                </ListViewItem>
+                <ListViewItem>
+                    <TextBlock>1231223</TextBlock>
+                </ListViewItem>
+            </ListView>
+        </Grid>
+</Page>

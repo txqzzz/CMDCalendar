@@ -100,5 +100,11 @@ namespace CMDCalendar
                 await message.ShowAsync();
             }
         }
+
+        private async void SummonDragon(object sender, RoutedEventArgs e)
+        {
+            var message = new MessageDialog("召唤神龙!");
+            await message.ShowAsync();
+        }
     }
 }

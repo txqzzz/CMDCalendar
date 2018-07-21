@@ -109,6 +109,9 @@
     <Compile Include="Models\Task.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\Myassistant.xaml.cs">
+      <DependentUpon>Myassistant.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\NotificationPage.xaml.cs">
       <DependentUpon>NotificationPage.xaml</DependentUpon>
     </Compile>
@@ -145,6 +148,10 @@
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Myassistant.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\NotificationPage.xaml">
       <SubType>Designer</SubType>
