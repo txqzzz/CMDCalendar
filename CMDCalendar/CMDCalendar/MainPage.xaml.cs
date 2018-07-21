@@ -135,7 +135,6 @@ namespace CMDCalendar
                     var newWindow = Window.Current;
                     var newAppView = ApplicationView.GetForCurrentView();
                     newAppView.Consolidated += NewAppView_Consolidated;
-                    newAppView.Title = "商品比较";
                     ApplicationViewTitleBar titleBar = newAppView.TitleBar;
                     frame = new Frame();
                     frame.Navigate(typeof(Myassistant));
