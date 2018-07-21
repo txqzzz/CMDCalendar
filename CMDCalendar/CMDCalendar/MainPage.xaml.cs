@@ -6,6 +6,8 @@ using Windows.UI.Xaml.Controls;
 using CMDCalendar.DB;
 using CMDCalendar.Database;
 using Microsoft.EntityFrameworkCore;
+using Windows.UI.Xaml.Media.Animation;
+using CMDCalendar.Views;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -104,6 +106,12 @@ namespace CMDCalendar
         {
             var message = new MessageDialog("召唤神龙!");
             await message.ShowAsync();
+        }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(EditPage), null,
+                    new DrillInNavigationTransitionInfo());
         }
     }
 }

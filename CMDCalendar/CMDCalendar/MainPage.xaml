@@ -26,6 +26,8 @@
                    Margin="12,8,8,8"
                    Style="{ThemeResource TitleTextBlockStyle}"
                    Text="Menu" />
+            <AppBarButton Icon="Add"
+                          Click="AddButton_Click"/>
         </StackPanel>
         <StackPanel Grid.Column="0" Grid.Row="1">
             <TextBlock Grid.ColumnSpan="2"
