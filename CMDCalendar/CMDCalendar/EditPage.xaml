@@ -14,8 +14,7 @@
 
     <Grid x:Name="LayoutRoot">
         <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="AdaptiveStates"
-                              CurrentStateChanged="AdaptiveStates_OnCurrentStateChanged">
+            <VisualStateGroup x:Name="AdaptiveStates">
                 <VisualState x:Name="DefaultState">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="720" />
