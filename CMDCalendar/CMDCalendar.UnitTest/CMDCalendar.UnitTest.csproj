@@ -137,6 +137,9 @@
     <PackageReference Include="MSTest.TestFramework">
       <Version>1.2.1</Version>
     </PackageReference>
+    <PackageReference Include="MvvmLight">
+      <Version>5.4.1</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CMDCalendar.Db\CMDCalendar.DB.csproj">
