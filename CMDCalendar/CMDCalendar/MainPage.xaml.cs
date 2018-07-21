@@ -3,9 +3,11 @@ using System.Linq;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using CMDCalendar.Database;
 using CMDCalendar.DB;
+using CMDCalendar.Database;
 using Microsoft.EntityFrameworkCore;
+using Windows.UI.Xaml.Media.Animation;
+using CMDCalendar.Views;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -34,19 +36,19 @@ namespace CMDCalendar
         {
             using (var db = new DataContext())
             {
-                var user = new User { Username = "Xingqi" };
+                var user = new User {Username = "Xingqi"};
                 var user2 = new User {Username = "Shujie"};
                 db.Users.Add(user);
                 db.Users.Add(user2);
                 db.SaveChanges();
-                
 
-                var evt = new Event { Content = "Debug" };
+
+                var evt = new Event {Content = "Debug"};
                 db.Events.Add(evt);
                 db.SaveChanges();
 
                 var userevt = new UserEvent
-                    { User = user, Event = evt };
+                    {User = user, Event = evt};
                 db.UserEvents.Add(userevt);
                 db.SaveChanges();
             }
@@ -58,6 +60,7 @@ namespace CMDCalendar
             //TestDeleteUser();
             TestUpdateAsync();
         }
+
         public async void TestGetUserList()
         {
             var dbu = new DatabaseUtils();
@@ -76,8 +79,6 @@ namespace CMDCalendar
             var dbu = new DatabaseUtils();
             var user = new User {Id = 3};
             await dbu.UpdateUserAsync(user);
-            
-            
         }
 
         private void DeleteButton_OnClick(object sender, RoutedEventArgs e)
@@ -105,6 +106,12 @@ namespace CMDCalendar
         {
             var message = new MessageDialog("召唤神龙!");
             await message.ShowAsync();
+        }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(EditPage), null,
+                    new DrillInNavigationTransitionInfo());
         }
     }
 }
