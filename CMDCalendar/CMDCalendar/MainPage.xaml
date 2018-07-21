@@ -9,10 +9,88 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="3*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250">
+            </ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0"
+                    Grid.Row="0">
+            <TextBlock Grid.ColumnSpan="2"
+                   Margin="12,8,8,8"
+                   Style="{ThemeResource TitleTextBlockStyle}"
+                   Text="Menu" />
+        </StackPanel>
+        <StackPanel Grid.Column="1" Grid.Row="1">
+            <TextBlock Grid.ColumnSpan="2"
+                   Margin="12,8,8,8"
+                   Style="{ThemeResource TitleTextBlockStyle}"
+                   Text="Scheldue" />
+            <ListView x:Name="SchelduelLsitView"
+                      >
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="x:String">
+                        <TextBlock Text="Schelduel"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <x:String>Item 1</x:String>
+                <x:String>Item 2</x:String>
+                <x:String>Item 3</x:String>
+                <x:String>Item 4</x:String>
+                <x:String>Item 5</x:String>
+            </ListView>
+        </StackPanel>
+        <StackPanel Grid.Column="0"
+                    Grid.Row="2">
+            <TextBlock Grid.ColumnSpan="2"
+                   Margin="12,8,8,8"
+                   Style="{ThemeResource TitleTextBlockStyle}"
+                   Text="To-do Lisit " />
+            <ListView x:Name="TodoListView" 
+                      >
+                <ListView.ItemTemplate>
+
+                    <DataTemplate x:DataType="x:String">
+                        <SwipeControl HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <SwipeControl.RightItems>
+                                <SwipeItems>
+                                    <SwipeItem Text="Pin">
+                                        <SwipeItem.IconSource>
+                                            <SymbolIconSource Symbol="Pin"/>
+                                        </SwipeItem.IconSource>
+                                    </SwipeItem>
+                                    <SwipeItem Text="Delete"
+                                               Background="Red">
+                                        <SwipeItem.IconSource>
+                                            <SymbolIconSource Symbol="Delete"/>
+                                        </SwipeItem.IconSource>
+                                    </SwipeItem>
+                                </SwipeItems>
+
+                            </SwipeControl.RightItems>
+
+                            <!-- Swipeable content -->
+                            <Border Width="180" Height="44" >
+                                <TextBlock Text="Swipe To Pin" Margin="4,8,0,0"/>
+                            </Border>
+                        </SwipeControl>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <x:String>Item 1</x:String>
+                <x:String>Item 2</x:String>
+                <x:String>Item 3</x:String>
+                <x:String>Item 4</x:String>
+                <x:String>Item 5</x:String>
+            </ListView>
+        </StackPanel>
         <Button Name="Test_Button"  Click="Test_Button_OnClick"></Button>
         <Button Name="MigrateButton" Click="MigrateButton_OnClick" HorizontalAlignment="Left" Height="67" Margin="147,334,0,0" VerticalAlignment="Top">Migrate</Button>
         <Button Name="DeleteButton" Click="DeleteButton_OnClick" HorizontalAlignment="Left" Margin="46,464,0,0" VerticalAlignment="Top" Content="ddelel"></Button>
         <Button Name="InsertButton" Click="InsertButton_OnClick" HorizontalAlignment="Left" Height="60" Margin="147,450,0,0" VerticalAlignment="Top" Width="72">Insert</Button>
-        <Button Name="Summon" Click="Summon_Click" HorizontalAlignment="Right" Margin="0,0,900,0">召唤神龙啦</Button>
+        <Button Name="Summon" Click="SummonDragon" HorizontalAlignment="Right" Margin="0,0,900,0">召唤神龙啦</Button>
     </Grid>
 </Page>
