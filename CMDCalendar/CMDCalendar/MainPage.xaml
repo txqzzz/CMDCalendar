@@ -7,96 +7,123 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="2*" />
-            <RowDefinition Height="3*" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250">
-            </ColumnDefinition>
-            <ColumnDefinition Width="*">
-            </ColumnDefinition>
-        </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="0"
-                    Grid.Row="0">
-            <TextBlock Grid.ColumnSpan="2"
-                   Margin="12,8,8,8"
+        <!--<Page.DataContext>
+            <Binding />
+        </Page.DataContext>-->
+
+        <Grid x:Name="LayoutRoot">
+            <!--<VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="AdaptiveStates"
+                              CurrentStateChanged="AdaptiveStates_OnCurrentStateChanged">
+                    <VisualState x:Name="DefaultState">
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="720" />
+                        </VisualState.StateTriggers>
+                    </VisualState>
+                    <VisualState x:Name="NarrowState">
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="0" />
+                        </VisualState.StateTriggers>
+
+                        <VisualState.Setters>
+                            <Setter Target="MasterColumn.Width"
+                                Value="*" />
+                            <Setter Target="DetailColumn.Width"
+                                Value="0" />
+                            <Setter Target="MasterListView.SelectionMode"
+                                Value="None" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups> -->
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="3*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition x:Name="MasterColumn"
+                              Width="300" />
+                <ColumnDefinition x:Name="DetailColumn"
+                              Width="*" />
+            </Grid.ColumnDefinitions>
+            <!-- Menu -->
+            <AppBarButton Icon="List"
+                      Foreground="SteelBlue"
+                      
+                      ></AppBarButton>
+
+            <Grid Grid.Row="1"
+              Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="4*" />
+                </Grid.RowDefinitions>
+
+                <AppBarButton Grid.Row="0"
+                Icon="Add" 
+                Foreground="SteelBlue">
+                </AppBarButton>
+                <TextBlock Grid.ColumnSpan="2"
+                   Foreground="SteelBlue"
+                   Margin="60,8,8,8"
                    Style="{ThemeResource TitleTextBlockStyle}"
-                   Text="Menu" />
-            <AppBarButton Icon="Add"
-                          Click="AddButton_Click"/>
-        </StackPanel>
-        <StackPanel Grid.Column="0" Grid.Row="1">
-            <TextBlock Grid.ColumnSpan="2"
+                   Text="新建事件" />
+                <StackPanel Grid.Row="1">
+                    <TextBlock Grid.ColumnSpan="2"
                    Margin="12,8,8,8"
+                   Foreground="SteelBlue"
                    Style="{ThemeResource TitleTextBlockStyle}"
-                   Text="Scheldue" />
-            <ListView x:Name="SchelduelLsitView"
-                      >
-                <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="x:String">
-                        <TextBlock Text="Schelduel"/>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-                <x:String>Item 1</x:String>
-                <x:String>Item 2</x:String>
-                <x:String>Item 3</x:String>
-                <x:String>Item 4</x:String>
-                <x:String>Item 5</x:String>
-            </ListView>
-        </StackPanel>
-        <StackPanel Grid.Column="0"
-                    Grid.Row="2">
-            <TextBlock Grid.ColumnSpan="2"
+                   Text="最近日程列表" />
+                    <ListView >
+                        <x:String>Item 1</x:String>
+                        <x:String>Item 2</x:String>
+                        <x:String>Item 3</x:String>
+                        <x:String>Item 4</x:String>
+                        <x:String>Item 5</x:String>
+                    </ListView>
+                </StackPanel>
+            </Grid>
+            <StackPanel Grid.Row="2">
+                <TextBlock Grid.ColumnSpan="2"
                    Margin="12,8,8,8"
+                   Foreground="SteelBlue"
                    Style="{ThemeResource TitleTextBlockStyle}"
-                   Text="To-do Lisit " />
-            <ListView x:Name="TodoListView">
-                <ListView.ItemTemplate>
+                   Text="任务" />
+                <ListView>
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="x:String">
+                            <SwipeControl HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <SwipeControl.RightItems>
+                                    <SwipeItems>
+                                        <SwipeItem Text="Pin"
+                                               Background="SteelBlue">
+                                            <SwipeItem.IconSource>
+                                                <SymbolIconSource Symbol="Pin"/>
+                                            </SwipeItem.IconSource>
+                                        </SwipeItem>
+                                        <SwipeItem Text="Delete"
+                                               Background="IndianRed">
+                                            <SwipeItem.IconSource>
+                                                <SymbolIconSource Symbol="Delete"/>
+                                            </SwipeItem.IconSource>
+                                        </SwipeItem>
+                                    </SwipeItems>
 
-                    <DataTemplate x:DataType="x:String">
-                        <SwipeControl HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <SwipeControl.RightItems>
-                                <SwipeItems>
-                                    <SwipeItem Text="Pin">
-                                        <SwipeItem.IconSource>
-                                            <SymbolIconSource Symbol="Pin"/>
-                                        </SwipeItem.IconSource>
-                                    </SwipeItem>
-                                    <SwipeItem Text="Delete"
-                                               Background="Red">
-                                        <SwipeItem.IconSource>
-                                            <SymbolIconSource Symbol="Delete"/>
-                                        </SwipeItem.IconSource>
-                                    </SwipeItem>
-                                </SwipeItems>
+                                </SwipeControl.RightItems>
 
-                            </SwipeControl.RightItems>
-
-                            <!-- Swipeable content -->
-                            <Border Width="180" Height="44" >
-                                <TextBlock Text="Swipe To Pin" Margin="4,8,0,0"/>
-                            </Border>
-                        </SwipeControl>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-                <x:String>Item 1</x:String>
-                <x:String>Item 2</x:String>
-                <x:String>Item 3</x:String>
-                <x:String>Item 4</x:String>
-                <x:String>Item 5</x:String>
-            </ListView>
-        </StackPanel>
-        <StackPanel Grid.Column="1" Grid.Row="1">
-            <Button Click="SummonDragon">SummonDragon</Button>
-            <Button Name="Test_Button"  Click="Test_Button_OnClick" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center" Width="130">Test</Button>
-            <Button Name="MigrateButton" Click="MigrateButton_OnClick" HorizontalAlignment="Left" VerticalAlignment="Center" Width="130">Migrate</Button>
-            <Button Name="DeleteButton" Click="DeleteButton_OnClick" Content="Delete" HorizontalAlignment="Left" VerticalAlignment="Center" Width="130"/>
-            <Button Name="InsertButton" Click="InsertButton_OnClick" Width="130" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center">Insert</Button>
-        </StackPanel>
-
+                                <!-- Swipeable content -->
+                                <Border Width="180" Height="44" >
+                                    <TextBlock Text="Swipe To Pin" Margin="4,8,0,0"/>
+                                </Border>
+                            </SwipeControl>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Page>
+
