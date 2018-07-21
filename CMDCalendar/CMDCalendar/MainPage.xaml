@@ -17,6 +17,8 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="250">
             </ColumnDefinition>
+            <ColumnDefinition Width="*">
+            </ColumnDefinition>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0"
                     Grid.Row="0">
@@ -25,7 +27,7 @@
                    Style="{ThemeResource TitleTextBlockStyle}"
                    Text="Menu" />
         </StackPanel>
-        <StackPanel Grid.Column="1" Grid.Row="1">
+        <StackPanel Grid.Column="0" Grid.Row="1">
             <TextBlock Grid.ColumnSpan="2"
                    Margin="12,8,8,8"
                    Style="{ThemeResource TitleTextBlockStyle}"
@@ -50,8 +52,7 @@
                    Margin="12,8,8,8"
                    Style="{ThemeResource TitleTextBlockStyle}"
                    Text="To-do Lisit " />
-            <ListView x:Name="TodoListView" 
-                      >
+            <ListView x:Name="TodoListView">
                 <ListView.ItemTemplate>
 
                     <DataTemplate x:DataType="x:String">
@@ -87,9 +88,12 @@
                 <x:String>Item 5</x:String>
             </ListView>
         </StackPanel>
-        <Button Name="Test_Button"  Click="Test_Button_OnClick"></Button>
-        <Button Name="MigrateButton" Click="MigrateButton_OnClick" HorizontalAlignment="Left" Height="67" Margin="147,334,0,0" VerticalAlignment="Top">Migrate</Button>
-        <Button Name="DeleteButton" Click="DeleteButton_OnClick" HorizontalAlignment="Left" Margin="46,464,0,0" VerticalAlignment="Top" Content="ddelel"></Button>
-        <Button Name="InsertButton" Click="InsertButton_OnClick" HorizontalAlignment="Left" Height="60" Margin="147,450,0,0" VerticalAlignment="Top" Width="72">Insert</Button>
+        <StackPanel Grid.Column="1" Grid.Row="1">
+            <Button Click="SummonDragon">SummonDragon</Button>
+            <Button Name="Test_Button"  Click="Test_Button_OnClick" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center" Width="130">Test</Button>
+            <Button Name="MigrateButton" Click="MigrateButton_OnClick" HorizontalAlignment="Left" VerticalAlignment="Center" Width="130">Migrate</Button>
+            <Button Name="DeleteButton" Click="DeleteButton_OnClick" Content="Delete" HorizontalAlignment="Left" VerticalAlignment="Center" Width="130"/>
+            <Button Name="InsertButton" Click="InsertButton_OnClick" Width="130" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center">Insert</Button>
+        </StackPanel>
     </Grid>
 </Page>
