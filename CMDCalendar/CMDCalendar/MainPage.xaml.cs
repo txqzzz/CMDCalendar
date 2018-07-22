@@ -1,16 +1,17 @@
-﻿using System;
+﻿using CMDCalendar.Database;
+using CMDCalendar.DB;
+using CMDCalendar.Views;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using Windows.ApplicationModel.Core;
+using Windows.System;
+using Windows.UI.Core;
 using Windows.UI.Popups;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using CMDCalendar.DB;
-using CMDCalendar.Database;
-using Microsoft.EntityFrameworkCore;
 using Windows.UI.Xaml.Media.Animation;
-using CMDCalendar.Views;
-using Windows.ApplicationModel.Core;
-using Windows.UI.ViewManagement;
-using Windows.UI.Core;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -39,8 +40,8 @@ namespace CMDCalendar
         {
             using (var db = new DataContext())
             {
-                var user = new User { Username = "Xingqi" };
-                var user2 = new User { Username = "Shujie" };
+                var user = new DB.User { Username = "Xingqi" };
+                var user2 = new DB.User { Username = "Shujie" };
                 db.Users.Add(user);
                 db.Users.Add(user2);
                 db.SaveChanges();
@@ -80,7 +81,7 @@ namespace CMDCalendar
         public async void TestDeleteUser()
         {
             var dbu = new DatabaseUtils();
-            var user = new User { Id = 3 };
+            var user = new DB.User { Id = 3 };
             await dbu.UpdateUserAsync(user);
         }
 
@@ -89,10 +90,11 @@ namespace CMDCalendar
             throw new NotImplementedException();
         }
 
+
         public async void TestUpdateAsync()
         {
             var dbu = new DatabaseUtils();
-            var user = new User { Id = 4, Username = "Yuyang" };
+            var user = new DB.User { Id = 4, Username = "Yuyang" };
             await dbu.UpdateUserAsync(user);
 
             var userList = await dbu.GetUserListAsync();
@@ -117,11 +119,13 @@ namespace CMDCalendar
         private async void SummonDragon(object sender, RoutedEventArgs e)
         {
             CoreApplicationView newView = CoreApplication.CreateNewView();
+            var currentView = ApplicationView.GetForCurrentView();
+            var viewId = currentView.Id;
             if (viewShown)
             {
                 if (viewClosed)
                 {
-                    await ApplicationViewSwitcher.TryShowAsStandaloneAsync(newViewId);
+                    await ApplicationViewSwitcher.SwitchAsync(newViewId);
                     viewClosed = false;
                 }
                 else
@@ -131,19 +135,19 @@ namespace CMDCalendar
             }
             else
             {
-                await newView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                await newView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                 {
                     var newWindow = Window.Current;
                     var newAppView = ApplicationView.GetForCurrentView();
                     newAppView.Consolidated += NewAppView_Consolidated;
 
                     iframe = new Frame();
-                    iframe.Navigate(typeof(Myassistant));
+                    iframe.Navigate(typeof(Myassistant),currentView.Id);
                     newWindow.Content = iframe;
                     newWindow.Activate();
                     newViewId = newAppView.Id;
                 });
-                viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(newViewId);
+                await ApplicationViewSwitcher.SwitchAsync(newViewId);
             }
         }
 
