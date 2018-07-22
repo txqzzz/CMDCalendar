@@ -12,6 +12,11 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
+using CMDCalendar.Views;
+using Windows.ApplicationModel.Core;
+using Windows.UI.ViewManagement;
+using Windows.UI.Core;
+
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -42,6 +47,7 @@ namespace CMDCalendar
             {
                 var user = new DB.User { Username = "Xingqi" };
                 var user2 = new DB.User { Username = "Shujie" };
+
                 db.Users.Add(user);
                 db.Users.Add(user2);
                 db.SaveChanges();
@@ -82,6 +88,7 @@ namespace CMDCalendar
         {
             var dbu = new DatabaseUtils();
             var user = new DB.User { Id = 3 };
+
             await dbu.UpdateUserAsync(user);
         }
 
@@ -94,7 +101,9 @@ namespace CMDCalendar
         public async void TestUpdateAsync()
         {
             var dbu = new DatabaseUtils();
+
             var user = new DB.User { Id = 4, Username = "Yuyang" };
+
             await dbu.UpdateUserAsync(user);
 
             var userList = await dbu.GetUserListAsync();
@@ -121,11 +130,13 @@ namespace CMDCalendar
             CoreApplicationView newView = CoreApplication.CreateNewView();
             var currentView = ApplicationView.GetForCurrentView();
             var viewId = currentView.Id;
+
             if (viewShown)
             {
                 if (viewClosed)
                 {
                     await ApplicationViewSwitcher.SwitchAsync(newViewId);
+
                     viewClosed = false;
                 }
                 else
@@ -136,6 +147,7 @@ namespace CMDCalendar
             else
             {
                 await newView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+
                 {
                     var newWindow = Window.Current;
                     var newAppView = ApplicationView.GetForCurrentView();
@@ -143,11 +155,13 @@ namespace CMDCalendar
 
                     iframe = new Frame();
                     iframe.Navigate(typeof(Myassistant),currentView.Id);
+
                     newWindow.Content = iframe;
                     newWindow.Activate();
                     newViewId = newAppView.Id;
                 });
                 await ApplicationViewSwitcher.SwitchAsync(newViewId);
+
             }
         }
 
