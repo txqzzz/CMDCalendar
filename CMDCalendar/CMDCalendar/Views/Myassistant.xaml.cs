@@ -5,6 +5,9 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.System;
+using Windows.UI.Popups;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -25,6 +28,46 @@ namespace CMDCalendar.Views
         public Myassistant()
         {
             this.InitializeComponent();
+            Date.Text = DateTime.Now.ToShortDateString();
+        }
+        /// <summary>
+        /// 日期偏差
+        /// </summary>
+        private int DateOffset = 0;
+
+        private int parentId;
+        /// <summary>
+        /// 重写，接受参数
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            parentId = Convert.ToInt32(e.Parameter.ToString());
+        }
+
+        private async void Minimize_Click(object sender, RoutedEventArgs e)
+        {
+            var currentView = ApplicationView.GetForCurrentView();
+            var viewId = currentView.Id;
+            await ApplicationViewSwitcher.SwitchAsync(parentId);
+        }
+
+        private void Return_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Exit();
+        }
+
+        private void Front_Click(object sender, RoutedEventArgs e)
+        {
+            Date.Text=DateTime.Now.AddDays(DateOffset-1).ToShortDateString();
+            DateOffset = DateOffset - 1;
+        }
+
+        private void Behind_Click(object sender, RoutedEventArgs e)
+        {
+            Date.Text = DateTime.Now.AddDays(DateOffset + 1).ToShortDateString();
+            DateOffset = DateOffset + 1;
         }
     }
 }
+
