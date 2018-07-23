@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.System;
+using Windows.UI.Composition;
 using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
@@ -29,6 +32,7 @@ namespace CMDCalendar.Views
         {
             this.InitializeComponent();
             Date.Text = DateTime.Now.ToShortDateString();
+            CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
         }
         /// <summary>
         /// 日期偏差
@@ -56,17 +60,53 @@ namespace CMDCalendar.Views
         {
             Application.Current.Exit();
         }
-
         private void Front_Click(object sender, RoutedEventArgs e)
         {
-            Date.Text=DateTime.Now.AddDays(DateOffset-1).ToShortDateString();
+            Front.IsEnabled = false;
+            Behind.IsEnabled = false;
             DateOffset = DateOffset - 1;
+            Disappear.Completed += (o, s) =>
+            {
+                Date.Text = DateTime.Now.AddDays(DateOffset).ToShortDateString();
+                Appear.Begin();
+                Front.IsEnabled = true;
+                Behind.IsEnabled = true;
+            };
+            Disappear.Begin();
         }
 
         private void Behind_Click(object sender, RoutedEventArgs e)
         {
-            Date.Text = DateTime.Now.AddDays(DateOffset + 1).ToShortDateString();
+            Front.IsEnabled = false;
+            Behind.IsEnabled = false;
             DateOffset = DateOffset + 1;
+            Disappear.Completed += (o, s) =>
+            {
+                Date.Text = DateTime.Now.AddDays(DateOffset).ToShortDateString();
+                Appear.Begin();
+                Front.IsEnabled = true;
+                Behind.IsEnabled = true;
+            };
+            Disappear.Begin();
+        }
+        /// <summary>
+        /// 用户可改变编辑状态函数
+        /// </summary>
+        private bool IfStar = true;
+        private void Star_Click(object sender, RoutedEventArgs e)
+        {
+            if (IfStar)
+            {
+                Star.Icon = new SymbolIcon(Symbol.SolidStar);
+                Task.IsEnabled = true;
+                IfStar = !IfStar;
+            }
+            else {
+                Star.Icon = new SymbolIcon(Symbol.OutlineStar);
+                Task.IsEnabled = false;
+                Task.SelectedItem = null;
+                IfStar = !IfStar;
+            }
         }
     }
 }
