@@ -28,10 +28,19 @@ namespace CMDCalendar.Views
             this.InitializeComponent();
         }
 
+        /// <summary>
+        /// 导航回主页面。
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(MainPage), null,
                     new DrillInNavigationTransitionInfo());
+        }
+
+        private void CalendarView_CalendarViewDayItemChanging(CalendarView sender, CalendarViewDayItemChangingEventArgs args)
+        {
 
         }
     }
