@@ -14,6 +14,9 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using CMDCalendar.Database;
+using CMDCalendar.DB;
+using Microsoft.EntityFrameworkCore;
 
 namespace CMDCalendar
 {
@@ -30,6 +33,12 @@ namespace CMDCalendar
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            var db = new DataContext();
+            
+            db.Database.EnsureDeleted();
+            db.Database.Migrate();
+            var dbu = new DatabaseUtils();
+            dbu.SeedDataAsync();
         }
 
         /// <summary>

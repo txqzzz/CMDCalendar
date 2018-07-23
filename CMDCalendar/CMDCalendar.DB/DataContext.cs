@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace CMDCalendar.DB
 {
-    public class DataContext: DbContext
+    public class DataContext : DbContext
     {
         public DbSet<Event> Events { get; set; }
         public DbSet<User> Users { get; set; }
