@@ -114,6 +114,15 @@ namespace CMDCalendar
                 message = new MessageDialog(i + "   " + userList[i].Id);
                 await message.ShowAsync();
             }
+
+            var eventList = await dbu.GetEventListAsync();
+            for(int i = 0; i < eventList.Count(); i++)
+            {
+                var message = new MessageDialog(i + "   " + eventList[i].Comments);
+                await message.ShowAsync();
+                message = new MessageDialog(i + "   " + eventList[i].Id);
+                await message.ShowAsync();
+            }
         }
         /// <summary>
         /// 下面是打开子窗口的功能，变量冲突请修改你的变量。
