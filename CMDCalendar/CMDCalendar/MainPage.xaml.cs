@@ -183,5 +183,19 @@ namespace CMDCalendar
             Frame.Navigate(typeof(EditPage), null,
                     new DrillInNavigationTransitionInfo());
         }
+        public class List
+        {
+            public string text { get; set; }
+        }
+
+        //private System.Collections.ObjectModel.ObservableCollection<List> list = new System.Collections.ObjectModel.ObservableCollection<List>();
+        private List _selectedItem;
+        private void TodoListView_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
+        {
+            ListView listView = (ListView)sender;
+            toDoMenuFlayout.ShowAt(listView, e.GetPosition(listView));
+            var a = ((FrameworkElement)e.OriginalSource).DataContext;
+        }
+
     }
 }

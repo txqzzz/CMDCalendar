@@ -66,9 +66,10 @@
                    VerticalAlignment="Center"
                    Style="{ThemeResource TitleTextBlockStyle}"
                    Text="任务" />
-            <ListView x:Name="TodoListView">
+            <ListView x:Name="TodoListView"
+                      RightTapped="TodoListView_RightTapped"
+                      ItemsSource="x:Bind list">
                 <ListView.ItemTemplate>
-
                     <DataTemplate x:DataType="x:String">
                         <SwipeControl HorizontalAlignment="Center" VerticalAlignment="Center">
                             <SwipeControl.RightItems>
@@ -97,11 +98,14 @@
                         </SwipeControl>
                     </DataTemplate>
                 </ListView.ItemTemplate>
-                <x:String>Item 1</x:String>
-                <x:String>Item 2</x:String>
-                <x:String>Item 3</x:String>
-                <x:String>Item 4</x:String>
-                <x:String>Item 5</x:String>
+                <ListView.Resources>
+                    <MenuFlyout x:Name="toDoMenuFlayout">
+                        <MenuFlyout.Items>
+                            <MenuFlyoutItem x:Name="Pin" Text="Pin"/>
+                            <MenuFlyoutItem x:Name="Remove" Text="Remove"/>
+                        </MenuFlyout.Items>
+                    </MenuFlyout>
+                </ListView.Resources>
             </ListView>
         </StackPanel>
         <StackPanel Grid.Column="1" Grid.Row="1">
