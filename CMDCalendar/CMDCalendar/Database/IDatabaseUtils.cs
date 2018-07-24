@@ -27,5 +27,8 @@ namespace CMDCalendar.Database
             /* update items*/
             Task<Boolean> UpdateUserAsync(User user);
             Task<Boolean> UpdateEventAsync(Event evt);
+
+        /* initial data */
+            void SeedDataAsync();
         }
 }

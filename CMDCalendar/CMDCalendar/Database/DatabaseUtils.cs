@@ -6,6 +6,7 @@ using System.ServiceModel.Description;
 using System.Threading.Tasks;
 using CMDCalendar.DB;
 using Microsoft.EntityFrameworkCore;
+using Task = CMDCalendar.DB.Task;
 
 namespace CMDCalendar.Database
 {
@@ -19,7 +20,8 @@ namespace CMDCalendar.Database
                 var userFlag = await db.Users.SingleOrDefaultAsync(p => p.Username == user.Username);
                 if (userFlag != null)
                 {
-                    throw new ArgumentException();
+                    return false;
+                    //throw new ArgumentException();
                 }
 
                 try
@@ -48,6 +50,7 @@ namespace CMDCalendar.Database
                 {
                     throw new ArgumentException();
                 }
+
                 try
                 {
                     var eventFlag = await db.Events.SingleOrDefaultAsync(
@@ -82,6 +85,7 @@ namespace CMDCalendar.Database
                     Console.WriteLine("{0} Exception caught.", e);
                 }
             }
+
             return true;
         }
 
@@ -94,6 +98,7 @@ namespace CMDCalendar.Database
                 {
                     throw new ArgumentException();
                 }
+
                 try
                 {
                     var eventFlag = await db.Events.SingleOrDefaultAsync(
@@ -131,9 +136,9 @@ namespace CMDCalendar.Database
                     Console.WriteLine("{0} Exception caught.", e);
                 }
             }
+
             return true;
         }
-        
 
 
         /* delete items */
@@ -153,7 +158,6 @@ namespace CMDCalendar.Database
                 {
                     return false;
                 }
-
             }
         }
 
@@ -173,9 +177,9 @@ namespace CMDCalendar.Database
                 {
                     return false;
                 }
-
             }
         }
+
         /* list items */
         public async Task<List<User>> GetUserListAsync()
         {
@@ -194,7 +198,6 @@ namespace CMDCalendar.Database
         }
 
 
-
         /* update items*/
         public async Task<Boolean> UpdateUserAsync(User user)
         {
@@ -207,7 +210,6 @@ namespace CMDCalendar.Database
 
                     await db.SaveChangesAsync();
                     return true;
-
                 }
                 else
                 {
@@ -233,6 +235,90 @@ namespace CMDCalendar.Database
                     return false;
                 }
             }
+        }
+
+        public async void SeedDataAsync()
+        {
+            var dbu = new DatabaseUtils();
+            var user1 = new User
+            {
+                Id = 1,
+                Username = "Xingqi"
+            };
+            var user2 = new User
+            {
+                Id = 2,
+                Username = "Jinhao"
+            };
+            var user3 = new User
+            {
+                Id = 3,
+                Username = "Shujie"
+            };
+
+            await dbu.NewUserAsync(user1);
+            await dbu.NewUserAsync(user2);
+            await dbu.NewUserAsync(user3);
+
+            var evt1 = new Event
+            {
+                Id = 1,
+                Comments = "evt1 comments.",
+                Content = "evt1",
+                EventDay = new DateTime(2018, 8, 31),
+                Emergency = 0,
+                EndTime = new DateTime(2018,7,24),
+                IsNotify = false,
+                LeftTime = -1,
+                Location = "evt1 location",
+                StartTime = new DateTime(2018,7,24)
+            };
+            var evt2 = new Event
+            {
+                Id = 2,
+                Comments = "event2",
+                Content = "evt2_content",
+                EventDay = new DateTime(2018, 7, 21),
+                Emergency = 0,
+                EndTime = new DateTime(2018, 7, 24),
+                IsNotify = false,
+                LeftTime = -1,
+                Location = "evt2 location",
+                StartTime = new DateTime(2018, 7, 24)
+            };
+
+            await dbu.NewEventAsync(evt1, user1);
+            await dbu.NewEventAsync(evt2, user2);
+
+            var task1 = new Task()
+            {
+                Id = 1,
+                Comments = "No comments then.",
+                Content = "Location yourself",
+                IsReapeatable = false,
+                StartTime = new DateTime(2018, 8, 22),
+                EndTime = new DateTime(2018, 8, 31),
+                EventDay = new DateTime(2018, 8, 22),
+                LeftTime = -1,
+                Emergency = 0,
+                IsCompleted = false,
+            };
+
+            var task2 = new Task()
+            {
+                Id = 2,
+                Comments = "Task two",
+                Content = "Do it yourself",
+                IsReapeatable = false,
+                StartTime = new DateTime(2018, 8, 10),
+                EndTime = new DateTime(2018, 8, 31),
+                EventDay = new DateTime(2018, 8, 22),
+                LeftTime = -1,
+                Emergency = 0,
+                IsCompleted = false,
+            };
+            await dbu.NewTaskAsync(task1, user1);
+            await dbu.NewTaskAsync(task2, user3);
         }
     }
 }
