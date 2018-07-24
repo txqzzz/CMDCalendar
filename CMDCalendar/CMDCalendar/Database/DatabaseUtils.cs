@@ -40,7 +40,6 @@ namespace CMDCalendar.Database
             return true;
         }
 
-
         public async Task<Boolean> NewEventAsync(Event evt, User user)
         {
             using (var db = new DataContext())
@@ -165,11 +164,11 @@ namespace CMDCalendar.Database
         {
             using (var db = new DataContext())
             {
-                var delFlag = await db.Users.SingleOrDefaultAsync(
+                var delFlag = await db.Events.SingleOrDefaultAsync(
                     p => p.Id == evt.Id);
                 if (delFlag != null)
                 {
-                    db.Users.Remove(delFlag);
+                    db.Events.Remove(delFlag);
                     await db.SaveChangesAsync();
                     return true;
                 }
@@ -180,6 +179,24 @@ namespace CMDCalendar.Database
             }
         }
 
+        public async Task<Boolean> DeleteTaskAsync(DB.Task task)
+        {
+            using (var db = new DataContext())
+            {
+                var delFlag = await db.Tasks.SingleOrDefaultAsync(
+                    p => p.Id == task.Id);
+                if (delFlag != null)
+                {
+                    db.Tasks.Remove(delFlag);
+                    await db.SaveChangesAsync();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
         /* list items */
         public async Task<List<User>> GetUserListAsync()
         {
@@ -194,6 +211,14 @@ namespace CMDCalendar.Database
             using (var db = new DataContext())
             {
                 return await db.Events.ToListAsync();
+            }
+        }
+
+        public async Task<List<DB.Task>> GetTaskListAsync()
+        {
+            using (var db = new DataContext())
+            {
+                return await db.Tasks.ToListAsync();
             }
         }
 
@@ -237,6 +262,26 @@ namespace CMDCalendar.Database
             }
         }
 
+        public async Task<Boolean> UpdateTaskAsync(DB.Task task)
+        {
+            using (var db = new DataContext())
+            {
+                var taskFlag = await db.Tasks.SingleOrDefaultAsync(p => p.Id == task.Id);
+                if (taskFlag != null)
+                {
+                    taskFlag = task;
+                    db.Tasks.Update(taskFlag);
+                    await db.SaveChangesAsync();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        /* seed initialized data */
         public async void SeedDataAsync()
         {
             var dbu = new DatabaseUtils();
