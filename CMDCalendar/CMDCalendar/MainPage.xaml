@@ -67,6 +67,8 @@
                    Style="{ThemeResource TitleTextBlockStyle}"
                    Text="任务" />
             <ListView x:Name="TodoListView"
+                      IsItemClickEnabled="True"
+                      ItemClick="TodoListView_ItemClick"
                       RightTapped="TodoListView_RightTapped"
                       ItemsSource="x:Bind list">
                 <ListView.ItemTemplate>
@@ -102,7 +104,8 @@
                     <MenuFlyout x:Name="toDoMenuFlayout">
                         <MenuFlyout.Items>
                             <MenuFlyoutItem x:Name="Pin" Text="Pin"/>
-                            <MenuFlyoutItem x:Name="Remove" Text="Remove"/>
+                            <MenuFlyoutItem x:Name="Remove" Text="Remove"
+                                            Command="{Binding }"/>
                         </MenuFlyout.Items>
                     </MenuFlyout>
                 </ListView.Resources>
