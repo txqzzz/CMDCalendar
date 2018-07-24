@@ -200,7 +200,7 @@ namespace CMDCalendar
         private void TodoListView_ItemClick(object sender, ItemClickEventArgs e)
         {
             var viewModel = (SliberPageViewModel)this.DataContext;
-            viewModel.SelectedItem = (Task)e.ClickedItem;
+            //viewModel.SelectedItem = (Task)e.ClickedItem;
         }
     }
 }

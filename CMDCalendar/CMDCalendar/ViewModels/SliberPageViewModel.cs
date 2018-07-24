@@ -35,11 +35,8 @@ namespace CMDCalendar.ViewModels
             get => _selectedTask;
             set => Set(nameof(SelectedTask), ref _selectedTask, value);
         }
-        public RelayCommand DeleteCommand(DB.Task) : IDatabaseUtils
-        {
-
-            return;
-        }
+        //public RelayCommand DeleteCommand()
+    
 
         
 
