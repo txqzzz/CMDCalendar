@@ -21,21 +21,16 @@
                               Width="*" />
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.ColumnSpan="2" Orientation="Horizontal" >
+        <StackPanel Orientation="Horizontal" >
             <AppBarButton Icon="Back" 
-                      VerticalAlignment="Center" 
-                      LabelPosition="Collapsed"
+                          VerticalAlignment="Center"  LabelPosition="Collapsed" Foreground="SteelBlue"
                           Click="BackButton_Click"/>
 
             <AppBarButton Icon="List" 
-                      VerticalAlignment="Center" 
-                      LabelPosition="Collapsed"/>
+                          VerticalAlignment="Center" LabelPosition="Collapsed"  Foreground="SteelBlue"/>
         </StackPanel>
-        
 
-
-        <Grid Grid.Row="1"
-              Grid.Column="0">
+        <Grid Grid.Row="1" Grid.Column="0">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
@@ -44,115 +39,135 @@
 
             <StackPanel>
                 <CalendarView SelectionMode="Single" IsGroupLabelVisible="True"
-                          IsOutOfScopeEnabled="True" Language="en-US"
-                          CalendarIdentifier="GregorianCalendar" 
-                              HorizontalAlignment="Center"
-                              VerticalAlignment="Top"
-                          />
+                              IsOutOfScopeEnabled="True" Language="en-US"
+                              CalendarIdentifier="GregorianCalendar" 
+                              HorizontalAlignment="Center" VerticalAlignment="Top"
+                              CalendarViewDayItemChanging="CalendarView_CalendarViewDayItemChanging"/>
             </StackPanel>
 
             <CommandBar Grid.Row="1"
                         OverflowButtonVisibility="Collapsed"
-                        DefaultLabelPosition="Collapsed">
+                        DefaultLabelPosition="Collapsed"
+                        Background="White">
 
-                <AppBarButton Icon="Mail">
+                <AppBarButton Icon="Mail" Foreground="SteelBlue">
                 </AppBarButton>
 
-                <AppBarButton Icon="Calendar">
+                <AppBarButton Icon="Calendar" Foreground="SteelBlue">
                 </AppBarButton>
 
-                <AppBarButton Icon="ContactInfo" Margin="0,0,25,0">
+                <AppBarButton Icon="ContactInfo" Foreground="SteelBlue" Margin="0,0,25,0">
                 </AppBarButton>
 
-                <AppBarButton Icon="Setting">
+                <AppBarButton Icon="Setting" Foreground="SteelBlue">
                 </AppBarButton>
 
             </CommandBar>
         </Grid>
+        
+        <StackPanel Orientation="Horizontal" Grid.Column="1">
+            <CommandBar Background="Transparent"
+                        OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
+                <AppBarButton Icon="SaveLocal" Label="保存并退出" />
+                <AppBarButton Icon="Delete" Label="删除" />
+                <AppBarSeparator/>
+            </CommandBar>
+            <TextBlock VerticalAlignment="Center">提醒：</TextBlock>
 
-        <StackPanel Grid.Row="1"
-                          Grid.Column="1"
-                          BorderThickness="1,0,0,0"
-                          Padding="24,0"
-                          BorderBrush="{StaticResource SystemControlForegroundBaseLowBrush}">
+            <ComboBox PlaceholderText="15分钟" VerticalAlignment="Center">
+                <x:String>15分钟</x:String>
+                <x:String>1小时</x:String>
+                <x:String>2小时</x:String>
+            </ComboBox>
+        </StackPanel>
+        
+        <Grid Grid.Row="1" Grid.Column="1"
+                    BorderThickness="1,0,0,0" Padding="24,0"
+                    BorderBrush="{StaticResource SystemControlForegroundBaseLowBrush}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="300" />
+            </Grid.ColumnDefinitions>
 
-            <StackPanel Orientation="Horizontal">
-                <CommandBar Background="Transparent"
-                    OverflowButtonVisibility="Collapsed"
-                    DefaultLabelPosition="Right">
-                    <AppBarButton Icon="SaveLocal"
-                          Label="保存并退出"
-                          Command="{Binding SaveCommand}"
-                          CommandParameter="{Binding SelectedContact}" />
-                    <AppBarButton 
-                Icon="Delete"
-                Label="删除" />
-                    <AppBarSeparator></AppBarSeparator>
+            <Pivot Grid.Column="0">
+                <PivotItem Header="日程">
+                    <StackPanel>
+                        <TextBlock Text="详细信息" FontSize="20" Margin="0,10,0,15" Foreground="SteelBlue"
+                                       Style="{StaticResource CaptionTextBlockStyle}" />
 
-                </CommandBar>
-                <TextBlock VerticalAlignment="Center">提醒：</TextBlock>
-                <ComboBox PlaceholderText="15分钟" VerticalAlignment="Center">
-                    <x:String>15分钟</x:String>
-                    <x:String>1小时</x:String>
-                    <x:String>2小时</x:String>
-                </ComboBox>
+                        <TextBox PlaceholderText="事件名称"  FontSize="25" Height ="50" />
+
+                        <TextBox PlaceholderText="地点" Margin="0,20,0,0"/>
+
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="开始" VerticalAlignment="Bottom" Margin="5,0,0,10"/>
+                            <CalendarDatePicker PlaceholderText="选择一个时间" Margin="15,20,0,0" Width="200"/>
+                            <TimePicker ClockIdentifier="24HourClock" Margin="20,20,0,0"  MinuteIncrement="30"/>
+                        </StackPanel>
+
+
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="结束" VerticalAlignment="Bottom" Margin="5,0,0,30"/>
+                            <CalendarDatePicker PlaceholderText="选择一个时间" Margin="15,20,0,20" Width="200"/>
+                            <TimePicker ClockIdentifier="24HourClock" Margin="20,20,0,20"  MinuteIncrement="30"/>
+                        </StackPanel>
+
+                        <RichEditBox x:Name="EditZone"
+                                         PlaceholderText="事件描述"
+                                         TextWrapping="Wrap"
+                                         VerticalContentAlignment="Stretch"
+                                         HorizontalContentAlignment="Stretch"
+                                         MinHeight="200"
+                                         Padding="10,3"
+                                         BorderThickness="1"
+                                         BorderBrush="{ThemeResource SystemControlForegroundChromeHighBrush}"
+                                         Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}" />
+                    </StackPanel>
+                </PivotItem>
+                <PivotItem Header="任务">
+                    <StackPanel>
+                        <TextBlock Text="详细信息" FontSize="20"
+                                       Margin="0,10,0,15"
+                                       Foreground="SteelBlue"
+                                       Style="{StaticResource CaptionTextBlockStyle}" />
+
+                        <TextBox PlaceholderText="事件名称"  FontSize="25" Height ="50" />
+
+                        <TextBox PlaceholderText="地点" Margin="0,20,0,0"/>
+
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="结束" VerticalAlignment="Bottom" Margin="5,0,0,30"/>
+                            <CalendarDatePicker PlaceholderText="选择一个时间" Margin="15,20,0,20" Width="200"/>
+                            <TimePicker ClockIdentifier="24HourClock" Margin="20,20,0,20"  MinuteIncrement="30"/>
+                        </StackPanel>
+
+                        <RichEditBox x:Name="EditZone2"
+                                         PlaceholderText="事件描述"
+                                         TextWrapping="Wrap"
+                                         VerticalContentAlignment="Stretch"
+                                         HorizontalContentAlignment="Stretch"
+                                         MinHeight="200"
+                                         Padding="10,3"
+                                         BorderThickness="1"
+                                         BorderBrush="{ThemeResource SystemControlForegroundChromeHighBrush}"
+                                         Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}" />
+                    </StackPanel>
+                </PivotItem>
+            </Pivot>
+            <StackPanel Grid.Column="1">
+                <TextBlock Text="人员" FontSize="20" Margin="30,10,0,15"
+                                       Style="{StaticResource CaptionTextBlockStyle}" />
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="排序依据" FontSize="15" Margin="30,10,20,15"
+                                           Style="{StaticResource CaptionTextBlockStyle}" />
+                    <ComboBox PlaceholderText="原始顺序" VerticalAlignment="Center">
+                        <x:String>原始顺序</x:String>
+                        <x:String>姓名排序</x:String>
+                    </ComboBox>
+                </StackPanel>
+
             </StackPanel>
 
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition x:Name="Detail"
-                              Width="*" />
-                    <ColumnDefinition x:Name="Partner"
-                              Width="300" />
-                </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0">
-                    <TextBlock Text="详细信息" FontSize="20"
-                   Margin="0,10,0,15"
-                   Style="{StaticResource CaptionTextBlockStyle}" />
-
-                    <!-- 只有焦点移开时才会执行绑定。 -->
-
-                    <TextBox PlaceholderText="事件名称"  FontSize="25"
-                 Height ="50" />
-
-                    <TextBox PlaceholderText="地点"
-                 Margin="0,20,0,0"/>
-
-                    <CalendarDatePicker PlaceholderText="选择一个时间" Margin="0,20,0,0"
-                                    Width="200"/>
-                    <CalendarDatePicker PlaceholderText="选择一个时间" Margin="0,20,0,20"
-                                    Width="200"/>
-                    <RichEditBox x:Name="EditZone"
-                     PlaceholderText="事件描述"
-                     TextWrapping="Wrap"
-                     VerticalContentAlignment="Stretch"
-                     HorizontalContentAlignment="Stretch"
-                     MinHeight="200"
-                     Padding="10,3"
-                     BorderThickness="1"
-                     BorderBrush="{ThemeResource SystemControlForegroundChromeHighBrush}"
-                     Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}" />
-
-                </StackPanel>
-                <StackPanel Grid.Column="1">
-                    <TextBlock Text="人员" FontSize="20"
-                   Margin="30,10,0,15"
-                   Style="{StaticResource CaptionTextBlockStyle}" />
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="排序依据" FontSize="15"
-                   Margin="30,10,20,15"
-                   Style="{StaticResource CaptionTextBlockStyle}" />
-                        <ComboBox PlaceholderText="原始顺序" VerticalAlignment="Center">
-                            <x:String>原始顺序</x:String>
-                            <x:String>姓名排序</x:String>
-                        </ComboBox>
-                    </StackPanel>
-
-                </StackPanel>
-            </Grid>
-
-
-
-        </StackPanel>
+        </Grid>
     </Grid>
 </Page>
