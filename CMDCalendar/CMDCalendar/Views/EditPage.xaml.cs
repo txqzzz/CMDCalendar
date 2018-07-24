@@ -39,9 +39,17 @@ namespace CMDCalendar.Views
                     new DrillInNavigationTransitionInfo());
         }
 
-        private void CalendarView_CalendarViewDayItemChanging(CalendarView sender, CalendarViewDayItemChangingEventArgs args)
+        /// <summary>
+        /// 左边日历和右边日期选择框绑定。
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        private void DateChoosing_SelectedDatesChanged(CalendarView sender, CalendarViewSelectedDatesChangedEventArgs args)
         {
-
+            TaskEndDate.Date = args.AddedDates[0];
+            EventStartDate.Date = args.AddedDates[0];
+            EventEndDate.Date = args.AddedDates[0];
         }
+        
     }
 }
