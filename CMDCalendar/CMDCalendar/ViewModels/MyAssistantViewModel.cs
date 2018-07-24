@@ -16,8 +16,9 @@ namespace CMDCalendar.ViewModels
     /// <summary>
     /// MyAssistant ViewModel
     /// </summary>
-    public class MyAssistantViewModel:ViewModelBase
+    public class MyAssistantViewModel : ViewModelBase
     {
+        private int Dayoffset = 0;
         /// <summary>
         /// 获取所有事件接口
         /// </summary>
@@ -26,21 +27,33 @@ namespace CMDCalendar.ViewModels
         ///<summary>
         ///刷新命令
         ///</summary>
-        private  RelayCommand _refreshCommand;
+        private RelayCommand _refreshCommand;
 
         ///<summary>
         ///查看前日命令
         ///</summary>>
-        private  RelayCommand _beforeCommand;
+        private RelayCommand _beforeCommand;
 
         ///<summary>
         ///查看明日命令
         ///</summary>
+        private RelayCommand _afterCommand;
+
+        /// <summary>
+        /// 查看今日命令
+        /// </summary>
+
         public RelayCommand RefreshCommand =>
            _refreshCommand ?? (_refreshCommand =
-               new RelayCommand(async() => {await GetList(); var message = new MessageDialog("" +EventsList[0].Comments);await message.ShowAsync(); }));
+               new RelayCommand(async() => { await GetTodayEvents(); }));
+        public RelayCommand BeforeCommand =>
+           _beforeCommand ?? (_beforeCommand =
+               new RelayCommand(async () => { await GetYesterdayEvents(); }));
+        public RelayCommand AfterCommand =>
+          _afterCommand ?? (_afterCommand =
+              new RelayCommand(async () => { await GetTommorowEvents(); }));
 
-        public List<Event> EventsList
+        public ObservableCollection<Event> EventsList
         {
             get;
             private set;
@@ -48,19 +61,50 @@ namespace CMDCalendar.ViewModels
         public MyAssistantViewModel(IDatabaseUtils databaseUtils)
         {
             _databaseUtils = databaseUtils;
-            EventsList = new  List<Event>();
+            EventsList = new  ObservableCollection<Event>();
         }
         public MyAssistantViewModel() : this(DesignMode.DesignModeEnabled ?
                     (DatabaseUtils)null :
                     new DatabaseUtils())
-        { }
-        public async System.Threading.Tasks.Task GetList() {
+        { GetTodayEvents();  }
+        public async System.Threading.Tasks.Task GetTodayEvents() {
             EventsList.Clear();
             var contacts = await _databaseUtils.GetEventListAsync();
             foreach (var contact in contacts)
             {
-                EventsList.Add(contact);
+                if (contact.EventDay.Date == DateTime.Now.Date)
+                {
+                    EventsList.Add(contact);
+                }
             }
+
+        }
+        public async System.Threading.Tasks.Task GetTommorowEvents()
+        {
+            EventsList.Clear();
+            var contacts = await _databaseUtils.GetEventListAsync();
+            foreach (var contact in contacts)
+            {
+                if (contact.EventDay.Date == DateTime.Now.Date.AddDays(Dayoffset+1))
+                {
+                    EventsList.Add(contact);
+                }
+            }
+            Dayoffset = Dayoffset + 1;
+        }
+        public async System.Threading.Tasks.Task GetYesterdayEvents()
+        {
+            EventsList.Clear();
+            var contacts = await _databaseUtils.GetEventListAsync();
+            foreach (var contact in contacts)
+            {
+                if (contact.EventDay.Date == DateTime.Now.Date.AddDays(Dayoffset-1))
+                {
+                    EventsList.Add(contact);
+                }
+            }
+            Dayoffset = Dayoffset - 1;
+
         }
     }
 }
