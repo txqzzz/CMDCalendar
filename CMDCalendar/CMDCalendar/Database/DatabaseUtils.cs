@@ -35,9 +35,7 @@ namespace CMDCalendar.Database
                 {
                     Console.WriteLine("{0} Exception caught.", e);
                 }
-            }
-
-            return true;
+            }            return true;
         }
 
 
