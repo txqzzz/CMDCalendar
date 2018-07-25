@@ -202,5 +202,13 @@ namespace CMDCalendar
             var viewModel = (SliberPageViewModel)this.DataContext;
             viewModel.SelectedTask = (Task)e.ClickedItem;
         }
+
+        private void SwipeItem_Invoked(SwipeItem sender, SwipeItemInvokedEventArgs args)
+        {
+            var x = args.SwipeControl.DataContext;
+            TaskCollection.Remove(x);
+
+            TodoListView.Items.Remove(args.SwipeControl.DataContext);
+        }
     }
 }
