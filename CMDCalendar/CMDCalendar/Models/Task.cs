@@ -2,7 +2,7 @@
 
 namespace CMDCalendar.Models
 {
-    public class Task
+    public class Task 
     {
         /// <summary>
         /// primary_key:id
