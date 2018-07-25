@@ -364,6 +364,45 @@ namespace CMDCalendar.Database
             };
             await dbu.NewTaskAsync(task1, user1);
             await dbu.NewTaskAsync(task2, user3);
+
+            //EditPage test data
+
+
+            var user4 = new User
+            {
+                Id = 3,
+                Username = "Nagato"
+            };
+
+            var taskE = new Task()
+            {
+                Id = 3,
+                Comments = "Test Task Comments",
+                Content = "Test Task Content",
+                IsReapeatable = false,
+                StartTime = new DateTime(2018, 8, 10),
+                EndTime = new DateTime(2018, 8, 31),
+                EventDay = new DateTime(2018, 8, 22),
+                LeftTime = -1,
+                Emergency = 0,
+                IsCompleted = false,
+            };
+
+            var eventE = new Event
+            {
+                Id = 3,
+                Comments = "Test Event Comments",
+                Content = "Test Event Content",
+                IsNotify = false,
+                EventDay = new DateTime(2018, 7, 21),
+                StartTime = new DateTime(2018, 7, 24),
+                EndTime = new DateTime(2018, 7, 24),
+                LeftTime = -1,
+                Emergency = 0,
+                Location = "Test Event Location"
+            };
+            await dbu.NewEventAsync(eventE, user4);
+            await dbu.NewTaskAsync(taskE, user4);
         }
     }
 }

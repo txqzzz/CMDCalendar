@@ -1,10 +1,14 @@
-﻿using System;
+﻿using CMDCalendar.DB;
+using CMDCalendar.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -28,15 +32,30 @@ namespace CMDCalendar.Views
             this.InitializeComponent();
         }
 
-        /// <summary>
-        /// 导航回主页面。
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void BackButton_Click(object sender, RoutedEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            Frame.Navigate(typeof(MainPage), null,
-                    new DrillInNavigationTransitionInfo());
+            base.OnNavigatedTo(e);
+            Event EventV = (Event)e.Parameter;
+            var viewModel = (EditPageViewModel)this.DataContext;
+            viewModel.eventDisplay = EventV;
+        }
+
+            /// <summary>
+            /// 导航回主页面。
+            /// </summary>
+            /// <param name="sender"></param>
+            /// <param name="e"></param>
+            private async void BackButton_ClickAsync(object sender, RoutedEventArgs e)
+        {
+            var message = new ContentDialog()
+            {
+                Content = "所做的更改将不会被保存。",
+                PrimaryButtonText = "确定",
+                CloseButtonText = "取消"
+            };
+            ContentDialogResult result = await message.ShowAsync();
+            if(result == ContentDialogResult.Primary)
+                Frame.Navigate(typeof(MainPage), null, new DrillInNavigationTransitionInfo());
         }
 
         /// <summary>

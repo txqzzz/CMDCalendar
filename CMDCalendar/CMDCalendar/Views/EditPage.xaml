@@ -8,6 +8,10 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+    <Page.DataContext>
+        <Binding Source="{StaticResource EditPageViewModel}"/>
+    </Page.DataContext>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -24,7 +28,7 @@
         <StackPanel Orientation="Horizontal" >
             <AppBarButton Icon="Back" 
                           VerticalAlignment="Center"  LabelPosition="Collapsed" Foreground="SteelBlue"
-                          Click="BackButton_Click"/>
+                          Click="BackButton_ClickAsync"/>
         </StackPanel>
 
         <Grid Grid.Row="1" Grid.Column="0">
@@ -93,9 +97,11 @@
                         <TextBlock Text="详细信息" FontSize="20" Margin="0,10,0,15" Foreground="SteelBlue"
                                        Style="{StaticResource CaptionTextBlockStyle}" />
 
-                        <TextBox PlaceholderText="事件名称"  FontSize="25" Height ="50" />
+                        <TextBox PlaceholderText="事件名称"  FontSize="25" Height ="50" 
+                                 Text="{Binding eventDisplay.Content}"/>
 
-                        <TextBox PlaceholderText="地点" Margin="0,20,0,0"/>
+                        <TextBox PlaceholderText="地点" Margin="0,20,0,0"
+                                 Text="{Binding eventDisplay.Location}"/>
 
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="开始" VerticalAlignment="Bottom" Margin="5,0,0,7"/>

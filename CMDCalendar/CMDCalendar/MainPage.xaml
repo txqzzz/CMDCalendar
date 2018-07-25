@@ -114,6 +114,8 @@
             <Button Name="MigrateButton" Click="MigrateButton_OnClick" HorizontalAlignment="Left" VerticalAlignment="Center" Width="130">Migrate</Button>
             <Button Name="DeleteButton" Click="DeleteButton_OnClick" Content="Delete" HorizontalAlignment="Left" VerticalAlignment="Center" Width="130"/>
             <Button Name="InsertButton" Click="InsertButton_OnClick" Width="130" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center">Insert</Button>
+            <Button Name="TestReadEventButton" Click="TestReadEventButton_Click"  Content="TestReadEvent" HorizontalAlignment="Left" VerticalAlignment="Center" Width="130"/>
+            <Button Name="TestReadTaskButton" Click="TestReadTaskButton_Click"  Content="TestReadTask" HorizontalAlignment="Left" VerticalAlignment="Center" Width="130"/>
         </StackPanel>
 
     </Grid>
