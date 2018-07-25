@@ -2,6 +2,13 @@
     x:Class="CMDCalendar.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:CMDCalendar">
+    xmlns:local="using:CMDCalendar"
+    xmlns:viewModels="using:CMDCalendar.ViewModels">
+    <Application.Resources>
+        <!--单元测试前需要删除下述内容。-->
+        <ResourceDictionary>
+            <viewModels:MyAssistantViewModel x:Key="MyAssistantViewModel" />
+        </ResourceDictionary>
+    </Application.Resources>
 
 </Application>
