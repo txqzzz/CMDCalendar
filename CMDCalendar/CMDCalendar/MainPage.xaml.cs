@@ -16,6 +16,7 @@ using CMDCalendar.Views;
 using Windows.ApplicationModel.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Core;
+using CMDCalendar.ViewModels;
 
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -188,8 +189,7 @@ namespace CMDCalendar
             public string text { get; set; }
         }
 
-        //private System.Collections.ObjectModel.ObservableCollection<List> list = new System.Collections.ObjectModel.ObservableCollection<List>();
-        private List _selectedItem;
+        private System.Collections.ObjectModel.ObservableCollection<List> list = new System.Collections.ObjectModel.ObservableCollection<List>();
         private void TodoListView_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
         {
             ListView listView = (ListView)sender;
@@ -197,5 +197,10 @@ namespace CMDCalendar
             var a = ((FrameworkElement)e.OriginalSource).DataContext;
         }
 
+        private void TodoListView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            var viewModel = (SliberPageViewModel)this.DataContext;
+            viewModel.SelectedTask = (Task)e.ClickedItem;
+        }
     }
 }
