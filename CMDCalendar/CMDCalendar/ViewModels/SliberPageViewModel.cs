@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
 
 namespace CMDCalendar.ViewModels
 {
@@ -18,28 +19,68 @@ namespace CMDCalendar.ViewModels
         /// </summary>
         private DB.Task _selectedTask;
         /// <summary>
+        /// 刷新命令
+        /// </summary>
+        private RelayCommand _listCommand;
+        /// <summary>
         /// 删除命令
         /// </summary>
-        private  RelayCommand _deleteCommand;
-
-
+        private RelayCommand _deleteCommand; 
+        /// <summary>
+        /// 获取所有事件接口
+        /// </summary>
+        private readonly IDatabaseUtils _databaseUtils;
+        /// <summary>
+        /// Task集合
+        /// </summary>
         public ObservableCollection<DB.Task> TaskCollection
         {
             get;
             private set;
         }
 
-
         public DB.Task SelectedTask
         {
             get => _selectedTask;
             set => Set(nameof(SelectedTask), ref _selectedTask, value);
         }
-        //public RelayCommand DeleteCommand()
-    
 
-        
 
-            
+        public SliberPageViewModel(IDatabaseUtils databaseUtils)
+        {
+            _databaseUtils = databaseUtils;
+            TaskCollection = new ObservableCollection<DB.Task>();
+        }
+        public SliberPageViewModel() : this(DesignMode.DesignModeEnabled ?
+                    (DatabaseUtils)null :
+                    new DatabaseUtils())
+        { ListTaskItem(); }
+
+        public RelayCommand ListCommand =>
+            _listCommand ?? (_listCommand = new RelayCommand(
+                async () => { await ListTaskItem(); }));
+
+        public RelayCommand DeleteCommand =>
+            _deleteCommand ?? (_deleteCommand = new RelayCommand(
+                async () => { await DelTaskItem(_selectedTask); }));
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        public async System.Threading.Tasks.Task ListTaskItem()
+        {
+            TaskCollection.Clear();
+            var taskItems = await _databaseUtils.GetTaskListAsync();
+            foreach(var taskItem in taskItems)
+            {
+                if (taskItem != null)
+                    TaskCollection.Add(taskItem);
+            }
+        }
+        public async System.Threading.Tasks.Task DelTaskItem(DB.Task _selectedTask)
+        {
+            TaskCollection.Remove(_selectedTask);
+            var dbu = new DatabaseUtils();
+            await dbu.DeleteTaskAsync(_selectedTask);
+        }
     }
 }

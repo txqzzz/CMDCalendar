@@ -7,7 +7,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+    <Page.DataContext>
+        <Binding Source="{StaticResource SliberPageViewModel}"/>
+    </Page.DataContext>
+        
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -70,7 +73,7 @@
                       IsItemClickEnabled="True"
                       ItemClick="TodoListView_ItemClick"
                       RightTapped="TodoListView_RightTapped"
-                      ItemsSource="x:Bind list">
+                      ItemsSource="{Binding TaskCollection}">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="x:String">
                         <SwipeControl HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -82,7 +85,8 @@
                                         </SwipeItem.IconSource>
                                     </SwipeItem>
                                     <SwipeItem Text="Delete"
-                                               Background="Red">
+                                               Background="Red"
+                                               Command="{Binding  DeleteCommand}">
                                         <SwipeItem.IconSource>
                                             <SymbolIconSource Symbol="Delete"/>
                                         </SwipeItem.IconSource>
@@ -93,7 +97,7 @@
 
                             <!-- Swipeable content -->
                             <Border Width="180" Height="44" >
-                                <TextBlock Text="Swipe To Pin" 
+                                <TextBlock Text="{Binding Content}" 
                                            Foreground="SteelBlue"
                                            Margin="4,8,0,0"/>
                             </Border>
@@ -105,7 +109,7 @@
                         <MenuFlyout.Items>
                             <MenuFlyoutItem x:Name="Pin" Text="Pin"/>
                             <MenuFlyoutItem x:Name="Remove" Text="Remove"
-                                            Command="{Binding }"/>
+                                            Command="{Binding  DeleteCommand}"/>
                         </MenuFlyout.Items>
                     </MenuFlyout>
                 </ListView.Resources>
