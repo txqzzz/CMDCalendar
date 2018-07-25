@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CMDCalendar.DB;
+using CMDCalendar.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -107,6 +109,13 @@ namespace CMDCalendar.Views
                 Task.SelectedItem = null;
                 IfStar = !IfStar;
             }
+        }
+
+        private void TaskItem_Click(object sender, ItemClickEventArgs e)
+        {
+            Delete.IsEnabled = true;
+            var viewModel = (MyAssistantViewModel)this.DataContext;
+            viewModel.SelectedEvent = (Event)e.ClickedItem;
         }
     }
 }
