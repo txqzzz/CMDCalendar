@@ -25,7 +25,7 @@ namespace CMDCalendar
     {
         public MainPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         private void MigrateButton_OnClick(object sender, RoutedEventArgs e)
@@ -287,7 +287,7 @@ namespace CMDCalendar
 
         private void TodoListView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            var viewModel = (SliberPageViewModel)this.DataContext;
+            var viewModel = (SliberPageViewModel)DataContext;
             viewModel.SelectedTask = (Task)e.ClickedItem;
         }
     }

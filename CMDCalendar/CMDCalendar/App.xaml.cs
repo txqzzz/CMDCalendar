@@ -24,8 +24,8 @@ namespace CMDCalendar
         /// </summary>
         public App()
         {
-            this.InitializeComponent();
-            this.Suspending += OnSuspending;
+            InitializeComponent();
+            Suspending += OnSuspending;
             var db = new DataContext();
             
             db.Database.EnsureDeleted();
