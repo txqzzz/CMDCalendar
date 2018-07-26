@@ -48,7 +48,7 @@ namespace CMDCalendar.Views
         /// <param name="e"></param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            parentId = Convert.ToInt32(e.Parameter.ToString());
+            if (e.Parameter != null) parentId = Convert.ToInt32(e.Parameter.ToString());
         }
 
         private async void Minimize_Click(object sender, RoutedEventArgs e)
