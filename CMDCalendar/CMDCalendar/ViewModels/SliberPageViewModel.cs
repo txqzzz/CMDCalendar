@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System.Collections.ObjectModel;
 using Windows.ApplicationModel;
+using Windows.UI.Xaml.Media;
 
 namespace CMDCalendar.ViewModels
 {
@@ -19,7 +20,11 @@ namespace CMDCalendar.ViewModels
         /// <summary>
         /// 删除命令
         /// </summary>
-        private RelayCommand _deleteCommand; 
+        private RelayCommand _deleteCommand;
+        /// <summary>
+        /// 标记命令
+        /// </summary>
+        private RelayCommand _pinCommand;
         /// <summary>
         /// 获取所有事件接口
         /// </summary>
@@ -32,6 +37,7 @@ namespace CMDCalendar.ViewModels
             get;
             private set;
         }
+
 
         public DB.Task SelectedTask
         {
@@ -57,6 +63,7 @@ namespace CMDCalendar.ViewModels
         public RelayCommand DeleteCommand =>
             _deleteCommand ?? (_deleteCommand = new RelayCommand(
                 async () => { await DelTaskItem(_selectedTask); }));
+        
         /// <summary>
         /// 初始化
         /// </summary>

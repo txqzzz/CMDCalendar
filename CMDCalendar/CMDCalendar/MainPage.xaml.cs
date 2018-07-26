@@ -11,7 +11,8 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using CMDCalendar.ViewModels;
-using Windows.ApplicationModel.Background;
+using Windows.UI.Xaml.Media;
+using Windows.UI;
 
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -25,7 +26,7 @@ namespace CMDCalendar
     {
         public MainPage()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
         private void MigrateButton_OnClick(object sender, RoutedEventArgs e)
@@ -191,7 +192,11 @@ namespace CMDCalendar
 
         private System.Collections.ObjectModel.ObservableCollection<List> list =
             new System.Collections.ObjectModel.ObservableCollection<List>();
-
+        /// <summary>
+        /// 完成右击菜单显示
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TodoListView_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
         {
             ListView listView = (ListView) sender;
@@ -213,6 +218,8 @@ namespace CMDCalendar
             Frame.Navigate(typeof(EditPage), TestEvent, new DrillInNavigationTransitionInfo());
         }
 
+        
+        
         /* calendar */
         public class CalendarView
         {
@@ -274,6 +281,11 @@ namespace CMDCalendar
 //        }
         }
 
+        private void SwipeItem_Invoked(SwipeItem sender, SwipeItemInvokedEventArgs args)
+        {//To-Do
+            var x = args.SwipeControl.DataContext;
+        }
+
         private void Notification_Click(object sender, RoutedEventArgs e)
         {
             foreach (var cur in BackgroundTaskRegistration.AllTasks)
@@ -285,12 +297,27 @@ namespace CMDCalendar
                 }
             }
         }
-
+        /// <summary>
+        /// 完成获取选定项
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TodoListView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            var viewModel = (SliberPageViewModel)DataContext;
 
+            var viewModel = (SliberPageViewModel)DataContext;
             viewModel.SelectedTask = (Task)e.ClickedItem;
+            _SlectedItem = (Task)e.ClickedItem;
+        }
+       /// <summary>
+       /// 完成标记功能
+       /// </summary>
+        public Task _SlectedItem;
+        private void Pin_Click(object sender, RoutedEventArgs e)
+        {
+            dynamic clickedItem = _SlectedItem;
+            ListViewItem item = TodoListView.ContainerFromItem(clickedItem) as ListViewItem;
+            item.Background = new SolidColorBrush(Color.FromArgb(81, 12, 252, 122));
         }
     }
 }
