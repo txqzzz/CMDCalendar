@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CMDCalendar.DB;
 using Microsoft.EntityFrameworkCore;
@@ -32,7 +33,9 @@ namespace CMDCalendar.Database
                 {
                     Console.WriteLine("{0} Exception caught.", e);
                 }
-            }            return true;
+            }
+
+            return true;
         }
 
         public async Task<Boolean> NewEventAsync(Event evt, User user)
@@ -83,7 +86,7 @@ namespace CMDCalendar.Database
             return true;
         }
 
-        public async Task<Boolean> NewTaskAsync(DB.Task task, User user)
+        public async Task<Boolean> NewTaskAsync(Task task, User user)
         {
             using (var db = new DataContext())
             {
@@ -102,7 +105,7 @@ namespace CMDCalendar.Database
 
                     try
                     {
-                        var task1 = new DB.Task
+                        var task1 = new Task
                         {
                             IsNotify = task.IsNotify,
                             Comments = task.Comments,
@@ -174,7 +177,7 @@ namespace CMDCalendar.Database
             }
         }
 
-        public async Task<Boolean> DeleteTaskAsync(DB.Task task)
+        public async Task<Boolean> DeleteTaskAsync(Task task)
         {
             using (var db = new DataContext())
             {
@@ -192,6 +195,7 @@ namespace CMDCalendar.Database
                 }
             }
         }
+
         /* list items */
         public async Task<List<User>> GetUserListAsync()
         {
@@ -209,7 +213,7 @@ namespace CMDCalendar.Database
             }
         }
 
-        public async Task<List<DB.Task>> GetTaskListAsync()
+        public async Task<List<Task>> GetTaskListAsync()
         {
             using (var db = new DataContext())
             {
@@ -242,7 +246,7 @@ namespace CMDCalendar.Database
         {
             using (var db = new DataContext())
             {
-                var eventFlag = await db.Events.SingleOrDefaultAsync(p => p.Id == evt.Id);
+                var eventFlag = db.Events.AsNoTracking().FirstOrDefault(p => p.Id == evt.Id);
                 if (eventFlag != null)
                 {
                     eventFlag = evt;
@@ -257,11 +261,11 @@ namespace CMDCalendar.Database
             }
         }
 
-        public async Task<Boolean> UpdateTaskAsync(DB.Task task)
+        public async Task<Boolean> UpdateTaskAsync(Task task)
         {
             using (var db = new DataContext())
             {
-                var taskFlag = await db.Tasks.SingleOrDefaultAsync(p => p.Id == task.Id);
+                var taskFlag = db.Tasks.AsNoTracking().FirstOrDefault(p => p.Id == task.Id);
                 if (taskFlag != null)
                 {
                     taskFlag = task;
@@ -307,11 +311,11 @@ namespace CMDCalendar.Database
                 Content = "evt1",
                 EventDay = new DateTime(2018, 8, 31),
                 Emergency = 0,
-                EndTime = new DateTime(2018,7,24),
+                EndTime = new DateTime(2018, 7, 24),
                 IsNotify = false,
                 LeftTime = -1,
                 Location = "evt1 location",
-                StartTime = new DateTime(2018,7,24)
+                StartTime = new DateTime(2018, 7, 24)
             };
             var evt2 = new Event
             {

@@ -3,6 +3,7 @@ using CMDCalendar.DB;
 using CMDCalendar.Views;
 using System;
 using System.Linq;
+using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Popups;
