@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CMDCalendar.DB;
-using Task = System.Threading.Tasks.Task;
 
 namespace CMDCalendar.Database
 {
-    
-        /// <summary>
-        /// <interface>database access interface</interface>
-        /// </summary>
-        public interface IDatabaseUtils
+
+    /// <summary>
+    /// <interface>database access interface</interface>
+    /// </summary>
+    public interface IDatabaseUtils
         {
             /* new items */
             Task<Boolean> NewUserAsync(User user);
