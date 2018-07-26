@@ -210,17 +210,10 @@ namespace CMDCalendar
             Event TestEvent = eventList[eventList.Count() - 1];
 
             Frame.Navigate(typeof(EditPage), TestEvent, new DrillInNavigationTransitionInfo());
-
-        private void TodoListView_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            var viewModel = (SliberPageViewModel) this.DataContext;
-            viewModel.SelectedTask = (Task) e.ClickedItem;
         }
-        
-        
-            var viewModel = (SliberPageViewModel)this.DataContext;
-            viewModel.SelectedTask = (Task)e.ClickedItem;
 
+        
+        
         /* calendar */
         public class CalendarView
         {
@@ -285,9 +278,13 @@ namespace CMDCalendar
         private void SwipeItem_Invoked(SwipeItem sender, SwipeItemInvokedEventArgs args)
         {
             var x = args.SwipeControl.DataContext;
-            TaskCollection.Remove(x);
+            
+        }
 
-            TodoListView.Items.Remove(args.SwipeControl.DataContext);
+        private void TodoListView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            var viewModel = (SliberPageViewModel)this.DataContext;
+            viewModel.SelectedTask = (Task)e.ClickedItem;
         }
     }
 }
