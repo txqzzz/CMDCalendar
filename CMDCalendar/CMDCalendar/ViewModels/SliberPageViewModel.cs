@@ -4,6 +4,7 @@ using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.ObjectModel;
 using Windows.ApplicationModel;
+using Windows.UI.Xaml.Media;
 
 namespace CMDCalendar.ViewModels
 {
@@ -20,11 +21,19 @@ namespace CMDCalendar.ViewModels
         /// <summary>
         /// 删除命令
         /// </summary>
-        private RelayCommand _deleteCommand; 
+        private RelayCommand _deleteCommand;
+        /// <summary>
+        /// 标记命令
+        /// </summary>
+        private RelayCommand _pinCommand;
         /// <summary>
         /// 获取所有事件接口
         /// </summary>
         private readonly IDatabaseUtils _databaseUtils;
+        /// <summary>
+        /// 获取或设置用于呈现选定项的背景的画笔
+        /// </summary>
+        public Brush SelectedBackground { get; set; }
         /// <summary>
         /// Task集合
         /// </summary>
@@ -33,6 +42,7 @@ namespace CMDCalendar.ViewModels
             get;
             private set;
         }
+
 
         public DB.Task SelectedTask
         {
@@ -58,6 +68,9 @@ namespace CMDCalendar.ViewModels
         public RelayCommand DeleteCommand =>
             _deleteCommand ?? (_deleteCommand = new RelayCommand(
                 async () => { await DelTaskItem(_selectedTask); }));
+        public RelayCommand PinCommand =>
+            _pinCommand ?? (_pinCommand = new RelayCommand(
+                async () => { await MarkTaskItem(_selectedTask); }));
         /// <summary>
         /// 初始化
         /// </summary>
@@ -76,6 +89,10 @@ namespace CMDCalendar.ViewModels
             TaskCollection.Remove(_selectedTask);
             var dbu = new DatabaseUtils();
             await dbu.DeleteTaskAsync(_selectedTask);
+        }
+        public async System.Threading.Tasks.Task MarkTaskItem(DB.Task _selectedTask)
+        {
+
         }
     }
 }

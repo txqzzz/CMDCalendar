@@ -7,11 +7,25 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <SymbolIconSource x:Key="DeleteIcon" Symbol="Delete"/>
+        <SymbolIconSource x:Key="PinIcon" Symbol="Pin"/>
+
+        <SwipeItems x:Key="RevealOptions" Mode="Reveal">
+            <SwipeItem Text="Pin" IconSource="{StaticResource PinIcon}"/>
+        </SwipeItems>
+
+        <SwipeItems x:Key="ExecuteDelete" Mode="Execute">
+            <SwipeItem Text="Delete" 
+                       IconSource="{StaticResource DeleteIcon}"
+                       Background="Red"
+                       Invoked="SwipeItem_Invoked"/>
+        </SwipeItems>
+    </Page.Resources>
     <Page.DataContext>
         <Binding Source="{StaticResource SliberPageViewModel}"/>
     </Page.DataContext>
-
-    <Grid>
+    <Grid BorderThickness="5,0,0,0" >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="2*" />
@@ -62,7 +76,8 @@
             </Grid>
         </StackPanel>
         <StackPanel Grid.Column="0"
-                    Grid.Row="2">
+                    Grid.Row="2"
+                    >
             <TextBlock Grid.ColumnSpan="2"
                    Margin="12,8,8,8"
                    Foreground="SteelBlue"
@@ -74,9 +89,33 @@
                       ItemClick="TodoListView_ItemClick"
                       RightTapped="TodoListView_RightTapped"
                       ItemsSource="{Binding TaskCollection}">
+                <ListView.ItemContainerStyle>
+
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate >
+                                    <ListViewItemPresenter SelectionCheckMarkVisualEnabled="True" 
+                                                           Background="{TemplateBinding BackGround}"
+                                                           SelectedBackground="Orange"/>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListView.ItemContainerStyle>
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="x:String">
-                        <SwipeControl HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <SwipeControl x:Name="ListViewSwipeContainer"
+                          LeftItems="{StaticResource RevealOptions}"
+                          RightItems="{StaticResource ExecuteDelete}"
+                          Height="60">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{Binding Content}" FontSize="18"/>
+                            </StackPanel>
+                        </SwipeControl>
+                        <!--    <SwipeControl HorizontalAlignment="Center" VerticalAlignment="Center">
                             <SwipeControl.RightItems>
                                 <SwipeItems>
                                     <SwipeItem Text="Pin">
@@ -95,19 +134,19 @@
 
                             </SwipeControl.RightItems>
 
-                            <!-- Swipeable content -->
-                            <Border Width="180" Height="44" >
+                             Swipeable content -->
+                           <!-- <Border Width="180" Height="44" >
                                 <TextBlock Text="{Binding Content}" 
                                            Foreground="SteelBlue"
                                            Margin="4,8,0,0"/>
                             </Border>
-                        </SwipeControl>
+                        </SwipeControl>   -->
                     </DataTemplate>
                 </ListView.ItemTemplate>
                 <ListView.Resources>
                     <MenuFlyout x:Name="toDoMenuFlayout">
                         <MenuFlyout.Items>
-                            <MenuFlyoutItem x:Name="Pin" Text="Pin"/>
+                            <MenuFlyoutItem x:Name="Pin" Text="Pin" Click="Pin_Click"/>
                             <MenuFlyoutItem x:Name="Remove" Text="Remove"
                                             Command="{Binding  DeleteCommand}"/>
                         </MenuFlyout.Items>
@@ -115,19 +154,13 @@
                 </ListView.Resources>
             </ListView>
         </StackPanel>
-        <StackPanel Grid.Column="1" Grid.Row="0">
-            <Button Click="SummonDragon" HorizontalAlignment="Left" Height="59" Margin="0,0,0,0" VerticalAlignment="Center" Width="168">SummonDragon</Button>
-            <!-- <Button Name="Test_Button"  Click="Test_Button_OnClick" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center" Width="130">Test</> -->
-            <!-- <Button Name="MigrateButton" Click="MigrateButton_OnClick" HorizontalAlignment="Left" VerticalAlignment="Center" Width="130">Migrate</Button> -->
-            <!-- <Button Name="DeleteButton" Click="DeleteButton_OnClick" Content="Delete" HorizontalAlignment="Left" VerticalAlignment="Center" Width="130"/> -->
-            <!-- <Button Name="InsertButton" Click="InsertButton_OnClick" Width="130" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center">Insert</Button> -->
+        <StackPanel Grid.Column="1" Grid.Row="1">
+            <Button Click="SummonDragon">SummonDragon</Button>
+            <Button Name="Test_Button"  Click="Test_Button_OnClick" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center" Width="130">Test</Button>
+            <Button Name="MigrateButton" Click="MigrateButton_OnClick" HorizontalAlignment="Left" VerticalAlignment="Center" Width="130">Migrate</Button>
+            <Button Name="DeleteButton" Click="DeleteButton_OnClick" Content="Delete" HorizontalAlignment="Left" VerticalAlignment="Center" Width="130"/>
+            <Button Name="InsertButton" Click="InsertButton_OnClick" Width="130" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center">Insert</Button>
         </StackPanel>
-        <StackPanel Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" Margin="178,168,-178,208" Grid.RowSpan="2" VerticalAlignment="Stretch"/>
-        <CalendarView CalendarViewDayItemChanging="CalendarView_OnCalendarViewDayItemChanging" HorizontalAlignment="Center" Height="940" VerticalAlignment="Center" Width="1250"
-                          Grid.Column="1" Grid.RowSpan="2" Grid.Row="1"
-                          />
+
     </Grid>
 </Page>
-
-
-
