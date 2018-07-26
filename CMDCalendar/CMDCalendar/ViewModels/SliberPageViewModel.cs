@@ -1,7 +1,6 @@
 ﻿using CMDCalendar.Database;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using System;
 using System.Collections.ObjectModel;
 using Windows.ApplicationModel;
 using Windows.UI.Xaml.Media;

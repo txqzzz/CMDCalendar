@@ -11,6 +11,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using CMDCalendar.ViewModels;
+using Windows.ApplicationModel.Background;
 
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -24,7 +25,7 @@ namespace CMDCalendar
     {
         public MainPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         private void MigrateButton_OnClick(object sender, RoutedEventArgs e)
@@ -212,8 +213,6 @@ namespace CMDCalendar
             Frame.Navigate(typeof(EditPage), TestEvent, new DrillInNavigationTransitionInfo());
         }
 
-        
-        
         /* calendar */
         public class CalendarView
         {
@@ -275,15 +274,20 @@ namespace CMDCalendar
 //        }
         }
 
-        private void SwipeItem_Invoked(SwipeItem sender, SwipeItemInvokedEventArgs args)
+        private void Notification_Click(object sender, RoutedEventArgs e)
         {
-            var x = args.SwipeControl.DataContext;
-            
+            foreach (var cur in BackgroundTaskRegistration.AllTasks)
+            {
+                if (cur.Value.Name == "SayFarkTask")
+                {
+                    cur.Value.Unregister(true);
+                }
+            }
         }
 
         private void TodoListView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            var viewModel = (SliberPageViewModel)this.DataContext;
+            var viewModel = (SliberPageViewModel)DataContext;
             viewModel.SelectedTask = (Task)e.ClickedItem;
         }
     }

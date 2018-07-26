@@ -7,6 +7,9 @@ using Windows.UI.Xaml.Navigation;
 using CMDCalendar.Database;
 using CMDCalendar.DB;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
+using Windows.ApplicationModel.Background;
+using System.Diagnostics;
 
 namespace CMDCalendar
 {
@@ -21,8 +24,8 @@ namespace CMDCalendar
         /// </summary>
         public App()
         {
-            this.InitializeComponent();
-            this.Suspending += OnSuspending;
+            InitializeComponent();
+            Suspending += OnSuspending;
             var db = new DataContext();
             
             db.Database.EnsureDeleted();
@@ -94,6 +97,67 @@ namespace CMDCalendar
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
+        }
+
+        private async System.Threading.Tasks.Task RegisterBackgroundTask()
+        {
+            var task = await RegisterBackgroundTask(
+                typeof(BackgroundTask.SayFarkTask),
+                "SayFarkTask",
+                new TimeTrigger(15, false),
+                null);
+
+            task.Progress += TaskOnProgress;
+            task.Completed += TaskOnCompleted;
+        }
+
+        public static async Task<BackgroundTaskRegistration> RegisterBackgroundTask(Type taskEntryPoint,
+                                                                        string taskName,
+                                                                        IBackgroundTrigger trigger,
+                                                                        IBackgroundCondition condition)
+        {
+            var status = await BackgroundExecutionManager.RequestAccessAsync();
+            if (status == BackgroundAccessStatus.Unspecified || status == BackgroundAccessStatus.Denied)
+            {
+                return null;
+            }
+
+            foreach (var cur in BackgroundTaskRegistration.AllTasks)
+            {
+                if (cur.Value.Name == taskName)
+                {
+                    cur.Value.Unregister(true);
+                }
+            }
+
+            var builder = new BackgroundTaskBuilder
+            {
+                Name = taskName,
+                TaskEntryPoint = taskEntryPoint.FullName
+            };
+
+            builder.SetTrigger(trigger);
+
+            if (condition != null)
+            {
+                builder.AddCondition(condition);
+            }
+
+            BackgroundTaskRegistration task = builder.Register();
+
+            Debug.WriteLine($"Task {taskName} registered successfully.");
+
+            return task;
+        }
+
+        private void TaskOnProgress(BackgroundTaskRegistration sender, BackgroundTaskProgressEventArgs args)
+        {
+            Debug.WriteLine($"Background {sender.Name} TaskOnProgress.");
+        }
+
+        private void TaskOnCompleted(BackgroundTaskRegistration sender, BackgroundTaskCompletedEventArgs args)
+        {
+            Debug.WriteLine($"Background {sender.Name} TaskOnCompleted.");
         }
     }
 }
