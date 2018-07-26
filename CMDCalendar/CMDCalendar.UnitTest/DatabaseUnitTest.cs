@@ -1,11 +1,6 @@
-﻿
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Threading.Tasks;
 using Windows.UI.Popups;
-using Windows.UI.Xaml;
-using CMDCalendar;
 using CMDCalendar.Database;
 using CMDCalendar.DB;
 using Microsoft.EntityFrameworkCore;

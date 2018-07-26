@@ -10,7 +10,7 @@
     <Page.DataContext>
         <Binding Source="{StaticResource SliberPageViewModel}"/>
     </Page.DataContext>
-        
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -115,13 +115,19 @@
                 </ListView.Resources>
             </ListView>
         </StackPanel>
-        <StackPanel Grid.Column="1" Grid.Row="1">
-            <Button Click="SummonDragon">SummonDragon</Button>
-            <Button Name="Test_Button"  Click="Test_Button_OnClick" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center" Width="130">Test</Button>
-            <Button Name="MigrateButton" Click="MigrateButton_OnClick" HorizontalAlignment="Left" VerticalAlignment="Center" Width="130">Migrate</Button>
-            <Button Name="DeleteButton" Click="DeleteButton_OnClick" Content="Delete" HorizontalAlignment="Left" VerticalAlignment="Center" Width="130"/>
-            <Button Name="InsertButton" Click="InsertButton_OnClick" Width="130" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center">Insert</Button>
+        <StackPanel Grid.Column="1" Grid.Row="0">
+            <Button Click="SummonDragon" HorizontalAlignment="Left" Height="59" Margin="0,0,0,0" VerticalAlignment="Center" Width="168">SummonDragon</Button>
+            <!-- <Button Name="Test_Button"  Click="Test_Button_OnClick" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center" Width="130">Test</> -->
+            <!-- <Button Name="MigrateButton" Click="MigrateButton_OnClick" HorizontalAlignment="Left" VerticalAlignment="Center" Width="130">Migrate</Button> -->
+            <!-- <Button Name="DeleteButton" Click="DeleteButton_OnClick" Content="Delete" HorizontalAlignment="Left" VerticalAlignment="Center" Width="130"/> -->
+            <!-- <Button Name="InsertButton" Click="InsertButton_OnClick" Width="130" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center">Insert</Button> -->
         </StackPanel>
-
+        <StackPanel Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" Margin="178,168,-178,208" Grid.RowSpan="2" VerticalAlignment="Stretch"/>
+        <CalendarView CalendarViewDayItemChanging="CalendarView_OnCalendarViewDayItemChanging" HorizontalAlignment="Center" Height="940" VerticalAlignment="Center" Width="1250"
+                          Grid.Column="1" Grid.RowSpan="2" Grid.Row="1"
+                          />
     </Grid>
 </Page>
+
+
+
