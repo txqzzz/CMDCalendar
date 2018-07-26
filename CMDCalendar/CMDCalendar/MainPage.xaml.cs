@@ -278,7 +278,7 @@ namespace CMDCalendar
         {
             foreach (var cur in BackgroundTaskRegistration.AllTasks)
             {
-                if (cur.Value.Name == "SayFarkTask")
+                if (cur.Value.Name == "CMDCalendar")
                 {
                     cur.Value.Unregister(true);
                 }

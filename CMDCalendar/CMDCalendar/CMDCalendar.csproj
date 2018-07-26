@@ -176,7 +176,7 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BackgroundTask\CMDCalendar.BackgroundTask.csproj">
+    <ProjectReference Include="..\CMDCalendar.BackgroundTask\CMDCalendar.BackgroundTask.csproj">
       <Project>{a0b8e7f3-6d44-4007-8de6-4c2bacb2b728}</Project>
       <Name>CMDCalendar.BackgroundTask</Name>
     </ProjectReference>
