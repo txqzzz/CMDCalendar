@@ -13,6 +13,7 @@ using System.Diagnostics;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Windows.UI.Notifications;
 
+
 namespace CMDCalendar
 {
     /// <summary>
@@ -26,8 +27,8 @@ namespace CMDCalendar
         /// </summary>
         public App()
         {
-            this.InitializeComponent();
-            this.Suspending += OnSuspending;
+            InitializeComponent();
+            Suspending += OnSuspending;
             var db = new DataContext();
             
             db.Database.EnsureDeleted();
@@ -109,6 +110,7 @@ namespace CMDCalendar
             var task = await RegisterBackgroundTask(
                 typeof(CMDCalendar.BackgroundTask.SayFarkTask),
                 "CMDCalendar",
+
                 new TimeTrigger(15, false),
                 null);
 
@@ -154,6 +156,7 @@ namespace CMDCalendar
 
             // content.DisplayTimestamp = new DateTime(2018, 7, 18, 19, 45, 0, DateTimeKind.Utc);
             ToastNotificationManager.CreateToastNotifier().Show(new ToastNotification(content.GetXml()));
+
         }
 
         public static async Task<BackgroundTaskRegistration> RegisterBackgroundTask(Type taskEntryPoint,

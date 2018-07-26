@@ -24,7 +24,7 @@ namespace CMDCalendar.Views
     {
         public NotificationPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
     }

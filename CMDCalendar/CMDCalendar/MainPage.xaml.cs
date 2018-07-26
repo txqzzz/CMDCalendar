@@ -25,7 +25,7 @@ namespace CMDCalendar
     {
         public MainPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         private void MigrateButton_OnClick(object sender, RoutedEventArgs e)
@@ -279,6 +279,7 @@ namespace CMDCalendar
             foreach (var cur in BackgroundTaskRegistration.AllTasks)
             {
                 if (cur.Value.Name == "CMDCalendar")
+
                 {
                     cur.Value.Unregister(true);
                 }
@@ -287,7 +288,8 @@ namespace CMDCalendar
 
         private void TodoListView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            var viewModel = (SliberPageViewModel)this.DataContext;
+            var viewModel = (SliberPageViewModel)DataContext;
+
             viewModel.SelectedTask = (Task)e.ClickedItem;
         }
     }

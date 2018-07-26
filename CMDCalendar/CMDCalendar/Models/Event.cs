@@ -1,6 +1,4 @@
 ﻿using System;
-using Windows.Storage.Pickers.Provider;
-using Windows.Web.AtomPub;
 using GalaSoft.MvvmLight;
 
 namespace CMDCalendar.Models
