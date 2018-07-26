@@ -9,7 +9,8 @@
         <ResourceDictionary>
             <viewModels:MyAssistantViewModel x:Key="MyAssistantViewModel" />
             <viewModels:EditPageViewModel x:Key="EditPageViewModel" />
+            <viewModels:SliberPageViewModel x:Key="SliberPageViewModel" />
+
         </ResourceDictionary>
     </Application.Resources>
-
 </Application>
