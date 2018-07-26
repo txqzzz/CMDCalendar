@@ -20,9 +20,20 @@ namespace CMDCalendar.ViewModels
         /// </summary>
         private IDatabaseUtils _databaseUtils;
 
+        public RelayCommand _saveAndQuit;
+
         public Event eventDisplay { get; set; }
 
-        public DB.Task taskDisplay{ get; private set; }
+        public DB.Task taskDisplay { get; set; }
+
+        public RelayCommand SaveAndQuit =>
+            _saveAndQuit ?? (_saveAndQuit =
+            new RelayCommand(async () => 
+            {
+                var service = _databaseUtils;
+                await service.UpdateEventAsync(eventDisplay);
+                await service.UpdateTaskAsync(taskDisplay);
+            }));
 
         public EditPageViewModel(IDatabaseUtils databaseUtils)
         {

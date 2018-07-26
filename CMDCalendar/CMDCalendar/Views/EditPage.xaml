@@ -11,7 +11,7 @@
     <Page.DataContext>
         <Binding Source="{StaticResource EditPageViewModel}"/>
     </Page.DataContext>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -66,11 +66,13 @@
 
             </CommandBar>
         </Grid>
-        
+
         <StackPanel Orientation="Horizontal" Grid.Column="1">
             <CommandBar Background="Transparent"
                         OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
-                <AppBarButton Icon="SaveLocal" Label="保存并退出" />
+                <AppBarButton Icon="SaveLocal" Label="保存并退出" 
+                              Command="{Binding SaveAndQuit}"
+                              Click="SaveAndQuitButton_Click"/>
                 <AppBarButton Icon="Delete" Label="删除" />
                 <AppBarSeparator/>
             </CommandBar>
@@ -82,7 +84,7 @@
                 <x:String>2小时</x:String>
             </ComboBox>
         </StackPanel>
-        
+
         <Grid Grid.Row="1" Grid.Column="1"
                     BorderThickness="1,0,0,0" Padding="24,0"
                     BorderBrush="{StaticResource SystemControlForegroundBaseLowBrush}">
@@ -91,23 +93,24 @@
                 <ColumnDefinition Width="300" />
             </Grid.ColumnDefinitions>
 
-            <Pivot Grid.Column="0">
-                <PivotItem Header="日程">
+            <Pivot Grid.Column="0" x:Name="ChoosePivot">
+                <PivotItem Header="日程" x:Name="EventPage">
                     <StackPanel>
                         <TextBlock Text="详细信息" FontSize="20" Margin="0,10,0,15" Foreground="SteelBlue"
                                        Style="{StaticResource CaptionTextBlockStyle}" />
 
                         <TextBox PlaceholderText="事件名称"  FontSize="25" Height ="50" 
-                                 Text="{Binding eventDisplay.Content}"/>
+                                 Text="{Binding eventDisplay.Content, Mode=TwoWay}"/>
 
                         <TextBox PlaceholderText="地点" Margin="0,20,0,0"
-                                 Text="{Binding eventDisplay.Location}"/>
+                                 Text="{Binding eventDisplay.Location, Mode=TwoWay}"/>
 
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="开始" VerticalAlignment="Bottom" Margin="5,0,0,7"/>
                             <CalendarDatePicker PlaceholderText="选择一个时间" Margin="15,20,0,0" Width="200"
                                                 x:Name="EventStartDate"/>
-                            <TimePicker ClockIdentifier="24HourClock" Margin="20,20,0,0"  MinuteIncrement="30"/>
+                            <TimePicker ClockIdentifier="24HourClock" Margin="20,20,0,0"  MinuteIncrement="30"
+                                        x:Name="EventStartTime"/>
                         </StackPanel>
 
 
@@ -115,49 +118,50 @@
                             <TextBlock Text="结束" VerticalAlignment="Bottom" Margin="5,0,0,27"/>
                             <CalendarDatePicker PlaceholderText="选择一个时间" Margin="15,20,0,20" Width="200"
                                                 x:Name="EventEndDate"/>
-                            <TimePicker ClockIdentifier="24HourClock" Margin="20,20,0,20"  MinuteIncrement="30" Name="EventOverTime"/>
+                            <TimePicker ClockIdentifier="24HourClock" Margin="20,20,0,20"  MinuteIncrement="30"
+                                        x:Name="EventEndTime"/>
                         </StackPanel>
 
-                        <RichEditBox x:Name="EditZone"
-                                         PlaceholderText="事件描述"
-                                         TextWrapping="Wrap"
-                                         VerticalContentAlignment="Stretch"
-                                         HorizontalContentAlignment="Stretch"
-                                         MinHeight="200"
-                                         Padding="10,3"
-                                         BorderThickness="1"
-                                         BorderBrush="{ThemeResource SystemControlForegroundChromeHighBrush}"
-                                         Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}" />
+                        <TextBox x:Name="EventComments" 
+                                 TextWrapping="Wrap" 
+                                 AcceptsReturn="True" 
+                                 MinHeight="200"
+                                 PlaceholderText="事件描述"
+                                 BorderBrush="{ThemeResource SystemControlForegroundChromeHighBrush}"
+                                 Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
+                                 Text="{Binding eventDisplay.Comments, Mode=TwoWay}"/>
+
                     </StackPanel>
                 </PivotItem>
-                <PivotItem Header="任务">
+                <PivotItem Header="任务" x:Name="TaskPage">
                     <StackPanel>
                         <TextBlock Text="详细信息" FontSize="20"
                                        Margin="0,10,0,15"
                                        Foreground="SteelBlue"
                                        Style="{StaticResource CaptionTextBlockStyle}" />
 
-                        <TextBox PlaceholderText="事件名称"  FontSize="25" Height ="50" />
+                        <TextBox PlaceholderText="事件名称"  FontSize="25" Height ="50" 
+                                 Text="{Binding taskDisplay.Content, Mode=TwoWay}"/>
 
-                        <TextBox PlaceholderText="地点" Margin="0,20,0,0"/>
+                        <TextBox PlaceholderText="地点" Margin="0,20,0,0"
+                                 Text="{Binding taskDisplay.Location, Mode=TwoWay}"/>
 
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="结束" VerticalAlignment="Bottom" Margin="5,0,0,27"/>
                             <CalendarDatePicker PlaceholderText="选择一个时间" Margin="15,20,0,20" Width="200"
                                                 x:Name="TaskEndDate"/>
-                            <TimePicker ClockIdentifier="24HourClock" Margin="20,20,0,20"  MinuteIncrement="30"/>
+                            <TimePicker ClockIdentifier="24HourClock" Margin="20,20,0,20"  MinuteIncrement="30"
+                                        x:Name="TaskEndTime"/>
                         </StackPanel>
 
-                        <RichEditBox x:Name="EditZone2"
-                                         PlaceholderText="事件描述"
-                                         TextWrapping="Wrap"
-                                         VerticalContentAlignment="Stretch"
-                                         HorizontalContentAlignment="Stretch"
-                                         MinHeight="200"
-                                         Padding="10,3"
-                                         BorderThickness="1"
-                                         BorderBrush="{ThemeResource SystemControlForegroundChromeHighBrush}"
-                                         Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}" />
+                        <TextBox x:Name="TaskComments" 
+                                 TextWrapping="Wrap" 
+                                 AcceptsReturn="True" 
+                                 MinHeight="200"
+                                 PlaceholderText="事件描述"
+                                 BorderBrush="{ThemeResource SystemControlForegroundChromeHighBrush}"
+                                 Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
+                                 Text="{Binding taskDisplay.Comments, Mode=TwoWay}"/>
                     </StackPanel>
                 </PivotItem>
             </Pivot>
