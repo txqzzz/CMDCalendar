@@ -30,10 +30,6 @@ namespace CMDCalendar.ViewModels
         /// </summary>
         private readonly IDatabaseUtils _databaseUtils;
         /// <summary>
-        /// 获取或设置用于呈现选定项的背景的画笔
-        /// </summary>
-        public Brush SelectedBackground { get; set; }
-        /// <summary>
         /// Task集合
         /// </summary>
         public ObservableCollection<DB.Task> TaskCollection
@@ -67,9 +63,7 @@ namespace CMDCalendar.ViewModels
         public RelayCommand DeleteCommand =>
             _deleteCommand ?? (_deleteCommand = new RelayCommand(
                 async () => { await DelTaskItem(_selectedTask); }));
-        public RelayCommand PinCommand =>
-            _pinCommand ?? (_pinCommand = new RelayCommand(
-                async () => { await MarkTaskItem(_selectedTask); }));
+        
         /// <summary>
         /// 初始化
         /// </summary>
@@ -88,10 +82,6 @@ namespace CMDCalendar.ViewModels
             TaskCollection.Remove(_selectedTask);
             var dbu = new DatabaseUtils();
             await dbu.DeleteTaskAsync(_selectedTask);
-        }
-        public async System.Threading.Tasks.Task MarkTaskItem(DB.Task _selectedTask)
-        {
-
         }
     }
 }
