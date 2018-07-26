@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CMDCalendar.UnitTest", "CMD
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CMDCalendar.DB", "CMDCalendar.Db\CMDCalendar.DB.csproj", "{55CD7CBE-86D0-4544-908F-AF603FA1205D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CMDCalendar.BackgroundTask", "BackgroundTask\CMDCalendar.BackgroundTask.csproj", "{A0B8E7F3-6D44-4007-8DE6-4C2BACB2B728}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CMDCalendar.BackgroundTask", "CMDCalendar.BackgroundTask\CMDCalendar.BackgroundTask.csproj", "{A0B8E7F3-6D44-4007-8DE6-4C2BACB2B728}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
