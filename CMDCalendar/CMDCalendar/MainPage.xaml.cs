@@ -181,8 +181,8 @@ namespace CMDCalendar
         }
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(EditPage), null,
-                    new DrillInNavigationTransitionInfo());
+            Frame.Navigate(typeof(EditPage), null, new DrillInNavigationTransitionInfo());
+
         }
         public class List
         {
@@ -197,10 +197,24 @@ namespace CMDCalendar
             var a = ((FrameworkElement)e.OriginalSource).DataContext;
         }
 
+        private void TestReadTaskButton_Click(object sender, RoutedEventArgs e)
+        {
+        //TODO
+        }
+
+        private async void TestReadEventButton_Click(object sender, RoutedEventArgs e)
+        {
+            var dbu = new DatabaseUtils();
+            var eventList = await dbu.GetEventListAsync();
+            Event TestEvent = eventList[eventList.Count() - 1];
+
+            Frame.Navigate(typeof(EditPage), TestEvent, new DrillInNavigationTransitionInfo());
+
         private void TodoListView_ItemClick(object sender, ItemClickEventArgs e)
         {
             var viewModel = (SliberPageViewModel)this.DataContext;
             viewModel.SelectedTask = (Task)e.ClickedItem;
+
         }
     }
 }
