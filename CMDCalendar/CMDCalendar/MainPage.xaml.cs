@@ -284,7 +284,18 @@ namespace CMDCalendar
         private void SwipeItem_Invoked(SwipeItem sender, SwipeItemInvokedEventArgs args)
         {//To-Do
             var x = args.SwipeControl.DataContext;
-            
+        }
+
+        private void Notification_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (var cur in BackgroundTaskRegistration.AllTasks)
+            {
+                if (cur.Value.Name == "CMDCalendar")
+
+                {
+                    cur.Value.Unregister(true);
+                }
+            }
         }
         /// <summary>
         /// 完成获取选定项
@@ -293,7 +304,8 @@ namespace CMDCalendar
         /// <param name="e"></param>
         private void TodoListView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            var viewModel = (SliberPageViewModel)this.DataContext;
+
+            var viewModel = (SliberPageViewModel)DataContext;
             viewModel.SelectedTask = (Task)e.ClickedItem;
             _SlectedItem = (Task)e.ClickedItem;
         }

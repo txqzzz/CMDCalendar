@@ -21,7 +21,7 @@
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
       <Extensions>
-        <Extension Category="windows.backgroundTasks" EntryPoint="BackgroundTask.SayFarkTask">
+        <Extension Category="windows.backgroundTasks" EntryPoint="CMDCalendar.BackgroundTask.SayFarkTask">
           <BackgroundTasks>
             <Task Type="timer" />
           </BackgroundTasks>
