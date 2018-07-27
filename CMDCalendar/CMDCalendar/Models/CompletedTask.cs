@@ -1,7 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Threading;
-using GalaSoft.MvvmLight;
-using System;
 
 
 namespace CMDCalendar.Models

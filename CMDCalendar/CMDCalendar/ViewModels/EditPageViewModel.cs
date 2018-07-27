@@ -1,4 +1,4 @@
-﻿using CMDCalendar.Database;
+using CMDCalendar.Database;
 using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
@@ -10,6 +10,9 @@ using GalaSoft.MvvmLight.Command;
 using System.Collections.ObjectModel;
 using Windows.ApplicationModel;
 using Windows.UI.Popups;
+using CMDCalendar.DB;
+using Windows.ApplicationModel;
+
 
 namespace CMDCalendar.ViewModels
 {

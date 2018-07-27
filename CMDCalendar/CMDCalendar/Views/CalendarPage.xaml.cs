@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Syncfusion.SfSchedule.XForms;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -20,12 +21,18 @@ namespace CMDCalendar.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class NotificationPage : Page
+    public sealed partial class CalendarPage : Page
     {
-        public NotificationPage()
+        public CalendarPage()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
-
+        ScheduleAppointmentMapping _dataMapping = new ScheduleAppointmentMapping();
+        //dataMapping.ColorMapping = "color";  
+        _dataMapping.
+        _dataMapping.EndTimeMapping = "EndTime";
+        dataMapping.StartTimeMapping = "StartTime"; 
+        dataMapping.SubjectMapping = "Content";
+        calendar.AppointmentMapping = dataMapping;
     }
 }

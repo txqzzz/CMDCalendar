@@ -105,12 +105,15 @@
                         <TextBox PlaceholderText="地点" Margin="0,20,0,0"
                                  Text="{Binding eventDisplay.Location, Mode=TwoWay}"/>
 
+
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="开始" VerticalAlignment="Bottom" Margin="5,0,0,7"/>
                             <CalendarDatePicker PlaceholderText="选择一个时间" Margin="15,20,0,0" Width="200"
                                                 x:Name="EventStartDate"/>
+
                             <TimePicker ClockIdentifier="24HourClock" Margin="20,20,0,0"  MinuteIncrement="30"
                                         x:Name="EventStartTime"/>
+
                         </StackPanel>
 
 
@@ -120,6 +123,7 @@
                                                 x:Name="EventEndDate"/>
                             <TimePicker ClockIdentifier="24HourClock" Margin="20,20,0,20"  MinuteIncrement="30"
                                         x:Name="EventEndTime"/>
+
                         </StackPanel>
 
                         <TextBox x:Name="EventComments" 
@@ -152,6 +156,7 @@
                                                 x:Name="TaskEndDate"/>
                             <TimePicker ClockIdentifier="24HourClock" Margin="20,20,0,20"  MinuteIncrement="30"
                                         x:Name="TaskEndTime"/>
+
                         </StackPanel>
 
                         <TextBox x:Name="TaskComments" 
