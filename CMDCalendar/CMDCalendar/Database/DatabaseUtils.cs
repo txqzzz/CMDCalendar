@@ -369,7 +369,7 @@ namespace CMDCalendar.Database
 
             var user4 = new User
             {
-                Id = 3,
+                Id = 4,
                 Username = "Nagato"
             };
 
@@ -385,6 +385,8 @@ namespace CMDCalendar.Database
                 LeftTime = -1,
                 Emergency = 0,
                 IsCompleted = false,
+                Location = "Test Task Location"
+
             };
 
             var eventE = new Event
@@ -393,13 +395,16 @@ namespace CMDCalendar.Database
                 Comments = "Test Event Comments",
                 Content = "Test Event Content",
                 IsNotify = false,
-                EventDay = new DateTime(2018, 7, 21),
-                StartTime = new DateTime(2018, 7, 24),
-                EndTime = new DateTime(2018, 7, 24),
+                EventDay = new DateTime(2018, 3, 21),
+                StartTime = new DateTime(2018, 3, 24, 1, 1, 4),
+                EndTime = new DateTime(2018, 3, 26, 5, 1, 4),
+
                 LeftTime = -1,
                 Emergency = 0,
                 Location = "Test Event Location"
             };
+
+            await dbu.NewUserAsync(user4);
             await dbu.NewEventAsync(eventE, user4);
             await dbu.NewTaskAsync(taskE, user4);
         }

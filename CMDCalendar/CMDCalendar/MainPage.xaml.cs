@@ -287,6 +287,25 @@ namespace CMDCalendar
             var x = args.SwipeControl.DataContext;
         }
 
+
+        private async void TestReadTaskButton_Click(object sender, RoutedEventArgs e)
+        {
+            var dbu = new DatabaseUtils();
+            var taskList = await dbu.GetTaskListAsync();
+            DB.Task TestTask = taskList[taskList.Count() - 1];
+
+            Frame.Navigate(typeof(EditPage), TestTask, new DrillInNavigationTransitionInfo());
+        }
+
+        private async void TestReadEventButton_Click(object sender, RoutedEventArgs e)
+        {
+            var dbu = new DatabaseUtils();
+            var eventList = await dbu.GetEventListAsync();
+            Event TestEvent = eventList[eventList.Count() - 1];
+
+            Frame.Navigate(typeof(EditPage), TestEvent, new DrillInNavigationTransitionInfo());
+        }
+
         private void Notification_Click(object sender, RoutedEventArgs e)
         {
             foreach (var cur in BackgroundTaskRegistration.AllTasks)
@@ -303,11 +322,12 @@ namespace CMDCalendar
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+
         private void TodoListView_ItemClick(object sender, ItemClickEventArgs e)
         {
-
             var viewModel = (SliberPageViewModel)DataContext;
             viewModel.SelectedTask = (Task)e.ClickedItem;
+
             _SlectedItem = (Task)e.ClickedItem;
         }
        /// <summary>
