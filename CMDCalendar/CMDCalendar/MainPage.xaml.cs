@@ -3,6 +3,7 @@ using CMDCalendar.DB;
 using CMDCalendar.Views;
 using System;
 using System.Linq;
+using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Popups;
@@ -204,19 +205,7 @@ namespace CMDCalendar
             var a = ((FrameworkElement) e.OriginalSource).DataContext;
         }
 
-        private void TestReadTaskButton_Click(object sender, RoutedEventArgs e)
-        {
-        //TODO
-        }
-
-        private async void TestReadEventButton_Click(object sender, RoutedEventArgs e)
-        {
-            var dbu = new DatabaseUtils();
-            var eventList = await dbu.GetEventListAsync();
-            Event TestEvent = eventList[eventList.Count() - 1];
-
-            Frame.Navigate(typeof(EditPage), TestEvent, new DrillInNavigationTransitionInfo());
-        }
+       
 
         
         
@@ -286,27 +275,36 @@ namespace CMDCalendar
             var x = args.SwipeControl.DataContext;
         }
 
-        private void Notification_Click(object sender, RoutedEventArgs e)
-        {
-            foreach (var cur in BackgroundTaskRegistration.AllTasks)
-            {
-                if (cur.Value.Name == "CMDCalendar")
 
-                {
-                    cur.Value.Unregister(true);
-                }
-            }
+        private async void TestReadTaskButton_Click(object sender, RoutedEventArgs e)
+        {
+            var dbu = new DatabaseUtils();
+            var taskList = await dbu.GetTaskListAsync();
+            Task testTask = taskList[taskList.Count() - 1];
+
+            Frame.Navigate(typeof(EditPage), testTask, new DrillInNavigationTransitionInfo());
         }
+
+        private async void TestReadEventButton_Click(object sender, RoutedEventArgs e)
+        {
+            var dbu = new DatabaseUtils();
+            var eventList = await dbu.GetEventListAsync();
+            Event testEvent = eventList[eventList.Count() - 1];
+
+            Frame.Navigate(typeof(EditPage), testEvent, new DrillInNavigationTransitionInfo());
+        }
+        
         /// <summary>
         /// 完成获取选定项
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+
         private void TodoListView_ItemClick(object sender, ItemClickEventArgs e)
         {
-
             var viewModel = (SliberPageViewModel)DataContext;
             viewModel.SelectedTask = (Task)e.ClickedItem;
+
             _SlectedItem = (Task)e.ClickedItem;
         }
        /// <summary>
@@ -318,6 +316,20 @@ namespace CMDCalendar
             dynamic clickedItem = _SlectedItem;
             ListViewItem item = TodoListView.ContainerFromItem(clickedItem) as ListViewItem;
             item.Background = new SolidColorBrush(Color.FromArgb(81, 12, 252, 122));
+        }
+
+        private void NotificationButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            {
+                foreach (var cur in BackgroundTaskRegistration.AllTasks)
+                {
+                    if (cur.Value.Name == "CMDCalendar")
+
+                    {
+                        cur.Value.Unregister(true);
+                    }
+                }
+            }
         }
     }
 }
