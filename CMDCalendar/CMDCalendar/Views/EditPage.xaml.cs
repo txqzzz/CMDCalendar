@@ -118,6 +118,9 @@ namespace CMDCalendar.Views
                 viewModel.eventDisplay.EndTime = DateTime.Parse(EventEndDate.Date.Value.DateTime.ToString("yyyy-MM-dd"));
                 viewModel.eventDisplay.EndTime.AddHours(EventEndTime.Time.Hours);
                 viewModel.eventDisplay.EndTime.AddMinutes(EventEndTime.Time.Minutes);
+                viewModel.eventDisplay.EventDay = DateTime.Parse(EventEndDate.Date.Value.DateTime.ToString("yyyy-MM-dd"));
+                viewModel.eventDisplay.EventDay.AddHours(EventEndTime.Time.Hours);
+                viewModel.eventDisplay.EventDay.AddMinutes(EventEndTime.Time.Minutes);
                 if (viewModel.eventDisplay.Id == 0)
                 {
                     using (var db = new DataContext())
@@ -133,6 +136,9 @@ namespace CMDCalendar.Views
                 viewModel.taskDisplay.EndTime = DateTime.Parse(TaskEndDate.Date.Value.DateTime.ToString("yyyy-MM-dd"));
                 viewModel.taskDisplay.EndTime.AddHours(TaskEndTime.Time.Hours);
                 viewModel.taskDisplay.EndTime.AddMinutes(TaskEndTime.Time.Minutes);
+                viewModel.taskDisplay.EventDay = DateTime.Parse(TaskEndDate.Date.Value.DateTime.ToString("yyyy-MM-dd"));
+                viewModel.taskDisplay.EventDay.AddHours(TaskEndTime.Time.Hours);
+                viewModel.taskDisplay.EventDay.AddMinutes(TaskEndTime.Time.Minutes);
                 if (viewModel.taskDisplay.Id == 0)
                 {
                     using (var db = new DataContext())
@@ -145,6 +151,11 @@ namespace CMDCalendar.Views
             }
             Frame.Navigate(typeof(MainPage), null, new DrillInNavigationTransitionInfo());
 
+        }
+
+        private void DeleteBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(MainPage), null, new DrillInNavigationTransitionInfo());
         }
     }
 }

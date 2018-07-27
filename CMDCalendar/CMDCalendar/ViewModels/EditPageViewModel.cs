@@ -25,6 +25,8 @@ namespace CMDCalendar.ViewModels
 
         public RelayCommand _saveAndQuit;
 
+        public RelayCommand _deleteCommand;
+
         public Event eventDisplay { get; set; }
 
         public DB.Task taskDisplay { get; set; }
@@ -34,9 +36,22 @@ namespace CMDCalendar.ViewModels
             new RelayCommand(async () => 
             {
                 var service = _databaseUtils;
-                await service.UpdateEventAsync(eventDisplay);
-                await service.UpdateTaskAsync(taskDisplay);
+                if (eventDisplay != null)
+                    await service.UpdateEventAsync(eventDisplay);
+                if (taskDisplay != null)
+                    await service.UpdateTaskAsync(taskDisplay);
             }));
+
+        public RelayCommand DeleteCommand =>
+          _deleteCommand ?? (_deleteCommand =
+              new RelayCommand(async () => 
+              {
+                  var service = _databaseUtils;
+                  if(eventDisplay != null)
+                      await service.DeleteEventAsync(eventDisplay);
+                  else
+                      await service.DeleteTaskAsync(taskDisplay);
+              }));
 
         public EditPageViewModel(IDatabaseUtils databaseUtils)
         {

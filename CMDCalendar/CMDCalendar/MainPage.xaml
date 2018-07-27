@@ -54,6 +54,12 @@
                     <AppBarButton Icon="Add"
                                   Foreground="SteelBlue"
                                   Click="AddButton_Click"/>
+                    <AppBarButton Icon="Emoji"
+                                  Foreground="SteelBlue"
+                                  Click="TestReadEventButton_Click"/>
+                    <AppBarButton Icon="Emoji2"
+                                  Foreground="SteelBlue"
+                                  Click="TestReadTaskButton_Click"/>
                     <TextBlock Foreground="SteelBlue"
                                 Margin="0,-10,0,0"
                                VerticalAlignment="Center"

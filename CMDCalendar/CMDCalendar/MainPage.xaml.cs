@@ -205,9 +205,13 @@ namespace CMDCalendar
             var a = ((FrameworkElement) e.OriginalSource).DataContext;
         }
 
-        private void TestReadTaskButton_Click(object sender, RoutedEventArgs e)
+        private async void TestReadTaskButton_Click(object sender, RoutedEventArgs e)
         {
-        //TODO
+            var dbu = new DatabaseUtils();
+            var taskList = await dbu.GetTaskListAsync();
+            DB.Task TestTask = taskList[taskList.Count() - 1];
+
+            Frame.Navigate(typeof(EditPage), TestTask, new DrillInNavigationTransitionInfo());
         }
 
         private async void TestReadEventButton_Click(object sender, RoutedEventArgs e)
@@ -219,8 +223,8 @@ namespace CMDCalendar
             Frame.Navigate(typeof(EditPage), TestEvent, new DrillInNavigationTransitionInfo());
         }
 
-        
-        
+
+
         /* calendar */
         public class CalendarView
         {
@@ -288,23 +292,7 @@ namespace CMDCalendar
         }
 
 
-        private async void TestReadTaskButton_Click(object sender, RoutedEventArgs e)
-        {
-            var dbu = new DatabaseUtils();
-            var taskList = await dbu.GetTaskListAsync();
-            DB.Task TestTask = taskList[taskList.Count() - 1];
 
-            Frame.Navigate(typeof(EditPage), TestTask, new DrillInNavigationTransitionInfo());
-        }
-
-        private async void TestReadEventButton_Click(object sender, RoutedEventArgs e)
-        {
-            var dbu = new DatabaseUtils();
-            var eventList = await dbu.GetEventListAsync();
-            Event TestEvent = eventList[eventList.Count() - 1];
-
-            Frame.Navigate(typeof(EditPage), TestEvent, new DrillInNavigationTransitionInfo());
-        }
 
         private void Notification_Click(object sender, RoutedEventArgs e)
         {

@@ -73,7 +73,9 @@
                 <AppBarButton Icon="SaveLocal" Label="保存并退出" 
                               Command="{Binding SaveAndQuit}"
                               Click="SaveAndQuitButton_Click"/>
-                <AppBarButton Icon="Delete" Label="删除" />
+                <AppBarButton Icon="Delete" Label="删除" 
+                              Command="{Binding DeleteCommand}"
+                              Click="DeleteBarButton_Click"/>
                 <AppBarSeparator/>
             </CommandBar>
             <TextBlock VerticalAlignment="Center">提醒：</TextBlock>
