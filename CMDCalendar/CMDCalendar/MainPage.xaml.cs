@@ -205,26 +205,10 @@ namespace CMDCalendar
             var a = ((FrameworkElement) e.OriginalSource).DataContext;
         }
 
-        private async void TestReadTaskButton_Click(object sender, RoutedEventArgs e)
-        {
-            var dbu = new DatabaseUtils();
-            var taskList = await dbu.GetTaskListAsync();
-            DB.Task TestTask = taskList[taskList.Count() - 1];
+       
 
-            Frame.Navigate(typeof(EditPage), TestTask, new DrillInNavigationTransitionInfo());
-        }
-
-        private async void TestReadEventButton_Click(object sender, RoutedEventArgs e)
-        {
-            var dbu = new DatabaseUtils();
-            var eventList = await dbu.GetEventListAsync();
-            Event TestEvent = eventList[eventList.Count() - 1];
-
-            Frame.Navigate(typeof(EditPage), TestEvent, new DrillInNavigationTransitionInfo());
-        }
-
-
-
+        
+        
         /* calendar */
         public class CalendarView
         {
@@ -292,19 +276,24 @@ namespace CMDCalendar
         }
 
 
-
-
-        private void Notification_Click(object sender, RoutedEventArgs e)
+        private async void TestReadTaskButton_Click(object sender, RoutedEventArgs e)
         {
-            foreach (var cur in BackgroundTaskRegistration.AllTasks)
-            {
-                if (cur.Value.Name == "CMDCalendar")
+            var dbu = new DatabaseUtils();
+            var taskList = await dbu.GetTaskListAsync();
+            Task testTask = taskList[taskList.Count() - 1];
 
-                {
-                    cur.Value.Unregister(true);
-                }
-            }
+            Frame.Navigate(typeof(EditPage), testTask, new DrillInNavigationTransitionInfo());
         }
+
+        private async void TestReadEventButton_Click(object sender, RoutedEventArgs e)
+        {
+            var dbu = new DatabaseUtils();
+            var eventList = await dbu.GetEventListAsync();
+            Event testEvent = eventList[eventList.Count() - 1];
+
+            Frame.Navigate(typeof(EditPage), testEvent, new DrillInNavigationTransitionInfo());
+        }
+        
         /// <summary>
         /// 完成获取选定项
         /// </summary>
@@ -327,6 +316,20 @@ namespace CMDCalendar
             dynamic clickedItem = _SlectedItem;
             ListViewItem item = TodoListView.ContainerFromItem(clickedItem) as ListViewItem;
             item.Background = new SolidColorBrush(Color.FromArgb(81, 12, 252, 122));
+        }
+
+        private void NotificationButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            {
+                foreach (var cur in BackgroundTaskRegistration.AllTasks)
+                {
+                    if (cur.Value.Name == "CMDCalendar")
+
+                    {
+                        cur.Value.Unregister(true);
+                    }
+                }
+            }
         }
     }
 }

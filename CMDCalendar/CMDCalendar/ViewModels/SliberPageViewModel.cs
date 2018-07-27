@@ -4,6 +4,7 @@ using GalaSoft.MvvmLight.Command;
 using System.Collections.ObjectModel;
 using Windows.ApplicationModel;
 using Windows.UI.Xaml.Media;
+using CMDCalendar.DB;
 
 namespace CMDCalendar.ViewModels
 {
@@ -37,7 +38,6 @@ namespace CMDCalendar.ViewModels
             get;
             private set;
         }
-
 
         public DB.Task SelectedTask
         {
