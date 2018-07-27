@@ -62,12 +62,15 @@
                                Foreground="SteelBlue"
                                Style="{ThemeResource TitleTextBlockStyle}"
                                Text="Event List" />
-                    <ListView>
-                        <x:String>Item 1</x:String>
-                        <x:String>Item 2</x:String>
-                        <x:String>Item 3</x:String>
-                        <x:String>Item 4</x:String>
-                        <x:String>Item 5</x:String>
+                    <ListView x:Name="ScheduleListView"
+                              ItemsSource="{Binding EventCollection}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="x:String">
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="{Binding Content}" FontSize="18" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
                     </ListView>
                 </StackPanel>
             </Grid>
@@ -102,32 +105,6 @@
                                 <TextBlock Text="{Binding Content}" FontSize="18" />
                             </StackPanel>
                         </SwipeControl>
-                        <!--    <SwipeControl HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <SwipeControl.RightItems>
-                                <SwipeItems>
-                                    <SwipeItem Text="Pin">
-                                        <SwipeItem.IconSource>
-                                            <SymbolIconSource Symbol="Pin"/>
-                                        </SwipeItem.IconSource>
-                                    </SwipeItem>
-                                    <SwipeItem Text="Delete"
-                                               Background="Red"
-                                               Command="{Binding  DeleteCommand}">
-                                        <SwipeItem.IconSource>
-                                            <SymbolIconSource Symbol="Delete"/>
-                                        </SwipeItem.IconSource>
-                                    </SwipeItem>
-                                </SwipeItems>
-
-                            </SwipeControl.RightItems>
-
-                             Swipeable content -->
-                        <!-- <Border Width="180" Height="44" >
-                                <TextBlock Text="{Binding Content}" 
-                                           Foreground="SteelBlue"
-                                           Margin="4,8,0,0"/>
-                            </Border>
-                        </SwipeControl>   -->
                     </DataTemplate>
                 </ListView.ItemTemplate>
                 <ListView.Resources>
