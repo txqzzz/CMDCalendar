@@ -50,6 +50,10 @@
                     <AppBarButton Icon="Add"
                                   Foreground="SteelBlue"
                                   Click="AddButton_Click" />
+                    <AppBarButton Icon="Pin"
+                                  Foreground="SteelBlue"
+                                  Click="NotificationButton_OnClick"/>
+
                     <TextBlock Foreground="SteelBlue"
                                Margin="0,-10,0,0"
                                VerticalAlignment="Center"

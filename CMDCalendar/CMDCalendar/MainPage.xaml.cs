@@ -1,4 +1,5 @@
 ﻿using CMDCalendar.Database;
+using CMDCalendar.Tile;
 using CMDCalendar.DB;
 using CMDCalendar.Views;
 using System;
@@ -320,6 +321,7 @@ namespace CMDCalendar
 
         private void NotificationButton_OnClick(object sender, RoutedEventArgs e)
         {
+            TileService.PinTile();
             {
                 foreach (var cur in BackgroundTaskRegistration.AllTasks)
                 {
