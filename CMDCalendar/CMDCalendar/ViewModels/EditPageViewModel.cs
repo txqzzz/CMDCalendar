@@ -12,6 +12,7 @@ using Windows.ApplicationModel;
 using Windows.UI.Popups;
 using CMDCalendar.DB;
 using Windows.ApplicationModel;
+using CMDCalendar.DB.Database;
 
 
 namespace CMDCalendar.ViewModels

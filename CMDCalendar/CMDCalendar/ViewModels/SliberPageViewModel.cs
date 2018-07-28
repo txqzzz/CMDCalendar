@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using Windows.ApplicationModel;
 using Windows.UI.Xaml.Media;
 using CMDCalendar.DB;
+using CMDCalendar.DB.Database;
 
 namespace CMDCalendar.ViewModels
 {

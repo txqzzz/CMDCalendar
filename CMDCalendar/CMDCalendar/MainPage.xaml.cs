@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Media.Animation;
 using CMDCalendar.ViewModels;
 using Windows.UI.Xaml.Media;
 using Windows.UI;
+using CMDCalendar.DB.Database;
 
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
