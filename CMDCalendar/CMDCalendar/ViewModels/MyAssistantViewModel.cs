@@ -5,6 +5,7 @@ using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.ObjectModel;
 using Windows.ApplicationModel;
+using CMDCalendar.DB.Database;
 
 namespace CMDCalendar.ViewModels
 {
