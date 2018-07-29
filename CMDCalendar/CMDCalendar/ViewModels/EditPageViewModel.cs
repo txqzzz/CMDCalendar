@@ -12,7 +12,7 @@ using Windows.ApplicationModel;
 using Windows.UI.Popups;
 using CMDCalendar.DB;
 using Windows.ApplicationModel;
-
+using System.ComponentModel;
 
 namespace CMDCalendar.ViewModels
 {
@@ -27,9 +27,17 @@ namespace CMDCalendar.ViewModels
 
         public RelayCommand _deleteCommand;
 
-        public Event eventDisplay { get; set; }
+        public Event eventDisplay
+        {
+            get;
+            set;
+        }
 
-        public DB.Task taskDisplay { get; set; }
+        public DB.Task taskDisplay
+        {
+            get;
+            set;
+        }
 
         public RelayCommand SaveAndQuit =>
             _saveAndQuit ?? (_saveAndQuit =
@@ -63,5 +71,6 @@ namespace CMDCalendar.ViewModels
                     (DatabaseUtils)null :
                     new DatabaseUtils())
         { }
+        
     }
 }

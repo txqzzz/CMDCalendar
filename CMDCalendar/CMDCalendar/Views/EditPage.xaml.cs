@@ -28,7 +28,7 @@ namespace CMDCalendar.Views
         {
             InitializeComponent();
         }
-
+        private bool Edited;
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
@@ -47,6 +47,9 @@ namespace CMDCalendar.Views
                     EndTime = DateTime.Now,
                     EventDay = DateTime.Now
                 };
+                EventStartDate.Date = viewModel.eventDisplay.StartTime;
+                EventEndDate.Date = viewModel.eventDisplay.EndTime;
+                TaskEndDate.Date = viewModel.taskDisplay.EndTime;
             }
             else
             {
@@ -67,9 +70,8 @@ namespace CMDCalendar.Views
                     TaskEndDate.Date = (DateTimeOffset)TaskV.EndTime;
                     TaskEndTime.Time = new TimeSpan(TaskV.EndTime.Hour, TaskV.EndTime.Minute, TaskV.EndTime.Second);
                 }
-
             }
-
+            Edited = false;
         }
 
         /// <summary>
@@ -79,20 +81,25 @@ namespace CMDCalendar.Views
         /// <param name="e"></param>
         private async void BackButton_ClickAsync(object sender, RoutedEventArgs e)
         {
-            var message = new ContentDialog()
+            var viewModel = (EditPageViewModel)this.DataContext;
+            if (Edited == true)
             {
-                Content = "所做的更改将不会被保存。",
-                PrimaryButtonText = "确定",
-                CloseButtonText = "取消"
-            };
-            ContentDialogResult result = await message.ShowAsync();
-            if (result == ContentDialogResult.Primary)
-            {
-                var viewModel = (EditPageViewModel)this.DataContext;
-                viewModel.taskDisplay = null;
-                viewModel.eventDisplay = null;
-                Frame.Navigate(typeof(MainPage), null, new DrillInNavigationTransitionInfo());
+                var message = new ContentDialog()
+                {
+                    Content = "所做的更改将不会被保存。",
+                    PrimaryButtonText = "确定",
+                    CloseButtonText = "取消"
+                };
+                ContentDialogResult result = await message.ShowAsync();
+                if (result == ContentDialogResult.Primary)
+                {
+                    viewModel.taskDisplay = null;
+                    viewModel.eventDisplay = null;
+                    Frame.Navigate(typeof(MainPage), null, new DrillInNavigationTransitionInfo());
+                }
             }
+            else
+                Frame.Navigate(typeof(MainPage), null, new DrillInNavigationTransitionInfo());
         }
 
         /// <summary>
@@ -100,45 +107,58 @@ namespace CMDCalendar.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
-        private void DateChoosing_SelectedDatesChanged(CalendarView sender, CalendarViewSelectedDatesChangedEventArgs args)
+        private async void DateChoosing_SelectedDatesChanged(CalendarView sender, CalendarViewSelectedDatesChangedEventArgs args)
         {
             TaskEndDate.Date = args.AddedDates[0];
             EventStartDate.Date = args.AddedDates[0];
             EventEndDate.Date = args.AddedDates[0];
         }
 
-        private void SaveAndQuitButton_Click(object sender, RoutedEventArgs e)
+        private async void SaveAndQuitButton_Click(object sender, RoutedEventArgs e)
         {
             var viewModel = (EditPageViewModel)this.DataContext;
             if (ChoosePivot.SelectedIndex == 0)
             {
-                viewModel.eventDisplay.StartTime = DateTime.Parse(EventStartDate.Date.Value.DateTime.ToString("yyyy-MM-dd"));
-                viewModel.eventDisplay.StartTime.AddHours(EventStartTime.Time.Hours);
-                viewModel.eventDisplay.StartTime.AddMinutes(EventStartTime.Time.Minutes);
-                viewModel.eventDisplay.EndTime = DateTime.Parse(EventEndDate.Date.Value.DateTime.ToString("yyyy-MM-dd"));
-                viewModel.eventDisplay.EndTime.AddHours(EventEndTime.Time.Hours);
-                viewModel.eventDisplay.EndTime.AddMinutes(EventEndTime.Time.Minutes);
-                viewModel.eventDisplay.EventDay = DateTime.Parse(EventEndDate.Date.Value.DateTime.ToString("yyyy-MM-dd"));
-                viewModel.eventDisplay.EventDay.AddHours(EventEndTime.Time.Hours);
-                viewModel.eventDisplay.EventDay.AddMinutes(EventEndTime.Time.Minutes);
-                if (viewModel.eventDisplay.Id == 0)
+                if (EventStartDate.Date > EventEndDate.Date)
                 {
-                    using (var db = new DataContext())
+                    var message = new ContentDialog()
                     {
-                        var NewEvent = viewModel.eventDisplay;
-                        db.Events.Add(NewEvent);
-                        db.SaveChanges();
+                        Content = "开始时间不能晚于结束时间。",
+                        CloseButtonText = "确定"
+                    };
+                    await message.ShowAsync();
+                }
+                else
+                {
+                    viewModel.eventDisplay.StartTime = DateTime.Parse(EventStartDate.Date.Value.DateTime.ToString("yyyy-MM-dd"));
+                    viewModel.eventDisplay.StartTime = viewModel.eventDisplay.StartTime.AddHours(EventStartTime.Time.Hours);
+                    viewModel.eventDisplay.StartTime = viewModel.eventDisplay.StartTime.AddMinutes(EventStartTime.Time.Minutes);
+                    viewModel.eventDisplay.EndTime = DateTime.Parse(EventEndDate.Date.Value.DateTime.ToString("yyyy-MM-dd"));
+                    viewModel.eventDisplay.EndTime = viewModel.eventDisplay.EndTime.AddHours(EventEndTime.Time.Hours);
+                    viewModel.eventDisplay.EndTime = viewModel.eventDisplay.EndTime.AddMinutes(EventEndTime.Time.Minutes);
+                    viewModel.eventDisplay.EventDay = DateTime.Parse(EventEndDate.Date.Value.DateTime.ToString("yyyy-MM-dd"));
+                    viewModel.eventDisplay.EventDay = viewModel.eventDisplay.EventDay.AddHours(EventEndTime.Time.Hours);
+                    viewModel.eventDisplay.EventDay = viewModel.eventDisplay.EventDay.AddMinutes(EventEndTime.Time.Minutes);
+                    if (viewModel.eventDisplay.Id == 0)
+                    {
+                        using (var db = new DataContext())
+                        {
+                            var NewEvent = viewModel.eventDisplay;
+                            db.Events.Add(NewEvent);
+                            db.SaveChanges();
+                        }
                     }
+                    Frame.Navigate(typeof(MainPage), null, new DrillInNavigationTransitionInfo());
                 }
             }
             else
             {
                 viewModel.taskDisplay.EndTime = DateTime.Parse(TaskEndDate.Date.Value.DateTime.ToString("yyyy-MM-dd"));
-                viewModel.taskDisplay.EndTime.AddHours(TaskEndTime.Time.Hours);
-                viewModel.taskDisplay.EndTime.AddMinutes(TaskEndTime.Time.Minutes);
+                viewModel.taskDisplay.EndTime = viewModel.taskDisplay.EndTime.AddHours(TaskEndTime.Time.Hours);
+                viewModel.taskDisplay.EndTime = viewModel.taskDisplay.EndTime.AddMinutes(TaskEndTime.Time.Minutes);
                 viewModel.taskDisplay.EventDay = DateTime.Parse(TaskEndDate.Date.Value.DateTime.ToString("yyyy-MM-dd"));
-                viewModel.taskDisplay.EventDay.AddHours(TaskEndTime.Time.Hours);
-                viewModel.taskDisplay.EventDay.AddMinutes(TaskEndTime.Time.Minutes);
+                viewModel.taskDisplay.EventDay = viewModel.taskDisplay.EventDay.AddHours(TaskEndTime.Time.Hours);
+                viewModel.taskDisplay.EventDay = viewModel.taskDisplay.EventDay.AddMinutes(TaskEndTime.Time.Minutes);
                 if (viewModel.taskDisplay.Id == 0)
                 {
                     using (var db = new DataContext())
@@ -148,8 +168,8 @@ namespace CMDCalendar.Views
                         db.SaveChanges();
                     }
                 }
+                Frame.Navigate(typeof(MainPage), null, new DrillInNavigationTransitionInfo());
             }
-            Frame.Navigate(typeof(MainPage), null, new DrillInNavigationTransitionInfo());
 
         }
 
@@ -157,5 +177,11 @@ namespace CMDCalendar.Views
         {
             Frame.Navigate(typeof(MainPage), null, new DrillInNavigationTransitionInfo());
         }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Edited = true;
+        }
+        
     }
 }
