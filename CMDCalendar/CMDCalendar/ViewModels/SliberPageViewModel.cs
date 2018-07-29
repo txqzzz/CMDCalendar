@@ -5,6 +5,8 @@ using System.Collections.ObjectModel;
 using Windows.ApplicationModel;
 using Windows.UI.Xaml.Media;
 using CMDCalendar.DB;
+using CMDCalendar.DB.Database;
+
 
 namespace CMDCalendar.ViewModels
 {
@@ -18,6 +20,7 @@ namespace CMDCalendar.ViewModels
         /// 刷新命令
         /// </summary>
         private RelayCommand _listCommand;
+        private RelayCommand _slistCommand;
         /// <summary>
         /// 删除命令
         /// </summary>
@@ -38,27 +41,35 @@ namespace CMDCalendar.ViewModels
             get;
             private set;
         }
-
+        public ObservableCollection<DB.Event> EventCollection
+        {
+            get;
+            private set;
+        }
         public DB.Task SelectedTask
         {
             get => _selectedTask;
             set => Set(nameof(SelectedTask), ref _selectedTask, value);
         }
-
-
         public SliberPageViewModel(IDatabaseUtils databaseUtils)
         {
             _databaseUtils = databaseUtils;
             TaskCollection = new ObservableCollection<DB.Task>();
+            EventCollection = new ObservableCollection<DB.Event>();
         }
         public SliberPageViewModel() : this(DesignMode.DesignModeEnabled ?
                     (DatabaseUtils)null :
                     new DatabaseUtils())
-        { ListTaskItem(); }
+        { ListTaskItem();
+            ListEventItem();
+        }
 
         public RelayCommand ListCommand =>
             _listCommand ?? (_listCommand = new RelayCommand(
                 async () => { await ListTaskItem(); }));
+        public RelayCommand SListCommand =>
+            _slistCommand ?? (_slistCommand = new RelayCommand(
+                async () => { await ListEventItem(); }));
 
         public RelayCommand DeleteCommand =>
             _deleteCommand ?? (_deleteCommand = new RelayCommand(
@@ -75,6 +86,36 @@ namespace CMDCalendar.ViewModels
             {
                 if (taskItem != null)
                     TaskCollection.Add(taskItem);
+            }
+        }
+        public async System.Threading.Tasks.Task ListEventItem()
+        {
+            EventCollection.Clear();
+            var eventItems = await _databaseUtils.GetEventListAsync();
+            foreach (var eventItem in eventItems)
+            {
+                if (eventItem != null)
+                    EventCollection.Add(eventItem);
+            }
+            OderBy(EventCollection);
+        }
+        /// <summary>
+        /// 日程优先级排序
+        /// </summary>
+        /// <param name="EventCollection"></param>
+        public void OderBy(ObservableCollection<DB.Event> EventCollection)
+        {
+            for(int i=0;i<EventCollection.Count-1;i++)
+            {
+                for(int j=EventCollection.Count-1;j>i;j--)
+                {
+                    if(EventCollection[j].Emergency>EventCollection[j-1].Emergency)
+                    {
+                        DB.Event temp = EventCollection[j-1];
+                        EventCollection[j - 1] = EventCollection[j];
+                        EventCollection[j] = temp;
+                    }
+                }
             }
         }
         public async System.Threading.Tasks.Task DelTaskItem(DB.Task _selectedTask)

@@ -1,4 +1,5 @@
 ﻿using CMDCalendar.Database;
+using CMDCalendar.Tile;
 using CMDCalendar.DB;
 using CMDCalendar.Views;
 using System;
@@ -14,6 +15,7 @@ using Windows.UI.Xaml.Media.Animation;
 using CMDCalendar.ViewModels;
 using Windows.UI.Xaml.Media;
 using Windows.UI;
+using CMDCalendar.DB.Database;
 
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -320,6 +322,7 @@ namespace CMDCalendar
 
         private void NotificationButton_OnClick(object sender, RoutedEventArgs e)
         {
+            TileService.PinTile();
             {
                 foreach (var cur in BackgroundTaskRegistration.AllTasks)
                 {

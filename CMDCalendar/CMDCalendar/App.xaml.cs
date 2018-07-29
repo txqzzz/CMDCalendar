@@ -12,6 +12,7 @@ using Windows.ApplicationModel.Background;
 using System.Diagnostics;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Windows.UI.Notifications;
+using CMDCalendar.DB.Database;
 
 
 namespace CMDCalendar
