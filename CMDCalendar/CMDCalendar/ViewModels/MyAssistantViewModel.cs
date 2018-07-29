@@ -112,7 +112,8 @@ namespace CMDCalendar.ViewModels
             {
                 if (task.EventDay.Date == DateTime.Now.Date)
                 {
-                    TasksList.Add(task);
+                    if (task.IsCompleted == false)
+                        TasksList.Add(task);
                 }
             }
         }
@@ -137,6 +138,7 @@ namespace CMDCalendar.ViewModels
             {
                 if (task.EventDay.Date == DateTime.Now.Date.AddDays(DDayoffset+1))
                 {
+                    if (task.IsCompleted == false)
                     TasksList.Add(task);
                 }
             }
@@ -164,7 +166,8 @@ namespace CMDCalendar.ViewModels
             {
                 if (task.EventDay.Date == DateTime.Now.Date.AddDays(DDayoffset - 1))
                 {
-                    TasksList.Add(task);
+                    if (task.IsCompleted == false)
+                        TasksList.Add(task);
                 }
             }
             DDayoffset = DDayoffset - 1;

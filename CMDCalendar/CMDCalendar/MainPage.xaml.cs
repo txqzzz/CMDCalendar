@@ -174,6 +174,49 @@ namespace CMDCalendar
 
             }
         }
+        /// <summary>
+        /// 打开报告子窗口
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        private async void SummonReport(object sender, RoutedEventArgs e)
+        {
+            CoreApplicationView newView = CoreApplication.CreateNewView();
+            var currentView = ApplicationView.GetForCurrentView();
+            var viewId = currentView.Id;
+
+            if (viewShown)
+            {
+                if (viewClosed)
+                {
+                    await ApplicationViewSwitcher.SwitchAsync(newViewId);
+
+                    viewClosed = false;
+                }
+                else
+                {
+                    await ApplicationViewSwitcher.SwitchAsync(newViewId);
+}
+            }
+            else
+            {
+                await newView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+
+                {
+                    var newWindow = Window.Current;
+                    var newAppView = ApplicationView.GetForCurrentView();
+                    newAppView.Consolidated += NewAppView_Consolidated;
+
+                    iframe = new Frame();
+                    iframe.Navigate(typeof(ResultReport), currentView.Id);
+                    newWindow.Content = iframe;
+                    newWindow.Activate();
+                    newViewId = newAppView.Id;
+                });
+                await ApplicationViewSwitcher.TryShowAsStandaloneAsync(newViewId);
+
+            }
+        }
 
         private void NewAppView_Consolidated(ApplicationView sender, ApplicationViewConsolidatedEventArgs args)
         {
@@ -182,6 +225,11 @@ namespace CMDCalendar
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(EditPage), null,
+                    new DrillInNavigationTransitionInfo());
+        }
+        private void ResultButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(ResultReport), null,
                     new DrillInNavigationTransitionInfo());
         }
         public class List
