@@ -1,4 +1,4 @@
-﻿using CMDCalendar.Database;
+﻿using CMDCalendar.DB.Database;
 using CMDCalendar.Tile;
 using CMDCalendar.DB;
 using CMDCalendar.Views;
@@ -16,6 +16,9 @@ using CMDCalendar.ViewModels;
 using Windows.UI.Xaml.Media;
 using Windows.UI;
 using CMDCalendar.DB.Database;
+using Microsoft.Toolkit.Uwp.Notifications;
+using Windows.UI.Notifications;
+using System.Collections.ObjectModel;
 
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -319,20 +322,25 @@ namespace CMDCalendar
             ListViewItem item = TodoListView.ContainerFromItem(clickedItem) as ListViewItem;
             item.Background = new SolidColorBrush(Color.FromArgb(81, 12, 252, 122));
         }
-
-        private void NotificationButton_OnClick(object sender, RoutedEventArgs e)
+       
+        private async void NotificationButton_OnClick(object sender, RoutedEventArgs e)
         {
-            TileService.PinTile();
-            {
-                foreach (var cur in BackgroundTaskRegistration.AllTasks)
-                {
-                    if (cur.Value.Name == "CMDCalendar")
 
-                    {
-                        cur.Value.Unregister(true);
-                    }
+            TileService.PinTile();
+
+            foreach (var cur in BackgroundTaskRegistration.AllTasks)
+            {
+                if (cur.Value.Name == "CMDCalendar")
+
+                {
+                    cur.Value.Unregister(true);
                 }
             }
+            
+
+            
         }
+
+
     }
 }
