@@ -32,6 +32,7 @@ namespace CMDCalendar.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            Window.Current.Activate();
             var viewModel = (EditPageViewModel)this.DataContext;
             if (e.Parameter == null)
             {
@@ -107,11 +108,16 @@ namespace CMDCalendar.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
-        private async void DateChoosing_SelectedDatesChanged(CalendarView sender, CalendarViewSelectedDatesChangedEventArgs args)
+        private void DateChoosing_SelectedDatesChanged(CalendarView sender, CalendarViewSelectedDatesChangedEventArgs args)
         {
-            TaskEndDate.Date = args.AddedDates[0];
-            EventStartDate.Date = args.AddedDates[0];
-            EventEndDate.Date = args.AddedDates[0];
+            try
+            {
+                TaskEndDate.Date = args.AddedDates[0];
+                EventStartDate.Date = args.AddedDates[0];
+                EventEndDate.Date = args.AddedDates[0];
+            }
+            catch(System.Runtime.InteropServices.COMException)
+            { }
         }
 
         private async void SaveAndQuitButton_Click(object sender, RoutedEventArgs e)
@@ -119,7 +125,7 @@ namespace CMDCalendar.Views
             var viewModel = (EditPageViewModel)this.DataContext;
             if (ChoosePivot.SelectedIndex == 0)
             {
-                if (EventStartDate.Date > EventEndDate.Date)
+                if ((EventStartDate.Date > EventEndDate.Date) || (EventStartTime.Time > EventEndTime.Time))
                 {
                     var message = new ContentDialog()
                     {
