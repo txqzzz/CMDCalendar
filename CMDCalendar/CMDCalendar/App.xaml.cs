@@ -1,22 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using CMDCalendar.Database;
 using CMDCalendar.DB;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
+using Windows.ApplicationModel.Background;
+using System.Diagnostics;
+using Microsoft.Toolkit.Uwp.Notifications;
+using Windows.UI.Notifications;
+using CMDCalendar.DB.Database;
+
 
 namespace CMDCalendar
 {
@@ -31,8 +28,8 @@ namespace CMDCalendar
         /// </summary>
         public App()
         {
-            this.InitializeComponent();
-            this.Suspending += OnSuspending;
+            InitializeComponent();
+            Suspending += OnSuspending;
             var db = new DataContext();
             
             db.Database.EnsureDeleted();
@@ -46,7 +43,7 @@ namespace CMDCalendar
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
             Frame rootFrame = Window.Current.Content as Frame;
 
@@ -66,6 +63,7 @@ namespace CMDCalendar
 
                 // Place the frame in the current Window
                 Window.Current.Content = rootFrame;
+                await RegisterBackgroundTask();
             }
 
             if (e.PrelaunchActivated == false)
@@ -81,6 +79,8 @@ namespace CMDCalendar
                 Window.Current.Activate();
             }
         }
+
+
 
         /// <summary>
         /// Invoked when Navigation to a certain page fails
@@ -104,6 +104,109 @@ namespace CMDCalendar
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
+        }
+
+        private async System.Threading.Tasks.Task RegisterBackgroundTask()
+        {
+            var task = await RegisterBackgroundTask(
+                typeof(CMDCalendar.BackgroundTask.SayFarkTask),
+                "CMDCalendar",
+
+                new TimeTrigger(15, false),
+                null);
+
+            task.Progress += TaskOnProgress;
+            task.Completed += TaskOnCompleted;
+
+            ToastContent content = new ToastContent()
+            {
+                Launch = "action=viewEvent&eventId=1983",
+                Scenario = ToastScenario.Reminder,
+
+                Visual = new ToastVisual()
+                {
+
+                    BindingGeneric = new ToastBindingGeneric()
+                    {
+                        Children =
+                        {
+                            new AdaptiveText()
+                            {
+                                Text = "Test"
+                            },
+                            /*new AdaptiveText()
+                            {
+                                Text = "Conf Room 2001 / Building 135"
+                            },*/
+
+                            new AdaptiveText()
+                            {
+                                Text = DateTime.Now.ToString()
+                            }
+                        }
+                    }
+                },
+
+                Actions = new ToastActionsCustom(),
+
+                /*Audio = new ToastAudio()
+                {
+                    Src = new Uri("ms-appx:///Assets/NewMessage.mp3")
+                }*/
+            };
+
+            // content.DisplayTimestamp = new DateTime(2018, 7, 18, 19, 45, 0, DateTimeKind.Utc);
+            ToastNotificationManager.CreateToastNotifier().Show(new ToastNotification(content.GetXml()));
+
+        }
+
+        public static async Task<BackgroundTaskRegistration> RegisterBackgroundTask(Type taskEntryPoint,
+                                                                        string taskName,
+                                                                        IBackgroundTrigger trigger,
+                                                                        IBackgroundCondition condition)
+        {
+            var status = await BackgroundExecutionManager.RequestAccessAsync();
+            if (status == BackgroundAccessStatus.Unspecified || status == BackgroundAccessStatus.Denied)
+            {
+                return null;
+            }
+
+            foreach (var cur in BackgroundTaskRegistration.AllTasks)
+            {
+                if (cur.Value.Name == taskName)
+                {
+                    cur.Value.Unregister(true);
+                }
+            }
+
+            var builder = new BackgroundTaskBuilder
+            {
+                Name = taskName,
+                TaskEntryPoint = taskEntryPoint.FullName
+            };
+
+            builder.SetTrigger(trigger);
+
+            if (condition != null)
+            {
+                builder.AddCondition(condition);
+            }
+
+            BackgroundTaskRegistration task = builder.Register();
+
+            Debug.WriteLine($"Task {taskName} registered successfully.");
+
+            return task;
+        }
+
+        private void TaskOnProgress(BackgroundTaskRegistration sender, BackgroundTaskProgressEventArgs args)
+        {
+            Debug.WriteLine($"Background {sender.Name} TaskOnProgress.");
+        }
+
+        private void TaskOnCompleted(BackgroundTaskRegistration sender, BackgroundTaskCompletedEventArgs args)
+        {
+            Debug.WriteLine($"Background {sender.Name} TaskOnCompleted.");
         }
     }
 }
