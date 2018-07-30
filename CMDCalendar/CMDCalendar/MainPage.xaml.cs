@@ -17,6 +17,7 @@ using Windows.ApplicationModel.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Core;
 using CMDCalendar.ViewModels;
+using CMDCalendar.DB.Database;
 
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
