@@ -25,7 +25,7 @@ namespace CMDCalendar.ViewModels
         /// </summary>
         private readonly IDatabaseUtils _databaseUtils;
 
-        private Event _selectedEvent;
+        private DB.Task _selectedTask;
     
         ///<summary>
         ///刷新命令
@@ -63,11 +63,15 @@ namespace CMDCalendar.ViewModels
 
         public RelayCommand DeleteCommand =>
           _deleteCommand ?? (_deleteCommand =
-              new RelayCommand(async () => { EventsList.Remove(SelectedEvent);await _databaseUtils.DeleteEventAsync(SelectedEvent);}));
+              new RelayCommand(async () => { TasksList.Remove(SelectedTask); var newTask = new DB.Task(); newTask = SelectedTask; newTask.IsCompleted = true;await _databaseUtils.DeleteTaskAsync(SelectedTask); var user1 = new User
+              {
+                  Id = 1,
+                  Username = "Xingqi"
+              }; await _databaseUtils.NewTaskAsync(newTask, user1); }));
 
-        public Event SelectedEvent {
-            get => _selectedEvent;
-            set => Set(nameof(SelectedEvent), ref _selectedEvent, value);
+        public DB.Task SelectedTask {
+            get => _selectedTask;
+            set => Set(nameof(SelectedTask), ref _selectedTask, value);
         }
        
 
@@ -92,7 +96,7 @@ namespace CMDCalendar.ViewModels
         public MyAssistantViewModel() : this(DesignMode.DesignModeEnabled ?
                     (DatabaseUtils)null :
                     new DatabaseUtils())
-        { GetTodayEvents(); GetTodayTasks(); SelectedEvent = new Event();  }
+        { GetTodayEvents(); GetTodayTasks(); SelectedTask = new DB.Task();  }
         public async System.Threading.Tasks.Task GetTodayEvents() {
             EventsList.Clear();
             var contacts = await _databaseUtils.GetEventListAsync();

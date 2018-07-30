@@ -137,10 +137,10 @@ namespace CMDCalendar.Views
             }//算出最大值和最小值
             for (int d = 0; d < 7; d++) {
                 if (EventsNumber[d] == max) {
-                    maxPosition = d;
+                    maxPosition =6-d;
                 }
                 if (EventsNumber[d] == min) {
-                    minPosition = d;
+                    minPosition =6-d;
                 }
             }//算出第几天是事情最多的，第几天是事情最少的
             foreach (var task4 in PastTasks) {

@@ -113,9 +113,9 @@ namespace CMDCalendar.Views
 
         private void TaskItem_Click(object sender, ItemClickEventArgs e)
         {
-            Delete.IsEnabled = true;
+            //Delete.IsEnabled = true;
             var viewModel = (MyAssistantViewModel)this.DataContext;
-            viewModel.SelectedEvent = (Event)e.ClickedItem;
+            viewModel.SelectedTask = (DB.Task)e.ClickedItem;
         }
     }
 }
