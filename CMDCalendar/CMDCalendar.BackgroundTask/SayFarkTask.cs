@@ -32,7 +32,7 @@ namespace CMDCalendar.BackgroundTask
             var eventList = await dbu.GetEventListAsync();
             var taskList = await dbu.GetTaskListAsync();
 
-            TimeSpan thirtyMinutes = new TimeSpan(0, 2, 30, 0);
+            TimeSpan thirtyMinutes = new TimeSpan(0, 0, 30, 0);
             foreach (var oneEvent in eventList)
             {
                 if ((oneEvent.EndTime - DateTime.Now) < thirtyMinutes && oneEvent.EndTime > DateTime.Now)
