@@ -13,7 +13,6 @@ using CMDCalendar.DB;
 using Windows.ApplicationModel;
 using System.ComponentModel;
 using CMDCalendar.DB.Database;
-using CMDCalendar.Database;
 
 namespace CMDCalendar.ViewModels
 {

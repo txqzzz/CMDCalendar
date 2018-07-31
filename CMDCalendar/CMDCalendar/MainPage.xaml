@@ -95,7 +95,8 @@
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="x:String">
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="{Binding Content}" FontSize="18" />
+                                    <TextBlock Text="{Binding Content}" FontSize="18"
+                                               Foreground="SteelBlue"/>
                                 </StackPanel>
                             </DataTemplate>
                         </ListView.ItemTemplate>

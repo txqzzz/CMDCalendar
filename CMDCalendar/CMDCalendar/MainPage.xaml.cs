@@ -42,6 +42,23 @@ namespace CMDCalendar
         {
             this.InitializeComponent();
             //CalendarBlock0Date.Text = "113";
+            var viewModel = (SliberPageViewModel)DataContext;
+            viewModel.ListTaskItem();
+            viewModel.ListEventItem();
+
+            //var message = new MessageDialog("" + viewModel.TaskCollection.Count);
+            //message.ShowAsync();
+            for (int i = 0; i < viewModel.TaskCollection.Count - 1; i++)
+            {
+                if (viewModel.TaskCollection[i].IsCompleted == true)
+                {
+
+                   // ListViewItem item = TodoListView.ContainerFromIndex(i) as ListViewItem;
+                    
+                   // item.Background =  new SolidColorBrush(Color.FromArgb(81, 12, 252, 122));
+                }
+            }
+
             UpdateMonthCalendar();
             RefreshCalendar();
             HideText("0");
