@@ -13,6 +13,7 @@ using Windows.UI.Popups;
 using System.ComponentModel;
 using CMDCalendar.DB.Database;
 
+
 namespace CMDCalendar.ViewModels
 {
     public class EditPageViewModel:ViewModelBase
