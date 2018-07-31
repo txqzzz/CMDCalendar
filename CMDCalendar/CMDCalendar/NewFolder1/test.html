@@ -1,0 +1,230 @@
+<html>
+<head>
+<meta charset="utf-8"></meta>
+<link rel="stylesheet" href="./animate.css/animate.css">
+</head>
+<body onclick="test()">
+  <style>
+  @font-face
+  {
+    font-family: lovelyFont;
+    src: url('./lovelyFont.ttf')
+   }
+    html,body{
+      height:100%;
+    }
+    .main1{
+      height:100%;
+    }
+    #background{
+      background: url('./first.jpg');
+      filter: blur(8px);
+    }
+    #text{
+      position:absolute;
+      top:33%;
+      left:33%;
+      width:1000px;
+    }
+    #text p{
+      font-family: lovelyFont;
+      font-size: 50px;
+    }
+  </style>
+  <div class="main1"  background="./first.jpg" id="background"></div>
+  <div>
+    <div id="text">
+      <p id="start" hidden="hidden">点击生成你的本周任务报告</p>
+      <p id="task1" hidden="hidden">您本周用本软件安排了</p>
+      <p id="taskNumber" hidden="hidden" font-size="65px" font-color="black">4个任务</p>
+      <p id="task2" hidden="hidden">其中完成了3个任务</p>
+      <p id="task3" hidden="hidden">您的任务完成率为75%</p>
+      <p id="task4" hidden="hidden">您本周最忙的一天是7.27号</p>
+      <p id="task5" hidden="hidden">共制订了8个任务</p>
+      <p id="task6" hidden="hidden">完成了其中的6个</p>
+      <p id="task7" hidden="hidden">完成率为75%</p>
+      <p id="task8" hidden="hidden">您本周最闲的一天是7.26号</p>
+      <p id="task9" hidden="hidden">共制订了2个任务</p>
+      <p id="task10" hidden="hidden">完成了其中的1个</p>
+      <p id="task11" hidden="hidden">完成率为50%</p>
+      <p id="task12" hidden="hidden">感谢您的使用!希望您在新的一周能努力完成剩下的6个任务!</p>
+    </div>
+  </div>
+  <script type="text/javascript" src="jquery-3.3.1.min.js"></script>
+  <script src="./textillate-master/assets/jquery.fittext.js"></script>
+  <script src="./textillate-master/assets/jquery.lettering.js"></script>
+  <script src="./textillate-master/jquery.textillate.js"></script>
+  <script>
+      var time = 0;
+      var test = function(){
+        if(time == 7){
+          $("#task8").attr('hidden','hidden');
+          $("#task9").attr('hidden','hidden');
+          $("#task10").attr('hidden','hidden');
+          $("#task11").attr('hidden','hidden');
+          $("#task12").removeAttr('hidden');
+          $("#background").hide(1000);
+          setTimeout(function(){
+            $("#background").css('background-image',"url(./final.jpg)");
+          },1000);
+          setTimeout(function(){
+            $("#background").show(1000);
+          },1100);
+          setTimeout(function(){
+            $("#end").removeAttr('hidden');
+          },1100);
+        }
+      if(time == 6){
+        $("#task4").attr('hidden','hidden');
+        $("#task5").attr('hidden','hidden');
+        $("#task6").attr('hidden','hidden');
+        $("#task7").attr('hidden','hidden');
+        $("#text").css("top","80px");
+        $("#text").css("left","280px");
+        $("#task8").css("marginLeft","60px");
+        $("#task9").css("marginLeft","260px");
+        $("#task10").css("marginLeft","460px");
+        $("#task11").css("marginLeft","660px");
+        $("#task8").removeAttr('hidden');
+        $("#task8").addClass('animated flash');
+        setTimeout(function(){$("#task9").removeAttr('hidden');},1000);
+        $("#task9").addClass('animated tada');
+        setTimeout(function(){$("#task10").removeAttr('hidden');},2000);
+        $("#task10").addClass('animated rollIn');
+        setTimeout(function(){$("#task11").removeAttr('hidden');},3000);
+        $("#task11").addClass('animated zoomIn');
+        time=time+1;
+      }
+      if(time == 5){
+        $("#task4").attr('class','animated rotateOut');
+        $("#task5").attr('class','animated rotateOut delay-1s');
+        $("#task6").attr('class','animated rotateOut delay-2s');
+        $("#task7").attr('class','animated rotateOut delay-3s');
+          setTimeout(function(){
+            $("#background").hide(1000);
+          },3500);
+          setTimeout(function(){
+            $("#background").css('background-image',"url(./fourth.jpg)");
+          },4500);
+          setTimeout(function(){
+            $("#background").show(2000);
+          },4600);
+          time = time + 1;
+      }
+      if(time == 4){
+        $("#task1").attr('hidden','hidden');
+        $("#taskNumber").attr('hidden','hidden');
+        $("#task2").attr('hidden','hidden');
+        $("#task3").attr('hidden','hidden');
+        $("#text").css("top","40px");
+        $("#text").css("left","280px");
+        $("#task4").css("marginLeft","60px");
+        $("#task5").css("marginLeft","260px");
+        $("#task6").css("marginLeft","460px");
+        $("#task7").css("marginLeft","660px");
+        $("#task4").removeAttr('hidden');
+        $("#task4").addClass('animated jackInTheBox');
+        $("#task5").removeAttr('hidden');
+        $("#task5").addClass('animated lightSpeedIn delay-1s');
+        setTimeout(function(){$("#task6").removeAttr('hidden')},2500);
+        $("#task6").addClass('animated heartBeat');
+        setTimeout(function(){$("#task7").removeAttr('hidden');},3500);
+        $("#task7").addClass('animated headShake');
+        time = time + 1;
+      }
+      if(time == 3){
+        $("#task1").attr('class','animated fadeOutDown');
+        $("#taskNumber").attr('class','animated fadeOutDown delay-1s');
+        $("#task2").attr('class','animated fadeOutDown delay-2s');
+        $("#task3").attr('class','animated fadeOutDown delay-3s');
+          setTimeout(function(){
+            $("#background").hide(1000);
+          },3200);
+          setTimeout(function(){
+            $("#background").css('background-image',"url(./third.jpg)");
+          },4200);
+          setTimeout(function(){
+            $("#background").show(2000);
+          },4400);
+          time = time + 1;
+      }
+      if(time == 2){
+        $("#text").css("top","30px");
+        $("#text").css("left","280px");
+        $("#task1").css("marginLeft","30px");
+        $("#taskNumber").css("marginLeft","210px");
+        $("#task2").css("marginLeft","390px");
+        $("#task3").css("marginLeft","490px");
+        $("#task1").removeAttr('hidden');
+        $("#task1").addClass('animated rotateIn');
+        setTimeout(function(){$("#taskNumber").removeAttr('hidden');},1000);
+        $("#taskNumber").addClass('animated swing');
+        $("#percent").removeAttr('hidden');
+        $("#percent").addClass('animated zoomInDown delay-1s');
+        $("#task2").removeAttr('hidden');
+        $("#task2").addClass('animated zoomInDown delay-2s');
+        $("#task3").removeAttr('hidden');
+        $("#task3").addClass('animated zoomInDown delay-3s');
+        time = time + 1;
+      }
+      if(time == 1){
+      $("#start").attr('class','flipOutY');
+      setTimeout(function(){
+        $("#start").attr('hidden','hidden');
+      },725);
+        setTimeout(function(){
+          $("#background").hide(1000);
+        },800);
+        setTimeout(function(){
+          $("#background").css('background-image',"url(./second.jpg)");
+        },2000);
+        setTimeout(function(){
+          $("#background").show(2000);
+        },900);
+        time = time + 1;
+      }
+      if(time == 0){
+      $("#text").css("left","420px");
+      $("#start").removeAttr('hidden');
+      $("#start").addClass('bounceIn');
+      time = time + 1;}
+    };
+      var taskNumber = function(a){
+        $('#taskNumber').html(a);
+      }
+      var task2 = function(a){
+        $('#task2').html(a);
+      }
+      var task3 = function(a){
+        $('#task3').html(a);
+      }
+      var task4 = function(a){
+        $('#task4').html(a);
+      }
+      var task5 = function(a){
+        $('#task5').html(a);
+      }
+      var task6 = function(a){
+        $('#task6').html(a);
+      }
+      var task7 = function(a){
+        $('#task7').html(a);
+      }
+      var task8 = function(a){
+        $('#task8').html(a);
+      }
+      var task9 = function(a){
+        $('#task9').html(a);
+      }
+      var task10 = function(a){
+        $('#task10').html(a);
+      }
+      var task11 = function(a){
+        $('#task11').html(a);
+      }
+      var task12 = function(a){
+        $('#task12').html(a);
+      }
+  </script>
+</body>
+</html>

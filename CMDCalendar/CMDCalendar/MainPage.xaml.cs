@@ -1,21 +1,32 @@
-﻿using CMDCalendar.Database;
+using CMDCalendar.DB.Database;
 using CMDCalendar.Tile;
 using CMDCalendar.DB;
 using CMDCalendar.Views;
 using System;
+using System.Collections.ObjectModel;
 using System.Linq;
-using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.Core;
+using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
+using CMDCalendar.Views;
+using Windows.ApplicationModel.Core;
+using Windows.UI.ViewManagement;
+using Windows.UI.Core;
 using CMDCalendar.ViewModels;
 using Windows.UI.Xaml.Media;
 using Windows.UI;
 using CMDCalendar.DB.Database;
+using Microsoft.Toolkit.Uwp.Notifications;
+using Windows.UI.Notifications;
+using System.Collections.ObjectModel;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Windows.ApplicationModel.Background;
+
 
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -30,6 +41,10 @@ namespace CMDCalendar
         public MainPage()
         {
             this.InitializeComponent();
+            //CalendarBlock0Date.Text = "113";
+            UpdateMonthCalendar();
+            RefreshCalendar();
+            HideText("0");
         }
 
         private void MigrateButton_OnClick(object sender, RoutedEventArgs e)
@@ -45,20 +60,20 @@ namespace CMDCalendar
         {
             using (var db = new DataContext())
             {
-                var user = new DB.User {Username = "Xingqi"};
-                var user2 = new DB.User {Username = "Shujie"};
+                var user = new DB.User { Username = "Xingqi" };
+                var user2 = new DB.User { Username = "Shujie" };
 
                 db.Users.Add(user);
                 db.Users.Add(user2);
                 db.SaveChanges();
 
 
-                var evt = new Event {Content = "Debug"};
+                var evt = new Event { Content = "Debug" };
                 db.Events.Add(evt);
                 db.SaveChanges();
 
                 var userevt = new UserEvent
-                    {User = user, Event = evt};
+                { User = user, Event = evt };
                 db.UserEvents.Add(userevt);
                 db.SaveChanges();
             }
@@ -87,7 +102,7 @@ namespace CMDCalendar
         public async void TestDeleteUser()
         {
             var dbu = new DatabaseUtils();
-            var user = new DB.User {Id = 3};
+            var user = new DB.User { Id = 3 };
 
             await dbu.UpdateUserAsync(user);
         }
@@ -102,7 +117,7 @@ namespace CMDCalendar
         {
             var dbu = new DatabaseUtils();
 
-            var user = new DB.User {Id = 4, Username = "Yuyang"};
+            var user = new DB.User { Id = 4, Username = "Yuyang" };
 
             await dbu.UpdateUserAsync(user);
 
@@ -116,7 +131,7 @@ namespace CMDCalendar
             }
 
             var eventList = await dbu.GetEventListAsync();
-            for (int i = 0; i < eventList.Count(); i++)
+            for(int i = 0; i < eventList.Count(); i++)
             {
                 var message = new MessageDialog(i + "   " + eventList[i].Comments);
                 await message.ShowAsync();
@@ -124,19 +139,16 @@ namespace CMDCalendar
                 await message.ShowAsync();
             }
         }
-
         /// <summary>
         /// 下面是打开子窗口的功能，变量冲突请修改你的变量。
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         static bool viewShown = false;
-
         static bool viewClosed = false;
         static int newViewId;
         static int currentViewId;
         static Frame iframe;
-
         private async void SummonDragon(object sender, RoutedEventArgs e)
         {
             CoreApplicationView newView = CoreApplication.CreateNewView();
@@ -166,13 +178,55 @@ namespace CMDCalendar
                     newAppView.Consolidated += NewAppView_Consolidated;
 
                     iframe = new Frame();
-                    iframe.Navigate(typeof(Myassistant), currentView.Id);
+                    iframe.Navigate(typeof(Myassistant),currentView.Id);
 
                     newWindow.Content = iframe;
                     newWindow.Activate();
                     newViewId = newAppView.Id;
                 });
                 await ApplicationViewSwitcher.SwitchAsync(newViewId);
+            }
+        }
+        /// <summary>
+        /// 打开报告子窗口
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        private async void SummonReport(object sender, RoutedEventArgs e)
+        {
+            CoreApplicationView newView = CoreApplication.CreateNewView();
+            var currentView = ApplicationView.GetForCurrentView();
+            var viewId = currentView.Id;
+
+            if (viewShown)
+            {
+                if (viewClosed)
+                {
+                    await ApplicationViewSwitcher.SwitchAsync(newViewId);
+
+                    viewClosed = false;
+                }
+                else
+                {
+                    await ApplicationViewSwitcher.SwitchAsync(newViewId);
+}
+            }
+            else
+            {
+                await newView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+
+                {
+                    var newWindow = Window.Current;
+                    var newAppView = ApplicationView.GetForCurrentView();
+                    newAppView.Consolidated += NewAppView_Consolidated;
+
+                    iframe = new Frame();
+                    iframe.Navigate(typeof(ResultReport), currentView.Id);
+                    newWindow.Content = iframe;
+                    newWindow.Activate();
+                    newViewId = newAppView.Id;
+                });
+                await ApplicationViewSwitcher.TryShowAsStandaloneAsync(newViewId);
 
             }
         }
@@ -181,36 +235,39 @@ namespace CMDCalendar
         {
             viewClosed = true;
         }
-
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(EditPage), null,
-                new DrillInNavigationTransitionInfo());
+                    new DrillInNavigationTransitionInfo());
         }
-
+        private void ResultButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(ResultReport), null,
+                    new DrillInNavigationTransitionInfo());
+        }
         public class List
         {
             public string text { get; set; }
         }
 
-        private System.Collections.ObjectModel.ObservableCollection<List> list =
-            new System.Collections.ObjectModel.ObservableCollection<List>();
+
+        private ObservableCollection<List> list =
+            new ObservableCollection<List>();
+
         /// <summary>
         /// 完成右击菜单显示
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+
         private void TodoListView_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
         {
-            ListView listView = (ListView) sender;
+            ListView listView = (ListView)sender;
             toDoMenuFlayout.ShowAt(listView, e.GetPosition(listView));
             var a = ((FrameworkElement) e.OriginalSource).DataContext;
         }
 
-       
 
-        
-        
         /* calendar */
         public class CalendarView
         {
@@ -220,13 +277,14 @@ namespace CMDCalendar
         private void CalendarView_OnCalendarViewDayItemChanging(Windows.UI.Xaml.Controls.CalendarView sender,
             CalendarViewDayItemChangingEventArgs args)
         {
-              // TODO
+            // TODO
             // Render basic day items.
             if (args.Phase == 0)
             {
                 // Register callback for next phase.
                 args.RegisterUpdateCallback(CalendarView_OnCalendarViewDayItemChanging);
             }
+
 //            // Set blackout dates.
 //            else if (args.Phase == 1)
 //            {
@@ -273,7 +331,8 @@ namespace CMDCalendar
         }
 
         private void SwipeItem_Invoked(SwipeItem sender, SwipeItemInvokedEventArgs args)
-        {//To-Do
+        {
+            //To-Do
             var x = args.SwipeControl.DataContext;
         }
 
@@ -295,42 +354,138 @@ namespace CMDCalendar
 
             Frame.Navigate(typeof(EditPage), testEvent, new DrillInNavigationTransitionInfo());
         }
-        
+
         /// <summary>
         /// 完成获取选定项
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-
         private void TodoListView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            var viewModel = (SliberPageViewModel)DataContext;
-            viewModel.SelectedTask = (Task)e.ClickedItem;
+            var viewModel = (SliberPageViewModel) DataContext;
+            viewModel.SelectedTask = (Task) e.ClickedItem;
 
-            _SlectedItem = (Task)e.ClickedItem;
+            _SlectedItem = (Task) e.ClickedItem;
         }
-       /// <summary>
-       /// 完成标记功能
-       /// </summary>
+
+        /// <summary>
+        /// 完成标记功能
+        /// </summary>
         public Task _SlectedItem;
+
         private void Pin_Click(object sender, RoutedEventArgs e)
         {
             dynamic clickedItem = _SlectedItem;
             ListViewItem item = TodoListView.ContainerFromItem(clickedItem) as ListViewItem;
             item.Background = new SolidColorBrush(Color.FromArgb(81, 12, 252, 122));
         }
-
-        private void NotificationButton_OnClick(object sender, RoutedEventArgs e)
+       
+        private async void NotificationButton_OnClick(object sender, RoutedEventArgs e)
         {
-            TileService.PinTile();
-            {
-                foreach (var cur in BackgroundTaskRegistration.AllTasks)
-                {
-                    if (cur.Value.Name == "CMDCalendar")
 
-                    {
-                        cur.Value.Unregister(true);
-                    }
+            TileService.PinTile();
+
+            foreach (var cur in BackgroundTaskRegistration.AllTasks)
+            {
+                if (cur.Value.Name == "CMDCalendar")
+
+                {
+                    cur.Value.Unregister(true);
+                }
+            }
+            
+
+            
+        }
+
+
+        private readonly int[] _calendarList = new int[35];
+
+        public int GetCalendarOffset()
+        {
+            if (CurrentMonthFirstDay.ToString("dddd") == "Sunday")
+            {
+                return 0;
+            }
+
+            if (CurrentMonthFirstDay.ToString("dddd") == "Monday")
+            {
+                return 1;
+            }
+
+            if (CurrentMonthFirstDay.ToString("dddd") == "Tuesday")
+            {
+                return 2;
+            }
+
+            if (CurrentMonthFirstDay.ToString("dddd") == "Wednesday")
+            {
+                return 3;
+            }
+
+            if (CurrentMonthFirstDay.ToString("dddd") == "Thursday")
+            {
+                return 4;
+            }
+
+            if (CurrentMonthFirstDay.ToString("dddd") == "Friday")
+            {
+                return 5;
+            }
+
+            if (CurrentMonthFirstDay.ToString("dddd") == "Saturday")
+            {
+                return 6;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
+
+        DateTime CurrentMonthFirstDay = new DateTime(DateTime.Now.Year, DateTime.Now.Month-2, 1);
+        public int CurrentDaysInMonth = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month-2);
+        public int CalendarOffset;
+
+        public void UpdateMonthCalendar()
+        {
+            for (var i = 0; i < 35; i++)
+            {
+                _calendarList[i] = 0;
+            }
+            
+            CalendarOffset = GetCalendarOffset();
+            var date = 1;
+            for (var i = CalendarOffset; i < CurrentDaysInMonth+CalendarOffset; i++)
+            {
+                _calendarList[i] = date++;
+            }
+        }
+
+        public void RefreshCalendar()
+        {
+            for (var i = 0; i < 35; i++)
+            {
+                var calendarindex = "CalendarBlock" + i;
+                var calendarindexdate = "CalendarBlock" + i + "Date";
+                //TextBlock flag = new TextBlock();
+                var ans = (TextBlock)CalendarViewArea.FindChildByName(calendarindex).FindChildByName(calendarindexdate);
+                ans.Text = _calendarList[i].ToString();
+            }
+        }
+
+        public void HideText(string hideMessage)
+        {
+            for (var i = 0; i < 35; i++)
+            {
+                var calendarindex = "CalendarBlock" + i;
+                var calendarindexdate = "CalendarBlock" + i + "Date";
+                //TextBlock flag = new TextBlock();
+                var ans = (TextBlock)CalendarViewArea.FindChildByName(calendarindex).FindChildByName(calendarindexdate);
+                if (ans.Text == hideMessage)
+                {
+                    ans.Text = "";
                 }
             }
         }

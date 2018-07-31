@@ -4,7 +4,7 @@ using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using CMDCalendar.Database;
+using CMDCalendar.DB.Database;
 using CMDCalendar.DB;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
@@ -133,11 +133,7 @@ namespace CMDCalendar
                             new AdaptiveText()
                             {
                                 Text = "Test"
-                            },
-                            /*new AdaptiveText()
-                            {
-                                Text = "Conf Room 2001 / Building 135"
-                            },*/
+                            },                         
 
                             new AdaptiveText()
                             {
