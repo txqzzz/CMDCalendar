@@ -6,24 +6,16 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Windows.ApplicationModel.Core;
-using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
-using CMDCalendar.Views;
-using Windows.ApplicationModel.Core;
-using Windows.UI.ViewManagement;
-using Windows.UI.Core;
 using CMDCalendar.ViewModels;
 using Windows.UI.Xaml.Media;
 using Windows.UI;
-using CMDCalendar.DB.Database;
-using Microsoft.Toolkit.Uwp.Notifications;
-using Windows.UI.Notifications;
-using System.Collections.ObjectModel;
+using Windows.ApplicationModel.Background;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 
 
@@ -39,7 +31,10 @@ namespace CMDCalendar
     {
         public MainPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+            var viewModel = (SliberPageViewModel)DataContext;
+            viewModel.ListTaskItem();
+            viewModel.ListEventItem();
             //CalendarBlock0Date.Text = "113";
             UpdateMonthCalendar();
             RefreshCalendar();

@@ -53,6 +53,8 @@
                     Margin="0,25,0,0" />
             <Button Click="SummonDragon" Content="SummonDragon" HorizontalAlignment="Center" VerticalAlignment="Center"
                     Width="250" Foreground="SteelBlue" />
+            <Button Click="SummonReport" Content="SummonReport" HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Width="250" Foreground="SteelBlue" />
             <Button x:Name="TestReadTaskButton" Click="TestReadTaskButton_Click" Content="TestReadTask"
                     HorizontalAlignment="Center" VerticalAlignment="Center" Width="250" Foreground="SteelBlue" />
             <Button x:Name="NotificationButton" Click="NotificationButton_OnClick" Content="StopNotification"
@@ -76,24 +78,13 @@
 
                     <TextBlock Foreground="SteelBlue"
                                 Margin="0,-10,0,0"
-                               VerticalAlignment="Center"
+                                VerticalAlignment="Center"
                                 Style="{ThemeResource TitleTextBlockStyle}"
-                                Text="新建事件"  />
+                                Text="New"  />
                 </StackPanel>
                 <StackPanel Grid.Row="1">
 
-                    <TextBlock Grid.ColumnSpan="2"
-                   Margin="12,8,8,8"
-                   Foreground="SteelBlue"
-                   Style="{ThemeResource TitleTextBlockStyle}"
-                   Text="最近日程列表" />
-                    <ListView >
-                        <x:String>Item 1</x:String>
-                        <x:String>Item 2</x:String>
-                        <x:String>Item 3</x:String>
-                        <x:String>Item 4</x:String>
-                        <x:String>Item 5</x:String>
-
+                    
                     <TextBlock Margin="12,8,8,8"
                                Foreground="SteelBlue"
                                Style="{ThemeResource TitleTextBlockStyle}"
@@ -107,7 +98,6 @@
                                 </StackPanel>
                             </DataTemplate>
                         </ListView.ItemTemplate>
-
                     </ListView>
                 </StackPanel>
             </Grid>
@@ -118,7 +108,7 @@
                    Foreground="SteelBlue"
                    VerticalAlignment="Center"
                    Style="{ThemeResource TitleTextBlockStyle}"
-                   Text="任务" />
+                   Text="Task List" />
             <ListView x:Name="TodoListView"
                       IsItemClickEnabled="True"
                       ItemClick="TodoListView_ItemClick"

@@ -1,25 +1,13 @@
-﻿using CMDCalendar.Database;
-using CMDCalendar.DB;
+﻿using CMDCalendar.DB;
 using CMDCalendar.DB.Database;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -40,9 +28,9 @@ namespace CMDCalendar.Views
         }
         public ResultReport(DatabaseUtils databaseUtils)
         {
-            _databaseUtils = databaseUtils;
+            DatabaseUtils = databaseUtils;
         }
-        public DatabaseUtils _databaseUtils;
+        public DatabaseUtils DatabaseUtils;
         /// <summary>
         /// 生成的数据
         /// </summary>
@@ -92,15 +80,15 @@ namespace CMDCalendar.Views
             int[] EventsNumber = new int[7];//表示用户哪天的时间有多少任务的数组
             int failNumber = 0; //表示用户未完成的Task数量
             int doing; //表示的用户现在还在进行的任务
-            List<Task> MaxDayTasks = await _databaseUtils.GetTaskListAsync(); ;//表示的是在最忙那天的任务
+            List<Task> MaxDayTasks = await DatabaseUtils.GetTaskListAsync(); ;//表示的是在最忙那天的任务
             MaxDayTasks.Clear();
-            List<Task> MinDayTasks = await _databaseUtils.GetTaskListAsync(); ;//表示的是在最闲那天的任务
+            List<Task> MinDayTasks = await DatabaseUtils.GetTaskListAsync(); ;//表示的是在最闲那天的任务
             MinDayTasks.Clear();
-            List<Task> PastTasks = await _databaseUtils.GetTaskListAsync(); ;//表示的是在七天之内应该完成的任务
+            List<Task> PastTasks = await DatabaseUtils.GetTaskListAsync(); ;//表示的是在七天之内应该完成的任务
             PastTasks.Clear();
-            List<Task> AllTasks = await _databaseUtils.GetTaskListAsync(); ;//表示的是在顶层的任务列表
+            List<Task> AllTasks = await DatabaseUtils.GetTaskListAsync(); ;//表示的是在顶层的任务列表
             AllTasks.Clear();
-            List<Task> tasks = await _databaseUtils.GetTaskListAsync();
+            List<Task> tasks = await DatabaseUtils.GetTaskListAsync();
             foreach (var task in tasks)
             {
                 if (task.StartTime.Date == DateTime.Now.Date || task.StartTime.Date == DateTime.Now.Date.AddDays(-1) || task.StartTime.Date == DateTime.Now.Date.AddDays(-2) || task.StartTime.Date == DateTime.Now.Date.AddDays(-3) || task.StartTime.Date == DateTime.Now.Date.AddDays(-4) || task.StartTime.Date == DateTime.Now.Date.AddDays(-5) || task.StartTime.Date == DateTime.Now.Date.AddDays(-6))
