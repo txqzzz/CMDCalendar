@@ -1,8 +1,8 @@
-﻿using CMDCalendar.Database;
-using CMDCalendar.Tile;
+﻿using CMDCalendar.Tile;
 using CMDCalendar.DB;
 using CMDCalendar.Views;
 using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.Core;
@@ -16,6 +16,7 @@ using CMDCalendar.ViewModels;
 using Windows.UI.Xaml.Media;
 using Windows.UI;
 using CMDCalendar.DB.Database;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -30,6 +31,10 @@ namespace CMDCalendar
         public MainPage()
         {
             this.InitializeComponent();
+            //CalendarBlock0Date.Text = "113";
+            UpdateMonthCalendar();
+            RefreshCalendar();
+            HideText("0");
         }
 
         private void MigrateButton_OnClick(object sender, RoutedEventArgs e)
@@ -173,7 +178,6 @@ namespace CMDCalendar
                     newViewId = newAppView.Id;
                 });
                 await ApplicationViewSwitcher.SwitchAsync(newViewId);
-
             }
         }
 
@@ -193,8 +197,9 @@ namespace CMDCalendar
             public string text { get; set; }
         }
 
-        private System.Collections.ObjectModel.ObservableCollection<List> list =
-            new System.Collections.ObjectModel.ObservableCollection<List>();
+        private ObservableCollection<List> list =
+            new ObservableCollection<List>();
+
         /// <summary>
         /// 完成右击菜单显示
         /// </summary>
@@ -207,10 +212,7 @@ namespace CMDCalendar
             var a = ((FrameworkElement) e.OriginalSource).DataContext;
         }
 
-       
 
-        
-        
         /* calendar */
         public class CalendarView
         {
@@ -220,13 +222,14 @@ namespace CMDCalendar
         private void CalendarView_OnCalendarViewDayItemChanging(Windows.UI.Xaml.Controls.CalendarView sender,
             CalendarViewDayItemChangingEventArgs args)
         {
-              // TODO
+            // TODO
             // Render basic day items.
             if (args.Phase == 0)
             {
                 // Register callback for next phase.
                 args.RegisterUpdateCallback(CalendarView_OnCalendarViewDayItemChanging);
             }
+
 //            // Set blackout dates.
 //            else if (args.Phase == 1)
 //            {
@@ -273,7 +276,8 @@ namespace CMDCalendar
         }
 
         private void SwipeItem_Invoked(SwipeItem sender, SwipeItemInvokedEventArgs args)
-        {//To-Do
+        {
+            //To-Do
             var x = args.SwipeControl.DataContext;
         }
 
@@ -295,24 +299,25 @@ namespace CMDCalendar
 
             Frame.Navigate(typeof(EditPage), testEvent, new DrillInNavigationTransitionInfo());
         }
-        
+
         /// <summary>
         /// 完成获取选定项
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-
         private void TodoListView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            var viewModel = (SliberPageViewModel)DataContext;
-            viewModel.SelectedTask = (Task)e.ClickedItem;
+            var viewModel = (SliberPageViewModel) DataContext;
+            viewModel.SelectedTask = (Task) e.ClickedItem;
 
-            _SlectedItem = (Task)e.ClickedItem;
+            _SlectedItem = (Task) e.ClickedItem;
         }
-       /// <summary>
-       /// 完成标记功能
-       /// </summary>
+
+        /// <summary>
+        /// 完成标记功能
+        /// </summary>
         public Task _SlectedItem;
+
         private void Pin_Click(object sender, RoutedEventArgs e)
         {
             dynamic clickedItem = _SlectedItem;
@@ -331,6 +336,97 @@ namespace CMDCalendar
                     {
                         cur.Value.Unregister(true);
                     }
+                }
+            }
+        }
+
+        private readonly int[] _calendarList = new int[35];
+
+        public int GetCalendarOffset()
+        {
+            if (CurrentMonthFirstDay.ToString("dddd") == "Sunday")
+            {
+                return 0;
+            }
+
+            if (CurrentMonthFirstDay.ToString("dddd") == "Monday")
+            {
+                return 1;
+            }
+
+            if (CurrentMonthFirstDay.ToString("dddd") == "Tuesday")
+            {
+                return 2;
+            }
+
+            if (CurrentMonthFirstDay.ToString("dddd") == "Wednesday")
+            {
+                return 3;
+            }
+
+            if (CurrentMonthFirstDay.ToString("dddd") == "Thursday")
+            {
+                return 4;
+            }
+
+            if (CurrentMonthFirstDay.ToString("dddd") == "Friday")
+            {
+                return 5;
+            }
+
+            if (CurrentMonthFirstDay.ToString("dddd") == "Saturday")
+            {
+                return 6;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
+
+        DateTime CurrentMonthFirstDay = new DateTime(DateTime.Now.Year, DateTime.Now.Month-2, 1);
+        public int CurrentDaysInMonth = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month-2);
+        public int CalendarOffset;
+
+        public void UpdateMonthCalendar()
+        {
+            for (var i = 0; i < 35; i++)
+            {
+                _calendarList[i] = 0;
+            }
+            
+            CalendarOffset = GetCalendarOffset();
+            var date = 1;
+            for (var i = CalendarOffset; i < CurrentDaysInMonth+CalendarOffset; i++)
+            {
+                _calendarList[i] = date++;
+            }
+        }
+
+        public void RefreshCalendar()
+        {
+            for (var i = 0; i < 35; i++)
+            {
+                var calendarindex = "CalendarBlock" + i;
+                var calendarindexdate = "CalendarBlock" + i + "Date";
+                //TextBlock flag = new TextBlock();
+                var ans = (TextBlock)CalendarViewArea.FindChildByName(calendarindex).FindChildByName(calendarindexdate);
+                ans.Text = _calendarList[i].ToString();
+            }
+        }
+
+        public void HideText(string hideMessage)
+        {
+            for (var i = 0; i < 35; i++)
+            {
+                var calendarindex = "CalendarBlock" + i;
+                var calendarindexdate = "CalendarBlock" + i + "Date";
+                //TextBlock flag = new TextBlock();
+                var ans = (TextBlock)CalendarViewArea.FindChildByName(calendarindex).FindChildByName(calendarindexdate);
+                if (ans.Text == hideMessage)
+                {
+                    ans.Text = "";
                 }
             }
         }

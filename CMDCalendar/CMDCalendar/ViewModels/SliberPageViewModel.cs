@@ -60,7 +60,7 @@ namespace CMDCalendar.ViewModels
         public SliberPageViewModel() : this(DesignMode.DesignModeEnabled ?
                     (DatabaseUtils)null :
                     new DatabaseUtils())
-        { ListTaskItem();
+        {   ListTaskItem();
             ListEventItem();
         }
 

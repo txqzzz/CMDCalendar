@@ -12,6 +12,7 @@ using Windows.UI.Popups;
 using CMDCalendar.DB;
 using Windows.ApplicationModel;
 using System.ComponentModel;
+using CMDCalendar.Database;
 using CMDCalendar.DB.Database;
 
 
