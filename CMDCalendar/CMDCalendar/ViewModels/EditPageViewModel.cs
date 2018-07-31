@@ -1,3 +1,4 @@
+using CMDCalendar.DB.Database;
 using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
