@@ -1,8 +1,9 @@
-﻿using CMDCalendar.Database;
+using CMDCalendar.DB.Database;
+using CMDCalendar.Tile;
 using CMDCalendar.DB;
 using CMDCalendar.Views;
 using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Windows.ApplicationModel.Core;
 using Windows.System;
@@ -17,7 +18,14 @@ using Windows.ApplicationModel.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Core;
 using CMDCalendar.ViewModels;
+using Windows.UI.Xaml.Media;
+using Windows.UI;
 using CMDCalendar.DB.Database;
+using Microsoft.Toolkit.Uwp.Notifications;
+using Windows.UI.Notifications;
+using System.Collections.ObjectModel;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
+
 
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -32,6 +40,10 @@ namespace CMDCalendar
         public MainPage()
         {
             this.InitializeComponent();
+            //CalendarBlock0Date.Text = "113";
+            UpdateMonthCalendar();
+            RefreshCalendar();
+            HideText("0");
         }
 
         private void MigrateButton_OnClick(object sender, RoutedEventArgs e)
@@ -172,7 +184,6 @@ namespace CMDCalendar
                     newViewId = newAppView.Id;
                 });
                 await ApplicationViewSwitcher.SwitchAsync(newViewId);
-
             }
         }
         /// <summary>
@@ -238,18 +249,244 @@ namespace CMDCalendar
             public string text { get; set; }
         }
 
-        private System.Collections.ObjectModel.ObservableCollection<List> list = new System.Collections.ObjectModel.ObservableCollection<List>();
+
+        private ObservableCollection<List> list =
+            new ObservableCollection<List>();
+
+        /// <summary>
+        /// 完成右击菜单显示
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+
         private void TodoListView_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
         {
             ListView listView = (ListView)sender;
             toDoMenuFlayout.ShowAt(listView, e.GetPosition(listView));
-            var a = ((FrameworkElement)e.OriginalSource).DataContext;
+            var a = ((FrameworkElement) e.OriginalSource).DataContext;
         }
 
+
+        /* calendar */
+        public class CalendarView
+        {
+            // TODO
+        }
+
+        private void CalendarView_OnCalendarViewDayItemChanging(Windows.UI.Xaml.Controls.CalendarView sender,
+            CalendarViewDayItemChangingEventArgs args)
+        {
+            // TODO
+            // Render basic day items.
+            if (args.Phase == 0)
+            {
+                // Register callback for next phase.
+                args.RegisterUpdateCallback(CalendarView_OnCalendarViewDayItemChanging);
+            }
+
+//            // Set blackout dates.
+//            else if (args.Phase == 1)
+//            {
+//                // Blackout dates in the past, Sundays, and dates that are fully booked.
+//                if (args.Item.Date < DateTimeOffset.Now ||
+//                    args.Item.Date.DayOfWeek == DayOfWeek.Sunday ||
+//                    Events.HasOpenings(args.Item.Date) == false)
+//                {
+//                    args.Item.IsBlackout = true;
+//                }
+//                // Register callback for next phase.
+//                args.RegisterUpdateCallback(CalendarView_OnCalendarViewDayItemChanging);
+//            }
+//            // Set density bars.
+//            else if (args.Phase == 2)
+//            {
+//                // Avoid unnecessary processing.
+//                // You don't need to set bars on past dates or Sundays.
+//                if (args.Item.Date > DateTimeOffset.Now &&
+//                    args.Item.Date.DayOfWeek != DayOfWeek.Sunday)
+//                {
+//                    // Get bookings for the date being rendered.
+//                    var currentBookings = Bookings.GetBookings(args.Item.Date);
+//
+//                    List<Color> densityColors = new List<Color>();
+//                    // Set a density bar color for each of the days bookings.
+//                    // It's assumed that there can't be more than 10 bookings in a day. Otherwise,
+//                    // further processing is needed to fit within the max of 10 density bars.
+//                    foreach (booking in currentBookings)
+//                    {
+//                        if (booking.IsConfirmed == true)
+//                        {
+//                            densityColors.Add(Colors.Green);
+//                        }
+//                        else
+//                        {
+//                            densityColors.Add(Colors.Blue);
+//                        }
+//                    }
+//                    args.Item.SetDensityColors(densityColors);
+//                }
+//            }
+//        }
+        }
+
+        private void SwipeItem_Invoked(SwipeItem sender, SwipeItemInvokedEventArgs args)
+        {
+            //To-Do
+            var x = args.SwipeControl.DataContext;
+        }
+
+
+        private async void TestReadTaskButton_Click(object sender, RoutedEventArgs e)
+        {
+            var dbu = new DatabaseUtils();
+            var taskList = await dbu.GetTaskListAsync();
+            Task testTask = taskList[taskList.Count() - 1];
+
+            Frame.Navigate(typeof(EditPage), testTask, new DrillInNavigationTransitionInfo());
+        }
+
+        private async void TestReadEventButton_Click(object sender, RoutedEventArgs e)
+        {
+            var dbu = new DatabaseUtils();
+            var eventList = await dbu.GetEventListAsync();
+            Event testEvent = eventList[eventList.Count() - 1];
+
+            Frame.Navigate(typeof(EditPage), testEvent, new DrillInNavigationTransitionInfo());
+        }
+
+        /// <summary>
+        /// 完成获取选定项
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TodoListView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            var viewModel = (SliberPageViewModel)this.DataContext;
-            viewModel.SelectedTask = (Task)e.ClickedItem;
+            var viewModel = (SliberPageViewModel) DataContext;
+            viewModel.SelectedTask = (Task) e.ClickedItem;
+
+            _SlectedItem = (Task) e.ClickedItem;
+        }
+
+        /// <summary>
+        /// 完成标记功能
+        /// </summary>
+        public Task _SlectedItem;
+
+        private void Pin_Click(object sender, RoutedEventArgs e)
+        {
+            dynamic clickedItem = _SlectedItem;
+            ListViewItem item = TodoListView.ContainerFromItem(clickedItem) as ListViewItem;
+            item.Background = new SolidColorBrush(Color.FromArgb(81, 12, 252, 122));
+        }
+       
+        private async void NotificationButton_OnClick(object sender, RoutedEventArgs e)
+        {
+
+            TileService.PinTile();
+
+            foreach (var cur in BackgroundTaskRegistration.AllTasks)
+            {
+                if (cur.Value.Name == "CMDCalendar")
+
+                {
+                    cur.Value.Unregister(true);
+                }
+            }
+            
+
+            
+        }
+
+
+        private readonly int[] _calendarList = new int[35];
+
+        public int GetCalendarOffset()
+        {
+            if (CurrentMonthFirstDay.ToString("dddd") == "Sunday")
+            {
+                return 0;
+            }
+
+            if (CurrentMonthFirstDay.ToString("dddd") == "Monday")
+            {
+                return 1;
+            }
+
+            if (CurrentMonthFirstDay.ToString("dddd") == "Tuesday")
+            {
+                return 2;
+            }
+
+            if (CurrentMonthFirstDay.ToString("dddd") == "Wednesday")
+            {
+                return 3;
+            }
+
+            if (CurrentMonthFirstDay.ToString("dddd") == "Thursday")
+            {
+                return 4;
+            }
+
+            if (CurrentMonthFirstDay.ToString("dddd") == "Friday")
+            {
+                return 5;
+            }
+
+            if (CurrentMonthFirstDay.ToString("dddd") == "Saturday")
+            {
+                return 6;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
+
+        DateTime CurrentMonthFirstDay = new DateTime(DateTime.Now.Year, DateTime.Now.Month-2, 1);
+        public int CurrentDaysInMonth = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month-2);
+        public int CalendarOffset;
+
+        public void UpdateMonthCalendar()
+        {
+            for (var i = 0; i < 35; i++)
+            {
+                _calendarList[i] = 0;
+            }
+            
+            CalendarOffset = GetCalendarOffset();
+            var date = 1;
+            for (var i = CalendarOffset; i < CurrentDaysInMonth+CalendarOffset; i++)
+            {
+                _calendarList[i] = date++;
+            }
+        }
+
+        public void RefreshCalendar()
+        {
+            for (var i = 0; i < 35; i++)
+            {
+                var calendarindex = "CalendarBlock" + i;
+                var calendarindexdate = "CalendarBlock" + i + "Date";
+                //TextBlock flag = new TextBlock();
+                var ans = (TextBlock)CalendarViewArea.FindChildByName(calendarindex).FindChildByName(calendarindexdate);
+                ans.Text = _calendarList[i].ToString();
+            }
+        }
+
+        public void HideText(string hideMessage)
+        {
+            for (var i = 0; i < 35; i++)
+            {
+                var calendarindex = "CalendarBlock" + i;
+                var calendarindexdate = "CalendarBlock" + i + "Date";
+                //TextBlock flag = new TextBlock();
+                var ans = (TextBlock)CalendarViewArea.FindChildByName(calendarindex).FindChildByName(calendarindexdate);
+                if (ans.Text == hideMessage)
+                {
+                    ans.Text = "";
+                }
+            }
         }
     }
 }

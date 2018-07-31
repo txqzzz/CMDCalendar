@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CMDCalendar.Database;
+using CMDCalendar.DB.Database;
 using Microsoft.EntityFrameworkCore;
 
 namespace CMDCalendar.DB.Database

@@ -1,4 +1,4 @@
-﻿using CMDCalendar.Database;
+﻿using CMDCalendar.DB.Database;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System.Collections.ObjectModel;
@@ -60,7 +60,7 @@ namespace CMDCalendar.ViewModels
         public SliberPageViewModel() : this(DesignMode.DesignModeEnabled ?
                     (DatabaseUtils)null :
                     new DatabaseUtils())
-        { ListTaskItem();
+        {   ListTaskItem();
             ListEventItem();
         }
 

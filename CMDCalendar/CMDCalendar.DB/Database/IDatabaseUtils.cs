@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using CMDCalendar.DB;
 
-namespace CMDCalendar.Database
+namespace CMDCalendar.DB.Database
 {
 
     /// <summary>
