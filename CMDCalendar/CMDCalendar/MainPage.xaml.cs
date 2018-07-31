@@ -25,6 +25,7 @@ using Microsoft.Toolkit.Uwp.Notifications;
 using Windows.UI.Notifications;
 using System.Collections.ObjectModel;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Windows.ApplicationModel.Background;
 
 
 

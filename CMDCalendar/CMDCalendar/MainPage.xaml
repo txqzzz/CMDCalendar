@@ -26,7 +26,6 @@
     <Page.Background>
         <ThemeResource ResourceKey="ApplicationPageBackgroundThemeBrush" />
     </Page.Background>
-
     <Page.DataContext>
         <Binding Source="{StaticResource SliberPageViewModel}"/>
     </Page.DataContext>
@@ -87,13 +86,6 @@
                    Foreground="SteelBlue"
                    Style="{ThemeResource TitleTextBlockStyle}"
                    Text="最近日程列表" />
-                    <ListView >
-                        <x:String>Item 1</x:String>
-                        <x:String>Item 2</x:String>
-                        <x:String>Item 3</x:String>
-                        <x:String>Item 4</x:String>
-                        <x:String>Item 5</x:String>
-
                     <TextBlock Margin="12,8,8,8"
                                Foreground="SteelBlue"
                                Style="{ThemeResource TitleTextBlockStyle}"
