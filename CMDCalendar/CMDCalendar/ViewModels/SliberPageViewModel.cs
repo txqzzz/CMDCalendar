@@ -80,6 +80,12 @@ namespace CMDCalendar.ViewModels
         /// <summary>
         /// 初始化
         /// </summary>
+        
+        public async System.Threading.Tasks.Task  RefreshTask(DB.Task _seletedTask)
+        {
+            var dbu = new DatabaseUtils();
+            await dbu.UpdateTaskAsync(_selectedTask);
+        }
        
         public async System.Threading.Tasks.Task ListTaskItem()
         {

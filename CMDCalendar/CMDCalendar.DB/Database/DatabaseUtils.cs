@@ -358,7 +358,7 @@ namespace CMDCalendar.DB.Database
                 EventDay = new DateTime(2018,7,26),
                 LeftTime = -1,
                 Emergency = 0,
-                IsCompleted = true,
+                IsCompleted = false,
             };
             await dbu.NewTaskAsync(task1, user1);
             await dbu.NewTaskAsync(task2, user3);
