@@ -38,9 +38,7 @@ namespace CMDCalendar
             viewModel.ListTaskItem();
             viewModel.ListEventItem();
             //CalendarBlock0Date.Text = "113";
-            var viewModel = (SliberPageViewModel)DataContext;
-            viewModel.ListTaskItem();
-            viewModel.ListEventItem();
+            
 
             //var message = new MessageDialog("" + viewModel.TaskCollection.Count);
             //message.ShowAsync();
