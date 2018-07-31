@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CMDCalendar.DB;
+using CMDCalendar.Database;
 using Microsoft.EntityFrameworkCore;
-using Task = CMDCalendar.DB.Task;
 
-namespace CMDCalendar.Database
+namespace CMDCalendar.DB.Database
 {
     public class DatabaseUtils : IDatabaseUtils
     {

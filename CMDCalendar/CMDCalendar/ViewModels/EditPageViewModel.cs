@@ -1,4 +1,3 @@
-using CMDCalendar.Database;
 using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
@@ -12,6 +11,8 @@ using Windows.ApplicationModel;
 using Windows.UI.Popups;
 using CMDCalendar.DB;
 using Windows.ApplicationModel;
+using System.ComponentModel;
+using CMDCalendar.DB.Database;
 
 
 namespace CMDCalendar.ViewModels
@@ -25,18 +26,41 @@ namespace CMDCalendar.ViewModels
 
         public RelayCommand _saveAndQuit;
 
-        public Event eventDisplay { get; set; }
+        public RelayCommand _deleteCommand;
 
-        public DB.Task taskDisplay { get; set; }
+        public Event eventDisplay
+        {
+            get;
+            set;
+        }
+
+        public DB.Task taskDisplay
+        {
+            get;
+            set;
+        }
 
         public RelayCommand SaveAndQuit =>
             _saveAndQuit ?? (_saveAndQuit =
             new RelayCommand(async () => 
             {
                 var service = _databaseUtils;
-                await service.UpdateEventAsync(eventDisplay);
-                await service.UpdateTaskAsync(taskDisplay);
+                if (eventDisplay != null)
+                    await service.UpdateEventAsync(eventDisplay);
+                if (taskDisplay != null)
+                    await service.UpdateTaskAsync(taskDisplay);
             }));
+
+        public RelayCommand DeleteCommand =>
+          _deleteCommand ?? (_deleteCommand =
+              new RelayCommand(async () => 
+              {
+                  var service = _databaseUtils;
+                  if(eventDisplay != null)
+                      await service.DeleteEventAsync(eventDisplay);
+                  else
+                      await service.DeleteTaskAsync(taskDisplay);
+              }));
 
         public EditPageViewModel(IDatabaseUtils databaseUtils)
         {
@@ -48,5 +72,6 @@ namespace CMDCalendar.ViewModels
                     (DatabaseUtils)null :
                     new DatabaseUtils())
         { }
+        
     }
 }

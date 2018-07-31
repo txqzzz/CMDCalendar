@@ -73,7 +73,9 @@
                 <AppBarButton Icon="SaveLocal" Label="保存并退出" 
                               Command="{Binding SaveAndQuit}"
                               Click="SaveAndQuitButton_Click"/>
-                <AppBarButton Icon="Delete" Label="删除" />
+                <AppBarButton Icon="Delete" Label="删除" 
+                              Command="{Binding DeleteCommand}"
+                              Click="DeleteBarButton_Click"/>
                 <AppBarSeparator/>
             </CommandBar>
             <TextBlock VerticalAlignment="Center">提醒：</TextBlock>
@@ -100,10 +102,12 @@
                                        Style="{StaticResource CaptionTextBlockStyle}" />
 
                         <TextBox PlaceholderText="事件名称"  FontSize="25" Height ="50" 
-                                 Text="{Binding eventDisplay.Content, Mode=TwoWay}"/>
+                                 Text="{Binding eventDisplay.Content, Mode=TwoWay}"
+                                 TextChanged="TextBox_TextChanged"/>
 
                         <TextBox PlaceholderText="地点" Margin="0,20,0,0"
-                                 Text="{Binding eventDisplay.Location, Mode=TwoWay}"/>
+                                 Text="{Binding eventDisplay.Location, Mode=TwoWay}"
+                                 TextChanged="TextBox_TextChanged"/>
 
 
                         <StackPanel Orientation="Horizontal">
@@ -133,7 +137,8 @@
                                  PlaceholderText="事件描述"
                                  BorderBrush="{ThemeResource SystemControlForegroundChromeHighBrush}"
                                  Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
-                                 Text="{Binding eventDisplay.Comments, Mode=TwoWay}"/>
+                                 Text="{Binding eventDisplay.Comments, Mode=TwoWay}"
+                                 TextChanged="TextBox_TextChanged"/>
 
                     </StackPanel>
                 </PivotItem>
@@ -145,10 +150,12 @@
                                        Style="{StaticResource CaptionTextBlockStyle}" />
 
                         <TextBox PlaceholderText="事件名称"  FontSize="25" Height ="50" 
-                                 Text="{Binding taskDisplay.Content, Mode=TwoWay}"/>
+                                 Text="{Binding taskDisplay.Content, Mode=TwoWay}"
+                                 TextChanged="TextBox_TextChanged"/>
 
                         <TextBox PlaceholderText="地点" Margin="0,20,0,0"
-                                 Text="{Binding taskDisplay.Location, Mode=TwoWay}"/>
+                                 Text="{Binding taskDisplay.Location, Mode=TwoWay}"
+                                 TextChanged="TextBox_TextChanged"/>
 
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="结束" VerticalAlignment="Bottom" Margin="5,0,0,27"/>
@@ -166,7 +173,8 @@
                                  PlaceholderText="事件描述"
                                  BorderBrush="{ThemeResource SystemControlForegroundChromeHighBrush}"
                                  Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
-                                 Text="{Binding taskDisplay.Comments, Mode=TwoWay}"/>
+                                 Text="{Binding taskDisplay.Comments, Mode=TwoWay}"
+                                 TextChanged="TextBox_TextChanged"/>
                     </StackPanel>
                 </PivotItem>
             </Pivot>
