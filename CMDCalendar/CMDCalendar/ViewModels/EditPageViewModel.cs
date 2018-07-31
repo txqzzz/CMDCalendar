@@ -32,7 +32,6 @@ namespace CMDCalendar.ViewModels
             get;
             set;
         }
-
         public DB.Task taskDisplay
         {
             get;

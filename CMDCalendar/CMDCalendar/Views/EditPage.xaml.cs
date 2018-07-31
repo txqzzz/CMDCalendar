@@ -112,7 +112,7 @@ namespace CMDCalendar.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
-        private void DateChoosing_SelectedDatesChanged(CalendarView sender, CalendarViewSelectedDatesChangedEventArgs args)
+        private async void DateChoosing_SelectedDatesChanged(CalendarView sender, CalendarViewSelectedDatesChangedEventArgs args)
         {
             try
             {
