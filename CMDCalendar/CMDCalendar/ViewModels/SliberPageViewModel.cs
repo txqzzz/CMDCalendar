@@ -1,14 +1,12 @@
-﻿using CMDCalendar.DB.Database;
+﻿using CMDCalendar.Database;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System.Collections.ObjectModel;
 using Windows.ApplicationModel;
 using Windows.UI.Xaml.Media;
 using CMDCalendar.DB;
-using System.Linq;
 using CMDCalendar.DB.Database;
-using Windows.UI.Xaml.Controls;
-using Windows.UI;
+
 
 namespace CMDCalendar.ViewModels
 {
@@ -62,7 +60,7 @@ namespace CMDCalendar.ViewModels
         public SliberPageViewModel() : this(DesignMode.DesignModeEnabled ?
                     (DatabaseUtils)null :
                     new DatabaseUtils())
-        {   ListTaskItem();
+        { ListTaskItem();
             ListEventItem();
         }
 
@@ -76,17 +74,10 @@ namespace CMDCalendar.ViewModels
         public RelayCommand DeleteCommand =>
             _deleteCommand ?? (_deleteCommand = new RelayCommand(
                 async () => { await DelTaskItem(_selectedTask); }));
-
+        
         /// <summary>
         /// 初始化
         /// </summary>
-        
-        public async System.Threading.Tasks.Task  RefreshTask(DB.Task _seletedTask)
-        {
-            var dbu = new DatabaseUtils();
-            await dbu.UpdateTaskAsync(_selectedTask);
-        }
-       
         public async System.Threading.Tasks.Task ListTaskItem()
         {
             TaskCollection.Clear();
@@ -96,8 +87,6 @@ namespace CMDCalendar.ViewModels
                 if (taskItem != null)
                     TaskCollection.Add(taskItem);
             }
-            
-            
         }
         public async System.Threading.Tasks.Task ListEventItem()
         {
