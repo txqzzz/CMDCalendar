@@ -67,7 +67,9 @@
             </CommandBar>
         </Grid>
 
-        <StackPanel Orientation="Horizontal" Grid.Column="1">
+        <StackPanel  Grid.Row="1" Grid.Column="1">
+        
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
             <CommandBar Background="Transparent"
                         OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
                 <AppBarButton Icon="SaveLocal" Label="保存并退出" 
@@ -85,17 +87,19 @@
                 <x:String>1小时</x:String>
                 <x:String>2小时</x:String>
             </ComboBox>
-        </StackPanel>
+                <TextBlock VerticalAlignment="Center" Margin="20,0,0,0">紧急程度：</TextBlock>
+                <ComboBox x:Name="EmergencyStage" PlaceholderText="0" VerticalAlignment="Center" 
+                          SelectionChanged="EmergencyStage_SelectionChanged">
+                    <x:String>0</x:String>
+                    <x:String>1</x:String>
+                    <x:String>2</x:String>
+                    <x:String>3</x:String>
+                </ComboBox>
+            </StackPanel>
 
-        <Grid Grid.Row="1" Grid.Column="1"
-                    BorderThickness="1,0,0,0" Padding="24,0"
-                    BorderBrush="{StaticResource SystemControlForegroundBaseLowBrush}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="300" />
-            </Grid.ColumnDefinitions>
 
-            <Pivot Grid.Column="0" x:Name="ChoosePivot">
+
+        <Pivot x:Name="ChoosePivot" Margin="10,0,0,0">
                 <PivotItem Header="日程" x:Name="EventPage">
                     <StackPanel>
                         <TextBlock Text="详细信息" FontSize="20" Margin="0,10,0,15" Foreground="SteelBlue"
@@ -178,20 +182,8 @@
                     </StackPanel>
                 </PivotItem>
             </Pivot>
-            <StackPanel Grid.Column="1">
-                <TextBlock Text="人员" FontSize="20" Margin="30,10,0,15"
-                                       Style="{StaticResource CaptionTextBlockStyle}" />
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="排序依据" FontSize="15" Margin="30,10,20,15"
-                                           Style="{StaticResource CaptionTextBlockStyle}" />
-                    <ComboBox PlaceholderText="原始顺序" VerticalAlignment="Center">
-                        <x:String>原始顺序</x:String>
-                        <x:String>姓名排序</x:String>
-                    </ComboBox>
-                </StackPanel>
+        </StackPanel>
 
-            </StackPanel>
 
-        </Grid>
     </Grid>
 </Page>

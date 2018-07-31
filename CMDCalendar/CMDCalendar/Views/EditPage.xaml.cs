@@ -40,13 +40,15 @@ namespace CMDCalendar.Views
                 {
                     StartTime = DateTime.Now,
                     EndTime = DateTime.Now,
-                    EventDay = DateTime.Now
+                    EventDay = DateTime.Now,
+                    Emergency = 0
                 };
                 viewModel.taskDisplay = new DB.Task
                 {
                     StartTime = DateTime.Now,
                     EndTime = DateTime.Now,
-                    EventDay = DateTime.Now
+                    EventDay = DateTime.Now,
+                    Emergency = 0
                 };
                 EventStartDate.Date = viewModel.eventDisplay.StartTime;
                 EventEndDate.Date = viewModel.eventDisplay.EndTime;
@@ -58,6 +60,7 @@ namespace CMDCalendar.Views
                 {
                     Event EventV = (Event)e.Parameter;
                     viewModel.eventDisplay = EventV;
+                    EmergencyStage.SelectedIndex = EventV.Emergency;
                     EventStartDate.Date = (DateTimeOffset)EventV.StartTime;
                     EventEndDate.Date = (DateTimeOffset)EventV.EndTime;
                     EventStartTime.Time = new TimeSpan(EventV.StartTime.Hour, EventV.StartTime.Minute, EventV.StartTime.Second);
@@ -68,6 +71,7 @@ namespace CMDCalendar.Views
                     ChoosePivot.SelectedIndex = 1;
                     DB.Task TaskV = (DB.Task)e.Parameter;
                     viewModel.taskDisplay = TaskV;
+                    EmergencyStage.SelectedIndex = TaskV.Emergency;
                     TaskEndDate.Date = (DateTimeOffset)TaskV.EndTime;
                     TaskEndTime.Time = new TimeSpan(TaskV.EndTime.Hour, TaskV.EndTime.Minute, TaskV.EndTime.Second);
                 }
@@ -188,6 +192,12 @@ namespace CMDCalendar.Views
         {
             Edited = true;
         }
-        
+
+        private void EmergencyStage_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var viewModel = (EditPageViewModel)this.DataContext;
+            viewModel.eventDisplay.Emergency = EmergencyStage.SelectedIndex;
+            viewModel.taskDisplay.Emergency = EmergencyStage.SelectedIndex;
+        }
     }
 }
