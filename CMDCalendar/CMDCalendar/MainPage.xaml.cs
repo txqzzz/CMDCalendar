@@ -5,18 +5,22 @@ using CMDCalendar.Views;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.Core;
+using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
+using CMDCalendar.Views;
+using Windows.ApplicationModel.Core;
+using Windows.UI.ViewManagement;
+using Windows.UI.Core;
 using CMDCalendar.ViewModels;
 using Windows.UI.Xaml.Media;
 using Windows.UI;
-using CMDCalendar.DB.Database;v
+using CMDCalendar.DB.Database;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Windows.UI.Notifications;
 using System.Collections.ObjectModel;
@@ -55,20 +59,20 @@ namespace CMDCalendar
         {
             using (var db = new DataContext())
             {
-                var user = new DB.User {Username = "Xingqi"};
-                var user2 = new DB.User {Username = "Shujie"};
+                var user = new DB.User { Username = "Xingqi" };
+                var user2 = new DB.User { Username = "Shujie" };
 
                 db.Users.Add(user);
                 db.Users.Add(user2);
                 db.SaveChanges();
 
 
-                var evt = new Event {Content = "Debug"};
+                var evt = new Event { Content = "Debug" };
                 db.Events.Add(evt);
                 db.SaveChanges();
 
                 var userevt = new UserEvent
-                    {User = user, Event = evt};
+                { User = user, Event = evt };
                 db.UserEvents.Add(userevt);
                 db.SaveChanges();
             }
@@ -97,7 +101,7 @@ namespace CMDCalendar
         public async void TestDeleteUser()
         {
             var dbu = new DatabaseUtils();
-            var user = new DB.User {Id = 3};
+            var user = new DB.User { Id = 3 };
 
             await dbu.UpdateUserAsync(user);
         }
@@ -112,7 +116,7 @@ namespace CMDCalendar
         {
             var dbu = new DatabaseUtils();
 
-            var user = new DB.User {Id = 4, Username = "Yuyang"};
+            var user = new DB.User { Id = 4, Username = "Yuyang" };
 
             await dbu.UpdateUserAsync(user);
 
@@ -126,7 +130,7 @@ namespace CMDCalendar
             }
 
             var eventList = await dbu.GetEventListAsync();
-            for (int i = 0; i < eventList.Count(); i++)
+            for(int i = 0; i < eventList.Count(); i++)
             {
                 var message = new MessageDialog(i + "   " + eventList[i].Comments);
                 await message.ShowAsync();
@@ -134,19 +138,16 @@ namespace CMDCalendar
                 await message.ShowAsync();
             }
         }
-
         /// <summary>
         /// 下面是打开子窗口的功能，变量冲突请修改你的变量。
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         static bool viewShown = false;
-
         static bool viewClosed = false;
         static int newViewId;
         static int currentViewId;
         static Frame iframe;
-
         private async void SummonDragon(object sender, RoutedEventArgs e)
         {
             CoreApplicationView newView = CoreApplication.CreateNewView();
@@ -176,7 +177,7 @@ namespace CMDCalendar
                     newAppView.Consolidated += NewAppView_Consolidated;
 
                     iframe = new Frame();
-                    iframe.Navigate(typeof(Myassistant), currentView.Id);
+                    iframe.Navigate(typeof(Myassistant),currentView.Id);
 
                     newWindow.Content = iframe;
                     newWindow.Activate();
@@ -185,22 +186,69 @@ namespace CMDCalendar
                 await ApplicationViewSwitcher.SwitchAsync(newViewId);
             }
         }
+        /// <summary>
+        /// 打开报告子窗口
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        private async void SummonReport(object sender, RoutedEventArgs e)
+        {
+            CoreApplicationView newView = CoreApplication.CreateNewView();
+            var currentView = ApplicationView.GetForCurrentView();
+            var viewId = currentView.Id;
+
+            if (viewShown)
+            {
+                if (viewClosed)
+                {
+                    await ApplicationViewSwitcher.SwitchAsync(newViewId);
+
+                    viewClosed = false;
+                }
+                else
+                {
+                    await ApplicationViewSwitcher.SwitchAsync(newViewId);
+}
+            }
+            else
+            {
+                await newView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+
+                {
+                    var newWindow = Window.Current;
+                    var newAppView = ApplicationView.GetForCurrentView();
+                    newAppView.Consolidated += NewAppView_Consolidated;
+
+                    iframe = new Frame();
+                    iframe.Navigate(typeof(ResultReport), currentView.Id);
+                    newWindow.Content = iframe;
+                    newWindow.Activate();
+                    newViewId = newAppView.Id;
+                });
+                await ApplicationViewSwitcher.TryShowAsStandaloneAsync(newViewId);
+
+            }
+        }
 
         private void NewAppView_Consolidated(ApplicationView sender, ApplicationViewConsolidatedEventArgs args)
         {
             viewClosed = true;
         }
-
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(EditPage), null,
-                new DrillInNavigationTransitionInfo());
+                    new DrillInNavigationTransitionInfo());
         }
-
+        private void ResultButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(ResultReport), null,
+                    new DrillInNavigationTransitionInfo());
+        }
         public class List
         {
             public string text { get; set; }
         }
+
 
         private ObservableCollection<List> list =
             new ObservableCollection<List>();
@@ -210,9 +258,10 @@ namespace CMDCalendar
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+
         private void TodoListView_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
         {
-            ListView listView = (ListView) sender;
+            ListView listView = (ListView)sender;
             toDoMenuFlayout.ShowAt(listView, e.GetPosition(listView));
             var a = ((FrameworkElement) e.OriginalSource).DataContext;
         }

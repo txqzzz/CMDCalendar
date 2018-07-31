@@ -26,19 +26,22 @@
     <Page.Background>
         <ThemeResource ResourceKey="ApplicationPageBackgroundThemeBrush" />
     </Page.Background>
-    <Page.DataContext>
-        <Binding Source="{StaticResource SliberPageViewModel}" />
-    </Page.DataContext>
 
+    <Page.DataContext>
+        <Binding Source="{StaticResource SliberPageViewModel}"/>
+    </Page.DataContext>
+        
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="2*" />
             <RowDefinition Height="3*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="250">
+            </ColumnDefinition>
+            <ColumnDefinition Width="*">
+            </ColumnDefinition>
         </Grid.ColumnDefinitions>
         <StackPanel x:Name="TestArea" Grid.Column="0" Grid.Row="0"
                     Grid.ColumnSpan="2"
@@ -65,18 +68,32 @@
                             Orientation="Horizontal">
                     <AppBarButton Icon="Add"
                                   Foreground="SteelBlue"
+
                                   Click="AddButton_Click" />
                     <AppBarButton Icon="Pin"
                                   Foreground="SteelBlue"
                                   Click="NotificationButton_OnClick" />
 
                     <TextBlock Foreground="SteelBlue"
-                               Margin="0,-10,0,0"
+                                Margin="0,-10,0,0"
                                VerticalAlignment="Center"
-                               Style="{ThemeResource TitleTextBlockStyle}"
-                               Text="New" />
+                                Style="{ThemeResource TitleTextBlockStyle}"
+                                Text="新建事件"  />
                 </StackPanel>
                 <StackPanel Grid.Row="1">
+
+                    <TextBlock Grid.ColumnSpan="2"
+                   Margin="12,8,8,8"
+                   Foreground="SteelBlue"
+                   Style="{ThemeResource TitleTextBlockStyle}"
+                   Text="最近日程列表" />
+                    <ListView >
+                        <x:String>Item 1</x:String>
+                        <x:String>Item 2</x:String>
+                        <x:String>Item 3</x:String>
+                        <x:String>Item 4</x:String>
+                        <x:String>Item 5</x:String>
+
                     <TextBlock Margin="12,8,8,8"
                                Foreground="SteelBlue"
                                Style="{ThemeResource TitleTextBlockStyle}"
@@ -90,22 +107,24 @@
                                 </StackPanel>
                             </DataTemplate>
                         </ListView.ItemTemplate>
+
                     </ListView>
                 </StackPanel>
             </Grid>
         </StackPanel>
         <StackPanel x:Name="TaskListArea" Grid.Column="0" Grid.Row="2">
             <TextBlock Grid.ColumnSpan="2"
-                       Margin="12,8,8,8"
-                       Foreground="SteelBlue"
-                       VerticalAlignment="Center"
-                       Style="{ThemeResource TitleTextBlockStyle}"
-                       Text="Task List" />
+                   Margin="12,8,8,8"
+                   Foreground="SteelBlue"
+                   VerticalAlignment="Center"
+                   Style="{ThemeResource TitleTextBlockStyle}"
+                   Text="任务" />
             <ListView x:Name="TodoListView"
                       IsItemClickEnabled="True"
                       ItemClick="TodoListView_ItemClick"
                       RightTapped="TodoListView_RightTapped"
                       ItemsSource="{Binding TaskCollection}">
+
                 <ListView.Resources>
                     <MenuFlyout x:Name="toDoMenuFlayout">
                         <MenuFlyoutItem x:Name="Pin" Text="Pin"
@@ -120,19 +139,38 @@
                         <Setter Property="VerticalContentAlignment" Value="Stretch" />
                     </Style>
                 </ListView.ItemContainerStyle>
+
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="x:String">
+                        <SwipeControl HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <SwipeControl.RightItems>
+                                <SwipeItems>
+                                    <SwipeItem Text="Pin">
+                                        <SwipeItem.IconSource>
+                                            <SymbolIconSource Symbol="Pin"/>
+                                        </SwipeItem.IconSource>
+                                    </SwipeItem>
+                                    <SwipeItem Text="Delete"
+                                               Background="Red"
+                                               Command="{Binding  DeleteCommand}">
+                                        <SwipeItem.IconSource>
+                                            <SymbolIconSource Symbol="Delete"/>
+                                        </SwipeItem.IconSource>
+                                    </SwipeItem>
+                                </SwipeItems>
 
-                        <SwipeControl x:Name="ListViewSwipeContainer"
-                                      LeftItems="{StaticResource RevealOptions}"
-                                      RightItems="{StaticResource ExecuteDelete}"
-                                      Height="60">
-                            <StackPanel Orientation="Vertical">
-                                <TextBlock Text="{Binding Content}" FontSize="18" />
-                            </StackPanel>
+                            </SwipeControl.RightItems>
+
+                            <!-- Swipeable content -->
+                            <Border Width="180" Height="44" >
+                                <TextBlock Text="{Binding Content}" 
+                                           Foreground="SteelBlue"
+                                           Margin="4,8,0,0"/>
+                            </Border>
                         </SwipeControl>
                     </DataTemplate>
                 </ListView.ItemTemplate>
+
             </ListView>
         </StackPanel>
         <GridView Grid.Row="0" Grid.Column="1"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="1059">

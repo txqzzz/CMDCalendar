@@ -1,11 +1,16 @@
 ﻿using CMDCalendar.DB.Database;
 using CMDCalendar.DB;
+using CMDCalendar.DB.Database;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
-using CMDCalendar.DB.Database;
+using Windows.UI.Popups;
 
 namespace CMDCalendar.ViewModels
 {
@@ -14,14 +19,14 @@ namespace CMDCalendar.ViewModels
     /// </summary>
     public class MyAssistantViewModel : ViewModelBase
     {
-        private int _dayoffset = 0;
-        private int _dDayoffset = 0;
+        private int Dayoffset = 0;
+        private int DDayoffset = 0;
         /// <summary>
         /// 获取所有事件接口
         /// </summary>
         private readonly IDatabaseUtils _databaseUtils;
 
-        private Event _selectedEvent;
+        private DB.Task _selectedTask;
     
         ///<summary>
         ///刷新命令
@@ -59,11 +64,15 @@ namespace CMDCalendar.ViewModels
 
         public RelayCommand DeleteCommand =>
           _deleteCommand ?? (_deleteCommand =
-              new RelayCommand(async () => { EventsList.Remove(SelectedEvent);await _databaseUtils.DeleteEventAsync(SelectedEvent);}));
+              new RelayCommand(async () => { TasksList.Remove(SelectedTask); var newTask = new DB.Task(); newTask = SelectedTask; newTask.IsCompleted = true;await _databaseUtils.DeleteTaskAsync(SelectedTask); var user1 = new User
+              {
+                  Id = 1,
+                  Username = "Xingqi"
+              }; await _databaseUtils.NewTaskAsync(newTask, user1); }));
 
-        public Event SelectedEvent {
-            get => _selectedEvent;
-            set => Set(nameof(SelectedEvent), ref _selectedEvent, value);
+        public DB.Task SelectedTask {
+            get => _selectedTask;
+            set => Set(nameof(SelectedTask), ref _selectedTask, value);
         }
        
 
@@ -88,7 +97,7 @@ namespace CMDCalendar.ViewModels
         public MyAssistantViewModel() : this(DesignMode.DesignModeEnabled ?
                     (DatabaseUtils)null :
                     new DatabaseUtils())
-        { GetTodayEvents(); GetTodayTasks(); SelectedEvent = new Event();  }
+        { GetTodayEvents(); GetTodayTasks(); SelectedTask = new DB.Task();  }
         public async System.Threading.Tasks.Task GetTodayEvents() {
             EventsList.Clear();
             var contacts = await _databaseUtils.GetEventListAsync();
@@ -108,7 +117,8 @@ namespace CMDCalendar.ViewModels
             {
                 if (task.EventDay.Date == DateTime.Now.Date)
                 {
-                    TasksList.Add(task);
+                    if (task.IsCompleted == false)
+                        TasksList.Add(task);
                 }
             }
         }
@@ -118,12 +128,12 @@ namespace CMDCalendar.ViewModels
             var contacts = await _databaseUtils.GetEventListAsync();
             foreach (var contact in contacts)
             {
-                if (contact.EventDay.Date == DateTime.Now.Date.AddDays(_dayoffset+1))
+                if (contact.EventDay.Date == DateTime.Now.Date.AddDays(Dayoffset+1))
                 {
                     EventsList.Add(contact);
                 }
             }
-            _dayoffset = _dayoffset + 1;
+            Dayoffset = Dayoffset + 1;
         }
         public async System.Threading.Tasks.Task GetTommorowTasks()
         {
@@ -131,12 +141,13 @@ namespace CMDCalendar.ViewModels
             var tasks = await _databaseUtils.GetTaskListAsync();
             foreach (var task in tasks)
             {
-                if (task.EventDay.Date == DateTime.Now.Date.AddDays(_dDayoffset+1))
+                if (task.EventDay.Date == DateTime.Now.Date.AddDays(DDayoffset+1))
                 {
+                    if (task.IsCompleted == false)
                     TasksList.Add(task);
                 }
             }
-            _dDayoffset = _dDayoffset + 1;
+            DDayoffset = DDayoffset + 1;
         }
         public async System.Threading.Tasks.Task GetYesterdayEvents()
         {
@@ -144,12 +155,12 @@ namespace CMDCalendar.ViewModels
             var contacts = await _databaseUtils.GetEventListAsync();
             foreach (var contact in contacts)
             {
-                if (contact.EventDay.Date == DateTime.Now.Date.AddDays(_dayoffset-1))
+                if (contact.EventDay.Date == DateTime.Now.Date.AddDays(Dayoffset-1))
                 {
                     EventsList.Add(contact);
                 }
             }
-            _dayoffset = _dayoffset - 1;
+            Dayoffset = Dayoffset - 1;
 
         }
         public async System.Threading.Tasks.Task GetYesterdayTasks()
@@ -158,12 +169,13 @@ namespace CMDCalendar.ViewModels
             var tasks = await _databaseUtils.GetTaskListAsync();
             foreach (var task in tasks)
             {
-                if (task.EventDay.Date == DateTime.Now.Date.AddDays(_dDayoffset - 1))
+                if (task.EventDay.Date == DateTime.Now.Date.AddDays(DDayoffset - 1))
                 {
-                    TasksList.Add(task);
+                    if (task.IsCompleted == false)
+                        TasksList.Add(task);
                 }
             }
-            _dDayoffset = _dDayoffset - 1;
+            DDayoffset = DDayoffset - 1;
         }
     }
 }
