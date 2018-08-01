@@ -60,6 +60,9 @@ namespace CMDCalendar.Views
                 {
                     Event EventV = (Event)e.Parameter;
                     viewModel.eventDisplay = EventV;
+
+                    TaskPage.Visibility = Visibility.Collapsed;
+
                     EmergencyStage.SelectedIndex = EventV.Emergency;
                     EventStartDate.Date = (DateTimeOffset)EventV.StartTime;
                     EventEndDate.Date = (DateTimeOffset)EventV.EndTime;
@@ -70,6 +73,7 @@ namespace CMDCalendar.Views
                 {
                     ChoosePivot.SelectedIndex = 1;
                     DB.Task TaskV = (DB.Task)e.Parameter;
+                    EventPage.Visibility = Visibility.Collapsed;
                     viewModel.taskDisplay = TaskV;
                     EmergencyStage.SelectedIndex = TaskV.Emergency;
                     TaskEndDate.Date = (DateTimeOffset)TaskV.EndTime;
@@ -112,7 +116,7 @@ namespace CMDCalendar.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
-        private async void DateChoosing_SelectedDatesChanged(CalendarView sender, CalendarViewSelectedDatesChangedEventArgs args)
+        private void DateChoosing_SelectedDatesChanged(CalendarView sender, CalendarViewSelectedDatesChangedEventArgs args)
         {
             try
             {
