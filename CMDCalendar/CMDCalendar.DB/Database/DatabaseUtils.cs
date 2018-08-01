@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CMDCalendar.Database;
+using CMDCalendar.DB.Database;
 using Microsoft.EntityFrameworkCore;
 
 namespace CMDCalendar.DB.Database
@@ -339,9 +339,9 @@ namespace CMDCalendar.DB.Database
                 Comments = "No comments then.",
                 Content = "Location yourself",
                 IsReapeatable = false,
-                StartTime = new DateTime(2018, 8, 22),
-                EndTime = new DateTime(2018, 8, 31),
-                EventDay = new DateTime(2018, 8, 22),
+                StartTime = new DateTime(2018, 7, 24),
+                EndTime = new DateTime(2018, 7, 26),
+                EventDay = new DateTime(2018,7,26),
                 LeftTime = -1,
                 Emergency = 0,
                 IsCompleted = false,
@@ -353,9 +353,9 @@ namespace CMDCalendar.DB.Database
                 Comments = "Task two",
                 Content = "Do it yourself",
                 IsReapeatable = false,
-                StartTime = new DateTime(2018, 8, 10),
-                EndTime = new DateTime(2018, 8, 31),
-                EventDay = new DateTime(2018, 8, 22),
+                StartTime = new DateTime(2018, 7, 23),
+                EndTime = new DateTime(2018, 7, 26),
+                EventDay = new DateTime(2018,7,26),
                 LeftTime = -1,
                 Emergency = 0,
                 IsCompleted = false,

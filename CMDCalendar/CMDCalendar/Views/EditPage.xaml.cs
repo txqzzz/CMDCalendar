@@ -60,7 +60,9 @@ namespace CMDCalendar.Views
                 {
                     Event EventV = (Event)e.Parameter;
                     viewModel.eventDisplay = EventV;
+
                     TaskPage.Visibility = Visibility.Collapsed;
+
                     EmergencyStage.SelectedIndex = EventV.Emergency;
                     EventStartDate.Date = (DateTimeOffset)EventV.StartTime;
                     EventEndDate.Date = (DateTimeOffset)EventV.EndTime;

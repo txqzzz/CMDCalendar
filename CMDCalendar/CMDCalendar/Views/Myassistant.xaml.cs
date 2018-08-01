@@ -1,10 +1,24 @@
 ﻿using CMDCalendar.DB;
 using CMDCalendar.ViewModels;
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel.Core;
+using Windows.Foundation;
+using Windows.Foundation.Collections;
+using Windows.System;
+using Windows.UI.Composition;
+using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
@@ -34,7 +48,7 @@ namespace CMDCalendar.Views
         /// <param name="e"></param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (e.Parameter != null) parentId = Convert.ToInt32(e.Parameter.ToString());
+            parentId = Convert.ToInt32(e.Parameter.ToString());
         }
 
         private async void Minimize_Click(object sender, RoutedEventArgs e)
@@ -42,11 +56,15 @@ namespace CMDCalendar.Views
             var currentView = ApplicationView.GetForCurrentView();
             var viewId = currentView.Id;
             await ApplicationViewSwitcher.SwitchAsync(parentId);
+            (App.Current.Resources["SliberPageViewModel"] as SliberPageViewModel).ListTaskItem();
+            
+
         }
 
         private void Return_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Exit();
+            
         }
         private void Front_Click(object sender, RoutedEventArgs e)
         {
@@ -61,6 +79,8 @@ namespace CMDCalendar.Views
                 Behind.IsEnabled = true;
             };
             Disappear.Begin();
+
+            
         }
 
         private void Behind_Click(object sender, RoutedEventArgs e)
@@ -99,9 +119,9 @@ namespace CMDCalendar.Views
 
         private void TaskItem_Click(object sender, ItemClickEventArgs e)
         {
-            Delete.IsEnabled = true;
+            //Delete.IsEnabled = true;
             var viewModel = (MyAssistantViewModel)this.DataContext;
-            viewModel.SelectedEvent = (Event)e.ClickedItem;
+            viewModel.SelectedTask = (DB.Task)e.ClickedItem;
         }
     }
 }
