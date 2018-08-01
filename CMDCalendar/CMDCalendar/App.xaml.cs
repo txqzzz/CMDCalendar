@@ -31,12 +31,12 @@ namespace CMDCalendar
             InitializeComponent();
             Suspending += OnSuspending;
             var db = new DataContext();
-            /*
+            
             db.Database.EnsureDeleted();
             db.Database.Migrate();
             var dbu = new DatabaseUtils();
             dbu.SeedDataAsync();
-            */
+            
         }
 
         /// <summary>
