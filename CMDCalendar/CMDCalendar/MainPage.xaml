@@ -81,25 +81,30 @@
                                 VerticalAlignment="Center"
                                 Style="{ThemeResource TitleTextBlockStyle}"
                                 Text="New"  />
+                    <AppBarButton Icon="Refresh"
+                                  Foreground="SteelBlue"
+                                  Click="AppBarButton_Click" />
                 </StackPanel>
                 <StackPanel Grid.Row="1">
-
-                    
                     <TextBlock Margin="12,8,8,8"
                                Foreground="SteelBlue"
                                Style="{ThemeResource TitleTextBlockStyle}"
                                Text="Event List" />
                     <ListView x:Name="ScheduleListView"
                               ItemsSource="{Binding EventCollection}">
-                        
-                   
-
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="x:String">
-                                <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="{Binding Content}" FontSize="18"
+                                <Border Width="180" Height="44">
+                                    <TextBlock Text="{Binding Content}" 
+                                               Margin="4,8,0,0"
                                                Foreground="SteelBlue"/>
-                                </StackPanel>
+                                </Border>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>

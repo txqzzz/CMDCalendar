@@ -510,10 +510,10 @@ namespace CMDCalendar
             }
         }
 
-
-
-        
-
+        private void AppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(MainPage), null, new DrillInNavigationTransitionInfo());
+        }
     }
 
 
@@ -530,5 +530,6 @@ namespace CMDCalendar
             throw new NotImplementedException();
         }
     }
+
 
 }
