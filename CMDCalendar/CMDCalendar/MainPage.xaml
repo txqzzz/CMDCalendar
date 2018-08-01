@@ -31,11 +31,12 @@
         <Binding Source="{StaticResource SliberPageViewModel}" />
     </Page.DataContext>
 
-    <Grid>
+    <Grid x:Name="MainPageMainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="250" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
+        <Grid x:Name="GlassHost" Grid.ColumnSpan="2"/>
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -43,7 +44,9 @@
                 <RowDefinition Height="4*" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <StackPanel x:Name="LogoArea" Grid.Row="0" Orientation="Horizontal">
+            <StackPanel x:Name="LogoArea" Grid.Row="0" 
+                        Orientation="Horizontal"
+                        Background="Transparent">
                 <AppBarButton Icon="Calendar"
                               Foreground="SteelBlue" LabelPosition="Collapsed" />
                 <TextBlock Text="CMD Calendar"
@@ -53,7 +56,8 @@
                            FontSize="20" />
             </StackPanel>
 
-            <StackPanel x:Name="EventListArea" Grid.Row="1" Grid.Column="0">
+            <StackPanel x:Name="EventListArea" Grid.Row="1" Grid.Column="0"
+                        Background="Transparent">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
@@ -89,7 +93,8 @@
                     </StackPanel>
                 </Grid>
             </StackPanel>
-            <StackPanel x:Name="TaskListArea" Grid.Row="2" Grid.Column="0">
+            <StackPanel x:Name="TaskListArea" Grid.Row="2" Grid.Column="0"
+                        Background="Transparent">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
@@ -163,11 +168,11 @@
                                             </SwipeItems>
                                         </SwipeControl.RightItems>
                                         <!-- Swipeable content -->
-                                        <Border Width="180" Height="44"
+                                        <Border Width="250" Height="44"
                                                 Background="{Binding IsCompleted, Converter={StaticResource BooLtoIcon}}">
                                             <TextBlock Text="{Binding Content}"
                                                        Foreground="SteelBlue"
-                                                       Margin="4,8,0,0" />
+                                                       Margin="0,0,0,0" />
                                         </Border>
                                     </SwipeControl>
                                 </DataTemplate>
@@ -226,8 +231,14 @@
 
 
         <GridView Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="1059" />
-        <Grid x:Name="CalendarViewArea" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Margin="105,0">
-            <Grid.ColumnDefinitions>
+        <Grid x:Name="CalendarViewArea" Grid.Row="0" Grid.Column="1"  
+              Margin="0,55,0,0"
+              >
+            
+                <Grid.Background>
+                    <ImageBrush Stretch="UniformToFill" ImageSource="Assets/Template1.png" Opacity="0.5"/>
+                </Grid.Background>
+                <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -396,7 +407,7 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="2*" />
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" x:Name="CalendarBlock16Date" />
+                <TextBlock Grid.Row="0" x:Name="CalendarBlock16Date" HorizontalAlignment="Center" Height="63" Margin="0,0,0,0" VerticalAlignment="Center" />
                 <TextBlock Grid.Row="1" />
             </Grid>
             <Grid x:Name="CalendarBlock17" Grid.Column="3" Grid.Row="2">
