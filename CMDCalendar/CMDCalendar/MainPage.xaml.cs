@@ -353,13 +353,9 @@ namespace CMDCalendar
         }
 
 
-        private async void TestReadTaskButton_Click(object sender, RoutedEventArgs e)
+        private void Edit_OnClick(object sender, RoutedEventArgs e)
         {
-            var dbu = new DatabaseUtils();
-            var taskList = await dbu.GetTaskListAsync();
-            Task testTask = taskList[taskList.Count() - 1];
-
-            Frame.Navigate(typeof(EditPage), testTask, new DrillInNavigationTransitionInfo());
+            Frame.Navigate(typeof(EditPage), _SlectedItem, new DrillInNavigationTransitionInfo());
         }
 
         private async void TestReadEventButton_Click(object sender, RoutedEventArgs e)
@@ -400,6 +396,7 @@ namespace CMDCalendar
             item.Background = new SolidColorBrush(Color.FromArgb(81, 12, 252, 122)); 
         }
        
+        
         private async void NotificationButton_OnClick(object sender, RoutedEventArgs e)
         {
 
@@ -514,6 +511,9 @@ namespace CMDCalendar
         {
             Frame.Navigate(typeof(MainPage), null, new DrillInNavigationTransitionInfo());
         }
+
+
+       
     }
 
 
