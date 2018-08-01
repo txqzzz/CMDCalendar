@@ -105,8 +105,6 @@
                                                Margin="4,8,0,0"
                                                Foreground="SteelBlue"/>
                                 </Border>
-                                    
-                               
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
