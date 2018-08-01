@@ -43,9 +43,9 @@ namespace CMDCalendar.ViewModels
             new RelayCommand(async () => 
             {
                 var service = _databaseUtils;
-                if (eventDisplay != null)
+                if (eventDisplay.Id != 0)
                     await service.UpdateEventAsync(eventDisplay);
-                if (taskDisplay != null)
+                if (taskDisplay.Id != 0)
                     await service.UpdateTaskAsync(taskDisplay);
             }));
 
