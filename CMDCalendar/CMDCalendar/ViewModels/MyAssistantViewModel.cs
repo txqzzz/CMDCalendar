@@ -64,8 +64,12 @@ namespace CMDCalendar.ViewModels
 
         public RelayCommand DeleteCommand =>
           _deleteCommand ?? (_deleteCommand =
-              new RelayCommand(async () => { TasksList.Remove(SelectedTask); var newTask = new DB.Task(); newTask = SelectedTask; newTask.IsCompleted = true;await _databaseUtils.DeleteTaskAsync(SelectedTask); var user1 = new User
+              new RelayCommand(async () => { TasksList.Remove(SelectedTask); var newTask = new DB.Task(); newTask = SelectedTask; newTask.IsCompleted = true;await _databaseUtils.DeleteTaskAsync(SelectedTask);
+                  (App.Current.Resources["SliberPageViewModel"] as SliberPageViewModel).ListTaskItem();
+                  (App.Current.Resources["SliberPageViewModel"] as SliberPageViewModel).RefreshTask(SelectedTask);
+                  var user1 = new User
               {
+
                   Id = 1,
                   Username = "Xingqi"
               }; await _databaseUtils.NewTaskAsync(newTask, user1); }));

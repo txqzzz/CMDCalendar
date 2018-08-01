@@ -56,11 +56,15 @@ namespace CMDCalendar.Views
             var currentView = ApplicationView.GetForCurrentView();
             var viewId = currentView.Id;
             await ApplicationViewSwitcher.SwitchAsync(parentId);
+            (App.Current.Resources["SliberPageViewModel"] as SliberPageViewModel).ListTaskItem();
+            
+
         }
 
         private void Return_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Exit();
+            
         }
         private void Front_Click(object sender, RoutedEventArgs e)
         {
@@ -75,6 +79,8 @@ namespace CMDCalendar.Views
                 Behind.IsEnabled = true;
             };
             Disappear.Begin();
+
+            
         }
 
         private void Behind_Click(object sender, RoutedEventArgs e)

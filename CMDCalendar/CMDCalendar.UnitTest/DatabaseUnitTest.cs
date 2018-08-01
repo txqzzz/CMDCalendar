@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Linq;
 using Windows.UI.Popups;
-using CMDCalendar.Database;
-using CMDCalendar.DB;
 using CMDCalendar.DB.Database;
+using CMDCalendar.DB;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

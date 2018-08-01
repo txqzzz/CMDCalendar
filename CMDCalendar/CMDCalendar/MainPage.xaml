@@ -91,10 +91,14 @@
                                Text="Event List" />
                     <ListView x:Name="ScheduleListView"
                               ItemsSource="{Binding EventCollection}">
+                        
+                   
+
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="x:String">
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="{Binding Content}" FontSize="18" />
+                                    <TextBlock Text="{Binding Content}" FontSize="18"
+                                               Foreground="SteelBlue"/>
                                 </StackPanel>
                             </DataTemplate>
                         </ListView.ItemTemplate>
@@ -152,7 +156,8 @@
                             </SwipeControl.RightItems>
 
                             <!-- Swipeable content -->
-                            <Border Width="180" Height="44" >
+                            <Border Width="180" Height="44" 
+                                    Background="{Binding IsCompleted,Converter={StaticResource BooLtoIcon}}">
                                 <TextBlock Text="{Binding Content}" 
                                            Foreground="SteelBlue"
                                            Margin="4,8,0,0"/>

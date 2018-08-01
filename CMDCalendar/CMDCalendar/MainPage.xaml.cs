@@ -17,6 +17,8 @@ using Windows.UI.Xaml.Media;
 using Windows.UI;
 using Windows.ApplicationModel.Background;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Windows.ApplicationModel.Background;
+using Windows.UI.Xaml.Data;
 
 
 
@@ -36,6 +38,26 @@ namespace CMDCalendar
             viewModel.ListTaskItem();
             viewModel.ListEventItem();
             //CalendarBlock0Date.Text = "113";
+            
+
+            //var message = new MessageDialog("" + viewModel.TaskCollection.Count);
+            //message.ShowAsync();
+            for(int i=0;i<viewModel.TaskCollection.Count-1;i++)
+            {
+               
+            }
+            for (int i = 0; i < viewModel.TaskCollection.Count - 1; i++)
+            {
+                if (viewModel.TaskCollection[i].IsCompleted == true)
+                {
+                    
+
+                   // ListViewItem item = TodoListView.ContainerFromIndex(i) as ListViewItem;
+                    
+                   // item.Background =  new SolidColorBrush(Color.FromArgb(81, 12, 252, 122));
+                }
+            }
+
             UpdateMonthCalendar();
             RefreshCalendar();
             HideText("0");
@@ -369,9 +391,13 @@ namespace CMDCalendar
 
         private void Pin_Click(object sender, RoutedEventArgs e)
         {
+           
             dynamic clickedItem = _SlectedItem;
+            _SlectedItem.IsCompleted = true;
+            var viewModel = (SliberPageViewModel)DataContext;
+            viewModel.RefreshTask(_SlectedItem);
             ListViewItem item = TodoListView.ContainerFromItem(clickedItem) as ListViewItem;
-            item.Background = new SolidColorBrush(Color.FromArgb(81, 12, 252, 122));
+            item.Background = new SolidColorBrush(Color.FromArgb(81, 12, 252, 122)); 
         }
        
         private async void NotificationButton_OnClick(object sender, RoutedEventArgs e)
@@ -483,5 +509,26 @@ namespace CMDCalendar
                 }
             }
         }
+
+
+
+        
+
     }
+
+
+
+    public class BooLtoIcon : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            return !System.Convert.ToBoolean(value) ? "#FFFFFF" : "#0FFC7A";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
 }
