@@ -1,4 +1,4 @@
-﻿using CMDCalendar.Database;
+﻿using CMDCalendar.DB.Database;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System.Collections.ObjectModel;
@@ -74,10 +74,15 @@ namespace CMDCalendar.ViewModels
         public RelayCommand DeleteCommand =>
             _deleteCommand ?? (_deleteCommand = new RelayCommand(
                 async () => { await DelTaskItem(_selectedTask); }));
-        
+
         /// <summary>
         /// 初始化
         /// </summary>
+        public async System.Threading.Tasks.Task RefreshTask(DB.Task _seletedTask)
+        {
+            var dbu = new DatabaseUtils();
+            await dbu.UpdateTaskAsync(_selectedTask);
+        }
         public async System.Threading.Tasks.Task ListTaskItem()
         {
             TaskCollection.Clear();
