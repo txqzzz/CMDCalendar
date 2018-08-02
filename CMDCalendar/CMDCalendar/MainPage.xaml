@@ -68,7 +68,7 @@
                 <RowDefinition Height="4*" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            
+
             <StackPanel x:Name="LogoArea" 
                         Grid.Row="0" 
                         Orientation="Horizontal"
@@ -114,6 +114,7 @@
                     </Style>
                 </ListView.ItemContainerStyle>
 
+
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="x:String">
                         <Border>
@@ -127,6 +128,7 @@
             </Grid>
             <Grid Grid.Row="3" Grid.Column="0"
                   Background="#FF000000">
+
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="4*" />
@@ -148,9 +150,11 @@
                                 Margin="0,0,0,0" HorizontalAlignment="Right"
                                 Click="RefreshTaskButton_OnClick"/>
             </Grid>
+
             <Grid Grid.Row="4" Grid.Column="0"
                   Background="#FF000000">
             <ListView x:Name="TodoListView"    
+
                         Grid.Column="0"
                                   IsItemClickEnabled="True"
                                   ItemClick="TodoListView_ItemClick"
@@ -209,8 +213,10 @@
 
             <Grid x:Name="TestArea" Grid.Row="5" 
                   Background="#FF000000"
+
                   HorizontalAlignment="Left"
-                  VerticalAlignment="Top" Width="250" Margin="0,51,0,0">
+                  VerticalAlignment="Top" Width="250" Margin="0,51,0,0"
+                  Background="#CC000000">
                 <AppBarButton Icon="Add"
                               Foreground="SteelBlue"
                               Name="Newbutton"
@@ -252,6 +258,7 @@
             -->
             </Grid>
         </Grid>
+
         <Grid x:Name="CalendarMenu" Grid.Column="1" Visibility="Collapsed">
             <GridView HorizontalAlignment="Center" VerticalAlignment="Center" Width="1059" />
             <Grid x:Name="CalendarViewArea" 
@@ -283,6 +290,7 @@
                 <!-- -->
                 <!-- </Grid> -->
                 <Grid x:Name="CalendarBlock0" Grid.Row="0" Grid.Column="0"
+
                   >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />

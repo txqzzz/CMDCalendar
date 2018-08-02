@@ -9,6 +9,7 @@ using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.System;
+using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
@@ -35,6 +36,11 @@ namespace CMDCalendar.Views
             this.InitializeComponent();
             Date.Text = DateTime.Now.ToShortDateString();
             CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
+            initializeSubWindowGlass(GlassSubWindow);
+            ApplicationViewTitleBar titleBar = ApplicationView.GetForCurrentView().TitleBar;
+            titleBar.ButtonBackgroundColor = Colors.Transparent;
+            titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+            titleBar.ButtonForegroundColor = Colors.Transparent;
         }
         /// <summary>
         /// 日期偏差
@@ -106,6 +112,19 @@ namespace CMDCalendar.Views
             //Delete.IsEnabled = true;
             var viewModel = (MyAssistantViewModel)this.DataContext;
             viewModel.SelectedTask = (DB.Task)e.ClickedItem;
+        }
+
+        private void initializeSubWindowGlass(UIElement MainPageMainGrid)
+        {
+            Visual hostVisual = ElementCompositionPreview.GetElementVisual(MainPageMainGrid);
+            Compositor compositor = hostVisual.Compositor;
+            var backdropBrush = compositor.CreateHostBackdropBrush();
+            var glassVisual = compositor.CreateSpriteVisual();
+            glassVisual.Brush = backdropBrush;
+            ElementCompositionPreview.SetElementChildVisual(MainPageMainGrid, glassVisual);
+            var bindSizeAnimation = compositor.CreateExpressionAnimation("hostVisual.Size");
+            bindSizeAnimation.SetReferenceParameter("hostVisual", hostVisual);
+            glassVisual.StartAnimation("Size", bindSizeAnimation);
         }
     }
 }
