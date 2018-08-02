@@ -10,9 +10,11 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
 using System.Diagnostics;
+using Windows.ApplicationModel.Core;
+using Windows.UI;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Windows.UI.Notifications;
-using CMDCalendar.DB.Database;
+using Windows.UI.ViewManagement;
 
 
 namespace CMDCalendar
@@ -36,9 +38,17 @@ namespace CMDCalendar
             db.Database.Migrate();
             var dbu = new DatabaseUtils();
             dbu.SeedDataAsync();
-            
+
         }
 
+        private void ExtendAcrylicIntoTitleBar()
+        {
+            CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
+            ApplicationViewTitleBar titleBar = ApplicationView.GetForCurrentView().TitleBar;
+            titleBar.ButtonBackgroundColor = Colors.Transparent;
+            titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+            titleBar.ButtonForegroundColor = Colors.Transparent;
+        }
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
         /// will be used such as when the application is launched to open a specific file.
@@ -78,6 +88,9 @@ namespace CMDCalendar
                 }
                 // Ensure the current window is active
                 Window.Current.Activate();
+                
+                // Extend acrylic
+                ExtendAcrylicIntoTitleBar();
             }
         }
 
@@ -133,7 +146,7 @@ namespace CMDCalendar
                         {
                             new AdaptiveText()
                             {
-                                Text = "Test"
+                                Text = "Start notification."
                             },                         
 
                             new AdaptiveText()

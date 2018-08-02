@@ -34,13 +34,9 @@ namespace CMDCalendar
         public MainPage()
         {
             InitializeComponent();
-            var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
-            coreTitleBar.ExtendViewIntoTitleBar = true;
+            
             initializeFrostedGlass(GlassHost);
-            var view = ApplicationView.GetForCurrentView();
-            view.TitleBar.ButtonBackgroundColor = Colors.Transparent; //将标题栏的三个键背景设为透明
-            view.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent; //失去焦点时，将三个键背景设为透明
-            view.TitleBar.ButtonInactiveForegroundColor = Colors.White; //失去焦点时，将三个键前景色设为白色
+            
            
             var viewModel = (SliberPageViewModel) DataContext;
             viewModel.ListTaskItem();
@@ -410,6 +406,8 @@ namespace CMDCalendar
         /// </summary>
         public Task _SlectedItem;
 
+        public Event _SelectedEvent;
+
         private void Pin_Click(object sender, RoutedEventArgs e)
         {
             dynamic clickedItem = _SlectedItem;
@@ -417,7 +415,7 @@ namespace CMDCalendar
             var viewModel = (SliberPageViewModel) DataContext;
             viewModel.RefreshTask(_SlectedItem);
             ListViewItem item = TodoListView.ContainerFromItem(clickedItem) as ListViewItem;
-            item.Background = new SolidColorBrush(Color.FromArgb(81, 12, 252, 122));
+            item.Background = new SolidColorBrush(Color.FromArgb(128,0,0,0));
         }
 
 
@@ -481,8 +479,8 @@ namespace CMDCalendar
         }
 
 
-        DateTime CurrentMonthFirstDay = new DateTime(DateTime.Now.Year, DateTime.Now.Month - 2, 1);
-        public int CurrentDaysInMonth = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month - 2);
+        DateTime CurrentMonthFirstDay = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+        public int CurrentDaysInMonth = DateTime.DaysInMonth(DateTime.Now.Year, DateTime.Now.Month);
         public int CalendarOffset;
 
         public void UpdateMonthCalendar()
@@ -530,6 +528,19 @@ namespace CMDCalendar
         }
 
         private void AppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(MainPage), null, new DrillInNavigationTransitionInfo());
+        }
+
+        private void ScheduleListView_OnItemClick(object sender, ItemClickEventArgs e)
+        {
+            var viewModel = (SliberPageViewModel)DataContext;
+            viewModel.SelectedEvent = (Event)e.ClickedItem;
+
+            _SelectedEvent = (Event)e.ClickedItem;
+        }
+
+        private void RefreshTaskButton_OnClick(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(MainPage), null, new DrillInNavigationTransitionInfo());
         }
