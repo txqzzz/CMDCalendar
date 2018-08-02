@@ -58,6 +58,7 @@
         </Grid.ColumnDefinitions>
         <Grid x:Name="GlassHost" Grid.ColumnSpan="2"/>
         <Grid x:Name="SideMenu"  Grid.Column="0" Grid.ColumnSpan="2"
+              Background="#FF000000"
               >
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
