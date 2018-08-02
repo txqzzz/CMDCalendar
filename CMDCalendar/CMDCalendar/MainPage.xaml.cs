@@ -411,7 +411,8 @@ namespace CMDCalendar
             var viewModel = (SliberPageViewModel) DataContext;
             viewModel.RefreshTask(_SelectedTaskItem);
             ListViewItem item = TodoListView.ContainerFromItem(clickedItem) as ListViewItem;
-            item.Background = new SolidColorBrush(Color.FromArgb(128,0,0,0));
+            new BooLtoIcon();
+            //item.Background = new SolidColorBrush(Color.FromArgb(128,0,0,0));
         }
 
 
