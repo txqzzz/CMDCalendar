@@ -100,22 +100,6 @@ namespace CMDCalendar.Views
         /// <summary>
         /// 用户可改变编辑状态函数
         /// </summary>
-        private bool IfStar = true;
-        private void Star_Click(object sender, RoutedEventArgs e)
-        {
-            if (IfStar)
-            {
-                Star.Icon = new SymbolIcon(Symbol.SolidStar);
-                Task.IsEnabled = true;
-                IfStar = !IfStar;
-            }
-            else {
-                Star.Icon = new SymbolIcon(Symbol.OutlineStar);
-                Task.IsEnabled = false;
-                Task.SelectedItem = null;
-                IfStar = !IfStar;
-            }
-        }
 
         private void TaskItem_Click(object sender, ItemClickEventArgs e)
         {
