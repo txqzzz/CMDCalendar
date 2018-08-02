@@ -374,11 +374,7 @@ namespace CMDCalendar
         }
 
 
-        private void Edit_OnClick(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(EditPage), _SlectedItem, new DrillInNavigationTransitionInfo());
-        }
-
+        
         private async void TestReadEventButton_Click(object sender, RoutedEventArgs e)
         {
             var dbu = new DatabaseUtils();
@@ -398,22 +394,22 @@ namespace CMDCalendar
             var viewModel = (SliberPageViewModel) DataContext;
             viewModel.SelectedTask = (Task) e.ClickedItem;
 
-            _SlectedItem = (Task) e.ClickedItem;
+            _SelectedTaskItem = (Task) e.ClickedItem;
         }
 
         /// <summary>
         /// 完成标记功能
         /// </summary>
-        public Task _SlectedItem;
+        public Task _SelectedTaskItem;
 
-        public Event _SelectedEvent;
+        public Event _SelectedEventItem;
 
         private void Pin_Click(object sender, RoutedEventArgs e)
         {
-            dynamic clickedItem = _SlectedItem;
-            _SlectedItem.IsCompleted = true;
+            dynamic clickedItem = _SelectedTaskItem;
+            _SelectedTaskItem.IsCompleted = true;
             var viewModel = (SliberPageViewModel) DataContext;
-            viewModel.RefreshTask(_SlectedItem);
+            viewModel.RefreshTask(_SelectedTaskItem);
             ListViewItem item = TodoListView.ContainerFromItem(clickedItem) as ListViewItem;
             item.Background = new SolidColorBrush(Color.FromArgb(128,0,0,0));
         }
@@ -536,13 +532,29 @@ namespace CMDCalendar
         {
             var viewModel = (SliberPageViewModel)DataContext;
             viewModel.SelectedEvent = (Event)e.ClickedItem;
-
-            _SelectedEvent = (Event)e.ClickedItem;
+            _SelectedEventItem = (Event)e.ClickedItem;
         }
 
         private void RefreshTaskButton_OnClick(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(MainPage), null, new DrillInNavigationTransitionInfo());
+        }
+
+        private void edit_TaskClick(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(EditPage), _SelectedTaskItem, new DrillInNavigationTransitionInfo());
+        }
+
+        private void ScheduleListView_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
+        {
+            ListView listView = (ListView)sender;
+            ScheduleListViewMenuFlayout.ShowAt(listView, e.GetPosition(listView));
+            var a = ((FrameworkElement)e.OriginalSource).DataContext;
+        }
+
+        private void edit_eventClick(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(EditPage), _SelectedEventItem, new DrillInNavigationTransitionInfo());
         }
     }
 
