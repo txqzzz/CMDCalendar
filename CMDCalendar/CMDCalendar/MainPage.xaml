@@ -37,7 +37,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid x:Name="GlassHost" Grid.ColumnSpan="2"/>
-        <Grid Grid.Column="0">
+        <Grid Grid.Column="0" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -58,8 +58,18 @@
                            Foreground="SteelBlue"
                            FontSize="20" />
             </StackPanel>
-            <TextBlock Margin="12,8,8,8"
-                       Grid.Row="1"
+
+            <StackPanel x:Name="EventListArea" Grid.Row="1" Grid.Column="0"
+                        Background="#CC000000">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="4*" />
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0"
+                                Orientation="Horizontal" />
+                    <StackPanel Grid.Row="1">
+                        <TextBlock Margin="12,8,8,8"
                                    Foreground="SteelBlue"
                                    Style="{ThemeResource TitleTextBlockStyle}"
                                    Text="Event List"
@@ -178,7 +188,8 @@
 
             <Grid x:Name="TestArea" Grid.Row="5"
                   HorizontalAlignment="Left"
-                  VerticalAlignment="Top" Width="250" Margin="0,51,0,0">
+                  VerticalAlignment="Top" Width="250" Margin="0,51,0,0"
+                  Background="#CC000000">
                 <AppBarButton Icon="Add"
                               Foreground="SteelBlue"
                               Name="Newbutton"
@@ -220,8 +231,6 @@
             -->
             </Grid>
         </Grid>
-
-
         <GridView Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="1059" />
         <Grid x:Name="CalendarViewArea" Grid.Row="0" Grid.Column="1"  
               Margin="0,55,0,0"

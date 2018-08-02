@@ -361,6 +361,7 @@ namespace CMDCalendar.DB.Database
             await dbu.NewEventAsync(evt1, user1);
             await dbu.NewEventAsync(evt2, user2);
             await dbu.NewEventAsync(evt3, user1);
+            await dbu.NewEventAsync(evt4, user1);
 
             var task1 = new Task()
             {
@@ -389,8 +390,80 @@ namespace CMDCalendar.DB.Database
                 Emergency = 0,
                 IsCompleted = false,
             };
+
+            var lastWeek1 = new Task()
+            {
+                Id = 3,
+                Comments = "Once more",
+                Content = "Let it go one!",
+                IsReapeatable = false,
+                StartTime = new DateTime(2018, 7,23),
+                EndTime = new DateTime(2018, 7,27),
+                EventDay = new DateTime(2018, 7,27),
+                LeftTime = -1,
+                Emergency = 0,
+                IsCompleted = false,
+            };
+            var lastWeek2 = new Task()
+            {
+                Id = 4,
+                Comments = "Once more",
+                Content = "Let it go two!",
+                IsReapeatable = false,
+                StartTime = new DateTime(2018, 7, 28),
+                EndTime = new DateTime(2018, 7, 28),
+                EventDay = new DateTime(2018, 7, 28),
+                LeftTime = -1,
+                Emergency = 0,
+                IsCompleted = false,
+            };
+            var lastWeek3 = new Task()
+            {
+                Id = 5,
+                Comments = "Once more",
+                Content = "Let it go three!",
+                IsReapeatable = false,
+                StartTime = new DateTime(2018, 7, 27),
+                EndTime = new DateTime(2018, 7, 30),
+                EventDay = new DateTime(2018, 7, 30),
+                LeftTime = -1,
+                Emergency = 0,
+                IsCompleted = false,
+            };
+            var lastWeek4 = new Task()
+            {
+                Id = 6,
+                Comments = "Once more",
+                Content = "Let it go four!",
+                IsReapeatable = false,
+                StartTime = new DateTime(2018, 7, 27),
+                EndTime = new DateTime(2018, 7, 31),
+                EventDay = new DateTime(2018, 7, 31),
+                LeftTime = -1,
+                Emergency = 0,
+                IsCompleted = true,
+            };
+
+            var lastWeek5 = new Task()
+            {
+                Id = 7,
+                Comments = "Once more",
+                Content = "Let it go five!",
+                IsReapeatable = false,
+                StartTime = new DateTime(2018, 7, 27),
+                EndTime = new DateTime(2018, 7, 28),
+                EventDay = new DateTime(2018, 7, 28),
+                LeftTime = -1,
+                Emergency = 0,
+                IsCompleted = false,
+            };
             await dbu.NewTaskAsync(task1, user1);
             await dbu.NewTaskAsync(task2, user3);
+            await dbu.NewTaskAsync(lastWeek1, user3);
+            await dbu.NewTaskAsync(lastWeek2, user3);
+            await dbu.NewTaskAsync(lastWeek3, user3);
+            await dbu.NewTaskAsync(lastWeek4, user3);
+            await dbu.NewTaskAsync(lastWeek5, user3);
 
             //EditPage test data
 
