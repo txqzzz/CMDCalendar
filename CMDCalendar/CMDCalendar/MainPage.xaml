@@ -40,11 +40,14 @@
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="4*" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="4*" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <StackPanel x:Name="LogoArea" Grid.Row="0" 
+            <StackPanel x:Name="LogoArea" 
+                        Grid.Row="0" 
                         Orientation="Horizontal"
                         Background="Transparent">
                 <AppBarButton Icon="Calendar"
@@ -55,69 +58,58 @@
                            Foreground="SteelBlue"
                            FontSize="20" />
             </StackPanel>
-
-            <StackPanel x:Name="EventListArea" Grid.Row="1" Grid.Column="0"
-                        Background="Transparent">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="4*" />
-                    </Grid.RowDefinitions>
-                    <StackPanel Grid.Row="0"
-                                Orientation="Horizontal" />
-                    <StackPanel Grid.Row="1">
-                        <TextBlock Margin="12,8,8,8"
+            <TextBlock Margin="12,8,8,8"
+                       Grid.Row="1"
                                    Foreground="SteelBlue"
                                    Style="{ThemeResource TitleTextBlockStyle}"
                                    Text="Event List"
                                    HorizontalAlignment="Left" />
-                        <ListView x:Name="ScheduleListView"
+            <ListView x:Name="ScheduleListView"
+                                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                  Grid.Row="2" 
+                        Grid.Column="0"
                                   ItemsSource="{Binding EventCollection}"
                                   IsItemClickEnabled="True"
-                                  ItemClick="ScheduleListView_OnItemClick">
-                            <ListView.ItemContainerStyle>
-                                <Style TargetType="ListViewItem">
-                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                    <Setter Property="VerticalContentAlignment" Value="Stretch" />
-                                </Style>
-                            </ListView.ItemContainerStyle>
+                                  ItemClick="ScheduleListView_OnItemClick"
+                                  RightTapped="ScheduleListView_RightTapped"
+                                  Margin="4,0,0,0">
+                <ListView.Resources>
+                    <MenuFlyout x:Name="ScheduleListViewMenuFlayout">
+                        <MenuFlyoutItem x:Name="edit_event"
+                                                    Text="Edit"
+                                                    Click="edit_eventClick"></MenuFlyoutItem>
+                    </MenuFlyout>
+                </ListView.Resources>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                    </Style>
+                </ListView.ItemContainerStyle>
 
-                            <ListView.ItemTemplate>
-                                <DataTemplate x:DataType="x:String">
-                                    <Border>
-                                        <TextBlock Text="{Binding Content}"
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="x:String">
+                        <Border>
+                            <TextBlock Text="{Binding Content}"
                                                    Foreground="SteelBlue"
                                                    Margin="4,8,0,0" />
-                                    </Border>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                    </StackPanel>
-                </Grid>
-            </StackPanel>
-            <StackPanel x:Name="TaskListArea" Grid.Row="2" Grid.Column="0"
-                        Background="Transparent">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="4*" />
-                    </Grid.RowDefinitions>
-                    <StackPanel Grid.Row="0"
-                                Orientation="Horizontal" />
-                    <StackPanel Grid.Row="1">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="4*" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock
+                        </Border>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Grid Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="4*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock
                                 Grid.Column="0"
                                 Margin="12,8,8,8"
                                 Foreground="SteelBlue"
                                 HorizontalAlignment="Center"
                                 Style="{ThemeResource TitleTextBlockStyle}"
                                 Text="Task List" />
-                            <AppBarButton
+                <AppBarButton
                                 Grid.Column="1"
                                 x:Name="RefreshTaskButton"
                                 Icon="Refresh"
@@ -126,69 +118,65 @@
                                 VerticalAlignment="Top"
                                 Margin="0,0,0,0" HorizontalAlignment="Right"
                                 Click="RefreshTaskButton_OnClick"/>
-                        </Grid>
-
-
-                        <ListView x:Name="TodoListView"
+            </Grid>
+            <ListView x:Name="TodoListView"
+                              Grid.Row="4" 
+                        Grid.Column="0"
                                   IsItemClickEnabled="True"
                                   ItemClick="TodoListView_ItemClick"
                                   RightTapped="TodoListView_RightTapped"
                                   ItemsSource="{Binding TaskCollection}">
-
-                            <ListView.Resources>
-                                <MenuFlyout x:Name="toDoMenuFlayout">   
-                                    <MenuFlyoutItem x:Name="Pin" Text="Pin"
+                <ListView.Resources>
+                    <MenuFlyout x:Name="toDoMenuFlayout">
+                        <MenuFlyoutItem x:Name="Pin" Text="Pin"
                                                     Click="Pin_Click" />
-                                    <MenuFlyoutItem x:Name="Remove" Text="Remove"
+                        <MenuFlyoutItem x:Name="Remove" Text="Remove"
                                                     Command="{Binding DeleteCommand}" />
-                                    <MenuFlyoutItem x:Name="edit" Text="Edit"
-                                                    Click="Edit_OnClick"></MenuFlyoutItem>
-                                </MenuFlyout>
-                            </ListView.Resources>
-                            <ListView.ItemContainerStyle>
-                                <Style TargetType="ListViewItem">
-                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                    <Setter Property="VerticalContentAlignment" Value="Stretch" />
-                                </Style>
-                            </ListView.ItemContainerStyle>
+                        <MenuFlyoutItem x:Name="edit_Task" Text="Edit"
+                                                    Click="edit_TaskClick">
+                        </MenuFlyoutItem>
+                    </MenuFlyout>
+                </ListView.Resources>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                    </Style>
+                </ListView.ItemContainerStyle>
 
-                            <ListView.ItemTemplate>
-                                <DataTemplate x:DataType="system:String">
-                                    <SwipeControl HorizontalAlignment="Center" VerticalAlignment="Center">
-                                        <SwipeControl.RightItems>
-                                            <SwipeItems>
-                                                <SwipeItem Text="Pin">
-                                                    <SwipeItem.IconSource>
-                                                        <SymbolIconSource Symbol="Pin" />
-                                                    </SwipeItem.IconSource>
-                                                </SwipeItem>
-                                                <SwipeItem Text="Delete"
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="system:String">
+                        <SwipeControl HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <SwipeControl.RightItems>
+                                <SwipeItems>
+                                    <SwipeItem Text="Pin">
+                                        <SwipeItem.IconSource>
+                                            <SymbolIconSource Symbol="Pin" />
+                                        </SwipeItem.IconSource>
+                                    </SwipeItem>
+                                    <SwipeItem Text="Delete"
                                                            Background="Red"
                                                            Command="{Binding DeleteCommand}">
-                                                    <SwipeItem.IconSource>
-                                                        <SymbolIconSource Symbol="Delete" />
-                                                    </SwipeItem.IconSource>
-                                                </SwipeItem>
-                                            </SwipeItems>
-                                        </SwipeControl.RightItems>
-                                        <!-- Swipeable content -->
-                                        <Border Width="250" Height="44"
+                                        <SwipeItem.IconSource>
+                                            <SymbolIconSource Symbol="Delete" />
+                                        </SwipeItem.IconSource>
+                                    </SwipeItem>
+                                </SwipeItems>
+                            </SwipeControl.RightItems>
+                            <!-- Swipeable content -->
+                            <Border Width="250" Height="44"
                                                 Background="{Binding IsCompleted, Converter={StaticResource BooLtoIcon}}">
-                                            <TextBlock Text="{Binding Content}"
+                                <TextBlock Text="{Binding Content}"
                                                        Foreground="SteelBlue"
                                                        Margin="0,0,0,0" />
-                                        </Border>
-                                    </SwipeControl>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-
-                        </ListView>
-                    </StackPanel>
-                </Grid>
+                            </Border>
+                        </SwipeControl>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
 
 
-            </StackPanel>
-            <Grid x:Name="TestArea" Grid.Row="3"
+            <Grid x:Name="TestArea" Grid.Row="5"
                   HorizontalAlignment="Left"
                   VerticalAlignment="Top" Width="250" Margin="0,51,0,0">
                 <AppBarButton Icon="Add"
@@ -238,11 +226,11 @@
         <Grid x:Name="CalendarViewArea" Grid.Row="0" Grid.Column="1"  
               Margin="0,55,0,0"
               >
-            
-                <Grid.Background>
-                    <ImageBrush Stretch="UniformToFill" ImageSource="Assets/Template1.png" Opacity="0.2"/>
-                </Grid.Background>
-                <Grid.ColumnDefinitions>
+
+            <Grid.Background>
+                <ImageBrush Stretch="UniformToFill" ImageSource="Assets/Template1.png" Opacity="0.2"/>
+            </Grid.Background>
+            <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
                 <ColumnDefinition />
