@@ -32,12 +32,33 @@
     </Page.DataContext>
 
     <Grid x:Name="MainPageMainGrid">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup >
+                <VisualState>
+                    <VisualState.StateTriggers >
+                        <AdaptiveTrigger MinWindowWidth="0"/> 
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers >
+                        <AdaptiveTrigger MinWindowWidth="360"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="SideMenu.(Grid.ColumnSpan)"
+                                Value="1"/>
+                        <Setter Target="CalendarMenu.Visibility"
+                                Value="Visible"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="250" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid x:Name="GlassHost" Grid.ColumnSpan="2"/>
-        <Grid Grid.Column="0">
+        <Grid x:Name="SideMenu"  Grid.Column="0" Grid.ColumnSpan="2"
+              >
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -46,6 +67,7 @@
                 <RowDefinition Height="4*" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
+            
             <StackPanel x:Name="LogoArea" 
                         Grid.Row="0" 
                         Orientation="Horizontal"
@@ -58,26 +80,30 @@
                            Foreground="SteelBlue"
                            FontSize="20" />
             </StackPanel>
-            <TextBlock Margin="12,8,8,8"
-                       Grid.Row="1"
-                                   Foreground="SteelBlue"
-                                   Style="{ThemeResource TitleTextBlockStyle}"
-                                   Text="Event List"
-                                   HorizontalAlignment="Left" />
+            <StackPanel Grid.Row="1" Grid.Column="0"
+                        Background="#FF000000">
+                <TextBlock Margin="12,8,8,8"   
+                       Foreground="SteelBlue"
+                       Style="{ThemeResource TitleTextBlockStyle}"
+                       Text="Event List"
+                       HorizontalAlignment="Left" />
+            </StackPanel>
+
+
+            <Grid Grid.Row="2" Grid.Column="0" Background="#FF000000">
             <ListView x:Name="ScheduleListView"
-                                  ScrollViewer.VerticalScrollBarVisibility="Auto"
-                                  Grid.Row="2" 
-                        Grid.Column="0"
-                                  ItemsSource="{Binding EventCollection}"
-                                  IsItemClickEnabled="True"
-                                  ItemClick="ScheduleListView_OnItemClick"
-                                  RightTapped="ScheduleListView_RightTapped"
-                                  Margin="4,0,0,0">
+                      ScrollViewer.VerticalScrollBarVisibility="Auto"         
+                      ItemsSource="{Binding EventCollection}"
+                      IsItemClickEnabled="True"
+                      ItemClick="ScheduleListView_OnItemClick"
+                      RightTapped="ScheduleListView_RightTapped"
+                      Margin="4,0,0,0">
                 <ListView.Resources>
                     <MenuFlyout x:Name="ScheduleListViewMenuFlayout">
                         <MenuFlyoutItem x:Name="edit_event"
-                                                    Text="Edit"
-                                                    Click="edit_eventClick"></MenuFlyoutItem>
+                                        Text="Edit"
+                                        Click="edit_eventClick">
+                        </MenuFlyoutItem>
                     </MenuFlyout>
                 </ListView.Resources>
                 <ListView.ItemContainerStyle>
@@ -97,7 +123,9 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <Grid Grid.Row="3">
+            </Grid>
+            <Grid Grid.Row="3" Grid.Column="0"
+                  Background="#FF000000">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="4*" />
@@ -119,8 +147,9 @@
                                 Margin="0,0,0,0" HorizontalAlignment="Right"
                                 Click="RefreshTaskButton_OnClick"/>
             </Grid>
-            <ListView x:Name="TodoListView"
-                              Grid.Row="4" 
+            <Grid Grid.Row="4" Grid.Column="0"
+                  Background="#FF000000">
+            <ListView x:Name="TodoListView"    
                         Grid.Column="0"
                                   IsItemClickEnabled="True"
                                   ItemClick="TodoListView_ItemClick"
@@ -174,9 +203,11 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+            </Grid>
 
 
-            <Grid x:Name="TestArea" Grid.Row="5"
+            <Grid x:Name="TestArea" Grid.Row="5" 
+                  Background="#FF000000"
                   HorizontalAlignment="Left"
                   VerticalAlignment="Top" Width="250" Margin="0,51,0,0">
                 <AppBarButton Icon="Add"
@@ -220,47 +251,43 @@
             -->
             </Grid>
         </Grid>
-
-
-        <GridView Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Width="1059" />
-        <Grid x:Name="CalendarViewArea" Grid.Row="0" Grid.Column="1"  
-              Margin="0,55,0,0"
-              >
-
-            <Grid.Background>
-                <ImageBrush Stretch="UniformToFill" ImageSource="Assets/Template1.png" Opacity="0.2"/>
-            </Grid.Background>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" MinHeight="145"  />
-                <RowDefinition Height="*" MinHeight="145" />
-                <RowDefinition Height="*" MinHeight="145" />
-                <RowDefinition Height="*" MinHeight="145" />
-                <RowDefinition Height="*" MinHeight="145" />
-            </Grid.RowDefinitions>
-            <!-- <Grid Grid.Row="5" Grid.Column="0"> -->
-            <!--     <Button x:Name="PreviousMonthButton" Click="PreviousMonthButton_OnClick">Prev</Button> -->
-            <!--      -->
-            <!-- </Grid> -->
-            <!-- <Grid Grid.Row="5" Grid.Column="6"> -->
-            <!--     <Button x:Name="NextMonthButton" Click="NextMonthButton_OnClick">Next</Button> -->
-            <!-- -->
-            <!-- </Grid> -->
-            <Grid x:Name="CalendarBlock0" Grid.Row="0" Grid.Column="0"
-                  >
+        <Grid x:Name="CalendarMenu" Grid.Column="1" Visibility="Collapsed">
+            <GridView HorizontalAlignment="Center" VerticalAlignment="Center" Width="1059" />
+            <Grid x:Name="CalendarViewArea" 
+              Margin="0,55,0,0" Background="#CC000000" >
+                
+                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="*" MinHeight="145"  />
+                    <RowDefinition Height="*" MinHeight="145" />
+                    <RowDefinition Height="*" MinHeight="145" />
+                    <RowDefinition Height="*" MinHeight="145" />
+                    <RowDefinition Height="*" MinHeight="145" />
                 </Grid.RowDefinitions>
-                <TextBlock x:Name="CalendarBlock0Date"
+                <!-- <Grid Grid.Row="5" Grid.Column="0"> -->
+                <!--     <Button x:Name="PreviousMonthButton" Click="PreviousMonthButton_OnClick">Prev</Button> -->
+                <!--      -->
+                <!-- </Grid> -->
+                <!-- <Grid Grid.Row="5" Grid.Column="6"> -->
+                <!--     <Button x:Name="NextMonthButton" Click="NextMonthButton_OnClick">Next</Button> -->
+                <!-- -->
+                <!-- </Grid> -->
+                <Grid x:Name="CalendarBlock0" Grid.Row="0" Grid.Column="0"
+                  >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock x:Name="CalendarBlock0Date"
                            Grid.Row="0"
                            Grid.Column="0"
                            Text=""
@@ -268,449 +295,450 @@
                            HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue"/>
-                <TextBlock Grid.Row="1" Text="" Margin="10"
+                    <TextBlock Grid.Row="1" Text="" Margin="10"
                            HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue" />
-            </Grid>
-            <Grid x:Name="CalendarBlock1" Grid.Row="0" Grid.Column="1" >
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="2*" />
-                </Grid.RowDefinitions>
-                <TextBlock x:Name="CalendarBlock1Date"
+                </Grid>
+                <Grid x:Name="CalendarBlock1" Grid.Row="0" Grid.Column="1" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock x:Name="CalendarBlock1Date"
                            Grid.Row="0"
                            Text=""
                            FontSize="48"
                            HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue"/>
-                <TextBlock Grid.Row="1" Text="" Margin="10"
+                    <TextBlock Grid.Row="1" Text="" Margin="10"
                            HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue" />
-            </Grid>
+                </Grid>
 
 
-            <Grid x:Name="CalendarBlock2" Grid.Row="0" Grid.Column="2">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="2*" />
-                </Grid.RowDefinitions>
-                <TextBlock x:Name="CalendarBlock2Date" Grid.Row="0"
+                <Grid x:Name="CalendarBlock2" Grid.Row="0" Grid.Column="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock x:Name="CalendarBlock2Date" Grid.Row="0"
                            HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue"
                            FontSize="48"></TextBlock>
-                <TextBlock Grid.Row="1" Text="" 
+                    <TextBlock Grid.Row="1" Text="" 
                            HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue" />
-            </Grid>
+                </Grid>
 
 
-            <Grid x:Name="CalendarBlock3" Grid.Column="3" Grid.Row="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="2*" />
-                </Grid.RowDefinitions>
-                <TextBlock x:Name="CalendarBlock3Date" Grid.Row="0" 
+                <Grid x:Name="CalendarBlock3" Grid.Column="3" Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock x:Name="CalendarBlock3Date" Grid.Row="0" 
                            Text="" FontSize="48"
                            HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue"></TextBlock>
-                <TextBlock Text="" Grid.Row="1" 
+                    <TextBlock Text="" Grid.Row="1" 
                            HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue"/>
-            </Grid>
+                </Grid>
 
-            <Grid x:Name="CalendarBlock4" Grid.Column="4" Grid.Row="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="2*" />
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" x:Name="CalendarBlock4Date"
+                <Grid x:Name="CalendarBlock4" Grid.Column="4" Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" x:Name="CalendarBlock4Date"
                            HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue" 
                            FontSize="48"></TextBlock>
-                <TextBlock Grid.Row="1" Text=""
+                    <TextBlock Grid.Row="1" Text=""
                            HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue" />
-            </Grid>
-            <Grid x:Name="CalendarBlock5" Grid.Column="5" Grid.Row="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="2*" />
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" x:Name="CalendarBlock5Date"
+                </Grid>
+                <Grid x:Name="CalendarBlock5" Grid.Column="5" Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" x:Name="CalendarBlock5Date"
                            HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue" 
                            FontSize="48"></TextBlock>
-                <TextBlock Grid.Row="1" Text=""
+                    <TextBlock Grid.Row="1" Text=""
                            HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue" />
-            </Grid>
-            <Grid x:Name="CalendarBlock6" Grid.Column="6" Grid.Row="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="2*" />
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" x:Name="CalendarBlock6Date" HorizontalAlignment="Center" 
+                </Grid>
+                <Grid x:Name="CalendarBlock6" Grid.Column="6" Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" x:Name="CalendarBlock6Date" HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue" 
                            FontSize="48"></TextBlock>
-                <TextBlock Grid.Row="1" />
-            </Grid>
-            <Grid x:Name="CalendarBlock7" Grid.Column="0" Grid.Row="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="2*" />
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" x:Name="CalendarBlock7Date"
+                    <TextBlock Grid.Row="1" />
+                </Grid>
+                <Grid x:Name="CalendarBlock7" Grid.Column="0" Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" x:Name="CalendarBlock7Date"
                            HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue" 
                            FontSize="48"/>
-                <TextBlock Grid.Row="1"
+                    <TextBlock Grid.Row="1"
                            HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue"/>
-            </Grid>
-            <Grid x:Name="CalendarBlock8" Grid.Column="1" Grid.Row="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="2*" />
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" x:Name="CalendarBlock8Date" 
+                </Grid>
+                <Grid x:Name="CalendarBlock8" Grid.Column="1" Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" x:Name="CalendarBlock8Date" 
                            HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue" 
                            FontSize="48"/>
-                <TextBlock Grid.Row="1"
+                    <TextBlock Grid.Row="1"
                            HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue"/>
-            </Grid>
-            <Grid x:Name="CalendarBlock9" Grid.Column="2" Grid.Row="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="2*" />
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" x:Name="CalendarBlock9Date"
+                </Grid>
+                <Grid x:Name="CalendarBlock9" Grid.Column="2" Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" x:Name="CalendarBlock9Date"
                            HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue" 
                            FontSize="48"/>
-                <TextBlock Grid.Row="1" 
+                    <TextBlock Grid.Row="1" 
                            HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue"/>
-            </Grid>
-            <Grid x:Name="CalendarBlock10" Grid.Column="3" Grid.Row="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="2*" />
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" x:Name="CalendarBlock10Date" 
+                </Grid>
+                <Grid x:Name="CalendarBlock10" Grid.Column="3" Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" x:Name="CalendarBlock10Date" 
                            HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue" 
                            FontSize="48"/>
-                <TextBlock Grid.Row="1" 
+                    <TextBlock Grid.Row="1" 
                            HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue"/>
-            </Grid>
-            <Grid x:Name="CalendarBlock11" Grid.Column="4" Grid.Row="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="2*" />
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" x:Name="CalendarBlock11Date" 
+                </Grid>
+                <Grid x:Name="CalendarBlock11" Grid.Column="4" Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" x:Name="CalendarBlock11Date" 
                            HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue" 
                            FontSize="48"/>
-                <TextBlock Grid.Row="1" 
+                    <TextBlock Grid.Row="1" 
                            HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue"/>
-            </Grid>
-            <Grid x:Name="CalendarBlock12" Grid.Column="5" Grid.Row="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="2*" />
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" x:Name="CalendarBlock12Date" 
+                </Grid>
+                <Grid x:Name="CalendarBlock12" Grid.Column="5" Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" x:Name="CalendarBlock12Date" 
                            FontSize="48"
                            HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue"/>
-                <TextBlock Grid.Row="1" HorizontalAlignment="Center" 
+                    <TextBlock Grid.Row="1" HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue"/>
-            </Grid>
-            <Grid x:Name="CalendarBlock13" Grid.Column="6" Grid.Row="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="2*" />
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" x:Name="CalendarBlock13Date" HorizontalAlignment="Center" 
+                </Grid>
+                <Grid x:Name="CalendarBlock13" Grid.Column="6" Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" x:Name="CalendarBlock13Date" HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue"  
                            FontSize="48"/>
-                <TextBlock Grid.Row="1" HorizontalAlignment="Center" 
+                    <TextBlock Grid.Row="1" HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue"/>
-            </Grid>
-            <Grid x:Name="CalendarBlock14" Grid.Column="0" Grid.Row="2">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="2*" />
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" x:Name="CalendarBlock14Date" HorizontalAlignment="Center" 
+                </Grid>
+                <Grid x:Name="CalendarBlock14" Grid.Column="0" Grid.Row="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" x:Name="CalendarBlock14Date" HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue" 
                            FontSize="48"/>
-                <TextBlock Grid.Row="1" HorizontalAlignment="Center" 
+                    <TextBlock Grid.Row="1" HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue"/>
-            </Grid>
-            <Grid x:Name="CalendarBlock15" Grid.Column="1" Grid.Row="2">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="2*" />
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" x:Name="CalendarBlock15Date" HorizontalAlignment="Center" 
+                </Grid>
+                <Grid x:Name="CalendarBlock15" Grid.Column="1" Grid.Row="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" x:Name="CalendarBlock15Date" HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue" 
                            FontSize="48"/>
-                <TextBlock Grid.Row="1" HorizontalAlignment="Center" 
+                    <TextBlock Grid.Row="1" HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue"/>
-            </Grid>
-            <Grid x:Name="CalendarBlock16" Grid.Column="2" Grid.Row="2">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="2*" />
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" x:Name="CalendarBlock16Date" 
+                </Grid>
+                <Grid x:Name="CalendarBlock16" Grid.Column="2" Grid.Row="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" x:Name="CalendarBlock16Date" 
                            HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue" 
                            FontSize="48"/>
-                <TextBlock Grid.Row="1" HorizontalAlignment="Center" 
+                    <TextBlock Grid.Row="1" HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue"/>
-            </Grid>
-            <Grid x:Name="CalendarBlock17" Grid.Column="3" Grid.Row="2">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="2*" />
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" x:Name="CalendarBlock17Date" HorizontalAlignment="Center" 
+                </Grid>
+                <Grid x:Name="CalendarBlock17" Grid.Column="3" Grid.Row="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" x:Name="CalendarBlock17Date" HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue" 
                            FontSize="48"/>
-                <TextBlock Grid.Row="1" HorizontalAlignment="Center" 
+                    <TextBlock Grid.Row="1" HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue"/>
-            </Grid>
-            <Grid x:Name="CalendarBlock18" Grid.Column="4" Grid.Row="2">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="2*" />
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" x:Name="CalendarBlock18Date" HorizontalAlignment="Center" 
+                </Grid>
+                <Grid x:Name="CalendarBlock18" Grid.Column="4" Grid.Row="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" x:Name="CalendarBlock18Date" HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue" 
                            FontSize="48"/>
-                <TextBlock Grid.Row="1" HorizontalAlignment="Center" 
+                    <TextBlock Grid.Row="1" HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue"/>
-            </Grid>
-            <Grid x:Name="CalendarBlock19" Grid.Column="5" Grid.Row="2">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="2*" />
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" x:Name="CalendarBlock19Date" HorizontalAlignment="Center" 
+                </Grid>
+                <Grid x:Name="CalendarBlock19" Grid.Column="5" Grid.Row="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" x:Name="CalendarBlock19Date" HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue" 
                            FontSize="48"/>
-                <TextBlock Grid.Row="1" HorizontalAlignment="Center" 
+                    <TextBlock Grid.Row="1" HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue"/>
-            </Grid>
-            <Grid x:Name="CalendarBlock20" Grid.Column="6" Grid.Row="2">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="2*" />
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" x:Name="CalendarBlock20Date" HorizontalAlignment="Center" 
+                </Grid>
+                <Grid x:Name="CalendarBlock20" Grid.Column="6" Grid.Row="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" x:Name="CalendarBlock20Date" HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue" 
                            FontSize="48"/>
-                <TextBlock Grid.Row="1" />
-            </Grid>
-            <Grid x:Name="CalendarBlock21" Grid.Column="0" Grid.Row="3">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="2*" />
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" x:Name="CalendarBlock21Date" HorizontalAlignment="Center" 
+                    <TextBlock Grid.Row="1" />
+                </Grid>
+                <Grid x:Name="CalendarBlock21" Grid.Column="0" Grid.Row="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" x:Name="CalendarBlock21Date" HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue" 
                            FontSize="48"/>
-                <TextBlock Grid.Row="1" />
-            </Grid>
-            <Grid x:Name="CalendarBlock22" Grid.Column="1" Grid.Row="3">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="2*" />
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" x:Name="CalendarBlock22Date" HorizontalAlignment="Center" 
+                    <TextBlock Grid.Row="1" />
+                </Grid>
+                <Grid x:Name="CalendarBlock22" Grid.Column="1" Grid.Row="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" x:Name="CalendarBlock22Date" HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue" 
                            FontSize="48"/>
-                <TextBlock Grid.Row="1" />
-            </Grid>
-            <Grid x:Name="CalendarBlock23" Grid.Column="2" Grid.Row="3">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="2*" />
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" x:Name="CalendarBlock23Date" HorizontalAlignment="Center" 
+                    <TextBlock Grid.Row="1" />
+                </Grid>
+                <Grid x:Name="CalendarBlock23" Grid.Column="2" Grid.Row="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" x:Name="CalendarBlock23Date" HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue" 
                            FontSize="48"/>
-                <TextBlock Grid.Row="1" />
-            </Grid>
-            <Grid x:Name="CalendarBlock24" Grid.Column="3" Grid.Row="3">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="2*" />
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" x:Name="CalendarBlock24Date" HorizontalAlignment="Center" 
+                    <TextBlock Grid.Row="1" />
+                </Grid>
+                <Grid x:Name="CalendarBlock24" Grid.Column="3" Grid.Row="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" x:Name="CalendarBlock24Date" HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue" 
                            FontSize="48"/>
-                <TextBlock Grid.Row="1" />
-            </Grid>
-            <Grid x:Name="CalendarBlock25" Grid.Column="4" Grid.Row="3">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="2*" />
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" x:Name="CalendarBlock25Date" HorizontalAlignment="Center" 
+                    <TextBlock Grid.Row="1" />
+                </Grid>
+                <Grid x:Name="CalendarBlock25" Grid.Column="4" Grid.Row="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" x:Name="CalendarBlock25Date" HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue"  
                            FontSize="48"/>
-                <TextBlock Grid.Row="1" />
-            </Grid>
-            <Grid x:Name="CalendarBlock26" Grid.Column="5" Grid.Row="3">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="2*" />
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" x:Name="CalendarBlock26Date" HorizontalAlignment="Center" 
+                    <TextBlock Grid.Row="1" />
+                </Grid>
+                <Grid x:Name="CalendarBlock26" Grid.Column="5" Grid.Row="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" x:Name="CalendarBlock26Date" HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue" 
                            FontSize="48"/>
-                <TextBlock Grid.Row="1" />
-            </Grid>
-            <Grid x:Name="CalendarBlock27" Grid.Column="6" Grid.Row="3">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="2*" />
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" x:Name="CalendarBlock27Date" HorizontalAlignment="Center" 
+                    <TextBlock Grid.Row="1" />
+                </Grid>
+                <Grid x:Name="CalendarBlock27" Grid.Column="6" Grid.Row="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" x:Name="CalendarBlock27Date" HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue" 
                            FontSize="48"/>
-                <TextBlock Grid.Row="1" />
-            </Grid>
-            <Grid x:Name="CalendarBlock28" Grid.Column="0" Grid.Row="4">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="2*" />
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" x:Name="CalendarBlock28Date" HorizontalAlignment="Center" 
+                    <TextBlock Grid.Row="1" />
+                </Grid>
+                <Grid x:Name="CalendarBlock28" Grid.Column="0" Grid.Row="4">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" x:Name="CalendarBlock28Date" HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue" 
                            FontSize="48"/>
-                <TextBlock Grid.Row="1" />
-            </Grid>
-            <Grid x:Name="CalendarBlock29" Grid.Column="1" Grid.Row="4">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="2*" />
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" x:Name="CalendarBlock29Date" HorizontalAlignment="Center" 
+                    <TextBlock Grid.Row="1" />
+                </Grid>
+                <Grid x:Name="CalendarBlock29" Grid.Column="1" Grid.Row="4">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" x:Name="CalendarBlock29Date" HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue" 
                            FontSize="48"/>
-                <TextBlock Grid.Row="1" />
-            </Grid>
-            <Grid x:Name="CalendarBlock30" Grid.Column="2" Grid.Row="4">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="2*" />
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" x:Name="CalendarBlock30Date" HorizontalAlignment="Center" 
+                    <TextBlock Grid.Row="1" />
+                </Grid>
+                <Grid x:Name="CalendarBlock30" Grid.Column="2" Grid.Row="4">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" x:Name="CalendarBlock30Date" HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue" 
                            FontSize="48"/>
-                <TextBlock Grid.Row="1" />
-            </Grid>
-            <Grid x:Name="CalendarBlock31" Grid.Column="3" Grid.Row="4">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="2*" />
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" x:Name="CalendarBlock31Date" HorizontalAlignment="Center" 
+                    <TextBlock Grid.Row="1" />
+                </Grid>
+                <Grid x:Name="CalendarBlock31" Grid.Column="3" Grid.Row="4">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" x:Name="CalendarBlock31Date" HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue" 
                            FontSize="48"/>
-                <TextBlock Grid.Row="1" />
-            </Grid>
-            <Grid x:Name="CalendarBlock32" Grid.Column="4" Grid.Row="4">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="2*" />
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" x:Name="CalendarBlock32Date" HorizontalAlignment="Center" 
+                    <TextBlock Grid.Row="1" />
+                </Grid>
+                <Grid x:Name="CalendarBlock32" Grid.Column="4" Grid.Row="4">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" x:Name="CalendarBlock32Date" HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue" 
                            FontSize="48"/>
-                <TextBlock Grid.Row="1" />
-            </Grid>
-            <Grid x:Name="CalendarBlock33" Grid.Column="5" Grid.Row="4">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="2*" />
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" x:Name="CalendarBlock33Date" HorizontalAlignment="Center" 
+                    <TextBlock Grid.Row="1" />
+                </Grid>
+                <Grid x:Name="CalendarBlock33" Grid.Column="5" Grid.Row="4">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" x:Name="CalendarBlock33Date" HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue" 
                            FontSize="48"/>
-                <TextBlock Grid.Row="1" />
-            </Grid>
-            <Grid x:Name="CalendarBlock34" Grid.Column="6" Grid.Row="4">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="2*" />
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" x:Name="CalendarBlock34Date" HorizontalAlignment="Center" 
+                    <TextBlock Grid.Row="1" />
+                </Grid>
+                <Grid x:Name="CalendarBlock34" Grid.Column="6" Grid.Row="4">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" x:Name="CalendarBlock34Date" HorizontalAlignment="Center" 
                            VerticalAlignment="Center"
                            Foreground="SteelBlue" 
                            FontSize="48"/>
-                <TextBlock Grid.Row="1" />
+                    <TextBlock Grid.Row="1" />
+                </Grid>
             </Grid>
         </Grid>
     </Grid>
