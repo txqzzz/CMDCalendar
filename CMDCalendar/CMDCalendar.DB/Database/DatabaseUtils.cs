@@ -306,42 +306,71 @@ namespace CMDCalendar.DB.Database
             var evt1 = new Event
             {
                 Id = 1,
-                Comments = "evt1 comments.",
-                Content = "evt1",
-                EventDay = new DateTime(2018, 8, 31),
+                Comments = "Release version publish and end this fucking summer intern.",
+                Content = "Realease ",
+                EventDay = new DateTime(2018, 8, 2),
                 Emergency = 0,
-                EndTime = new DateTime(2018, 7, 24),
+                EndTime = new DateTime(2018, 8,2),
                 IsNotify = false,
                 LeftTime = -1,
-                Location = "evt1 location",
-                StartTime = new DateTime(2018, 7, 24)
+                Location = "Northeastern University ",
+                StartTime = new DateTime(2018, 8,2)
             };
             var evt2 = new Event
             {
                 Id = 2,
-                Comments = "event2",
-                Content = "evt2_content",
-                EventDay = new DateTime(2018, 7, 21),
+                Comments = "the next level play",
+                Content = "v2ray depoyment",
+                EventDay = new DateTime(2018,8,2),
                 Emergency = 0,
-                EndTime = new DateTime(2018, 7, 24),
+                EndTime = new DateTime(2018, 8,2),
                 IsNotify = false,
                 LeftTime = -1,
-                Location = "evt2 location",
-                StartTime = new DateTime(2018, 7, 24)
+                Location = "Shenyang",
+                StartTime = new DateTime(2018, 8,2)
+            };
+
+            var evt3 = new Event
+            {
+                Id = 3,
+                Comments = "please notify me!",
+                Content = "ddl1",
+                EventDay = new DateTime(2018, 8, 2),
+                Emergency = 0,
+                EndTime = new DateTime(2018, 8, 2, 9, 30, 0),
+                IsNotify = false,
+                LeftTime = -1,
+                Location = "Shenyang",
+                StartTime = new DateTime(2018, 8, 2, 8, 30, 0)
+            };
+
+            var evt4 = new Event
+            {
+                Id = 3,
+                Comments = "please notify me again!",
+                Content = "ddl2",
+                EventDay = new DateTime(2018, 8, 2),
+                Emergency = 0,
+                EndTime = new DateTime(2018, 8, 2, 12, 00, 0),
+                IsNotify = false,
+                LeftTime = -1,
+                Location = "Shenyang",
+                StartTime = new DateTime(2018, 8, 2, 8, 30, 0)
             };
 
             await dbu.NewEventAsync(evt1, user1);
             await dbu.NewEventAsync(evt2, user2);
+            await dbu.NewEventAsync(evt3, user1);
 
             var task1 = new Task()
             {
                 Id = 1,
-                Comments = "No comments then.",
-                Content = "Location yourself",
+                Comments = "At least 4 das 1 week.",
+                Content = "Running",
                 IsReapeatable = false,
-                StartTime = new DateTime(2018, 7, 24),
-                EndTime = new DateTime(2018, 7, 26),
-                EventDay = new DateTime(2018,7,26),
+                StartTime = new DateTime(2018, 8,1),
+                EndTime = new DateTime(2018, 8,8),
+                EventDay = new DateTime(2018,8,8),
                 LeftTime = -1,
                 Emergency = 0,
                 IsCompleted = false,
@@ -350,12 +379,12 @@ namespace CMDCalendar.DB.Database
             var task2 = new Task()
             {
                 Id = 2,
-                Comments = "Task two",
-                Content = "Do it yourself",
+                Comments = "Once more",
+                Content = "IELTS vocabulary",
                 IsReapeatable = false,
-                StartTime = new DateTime(2018, 7, 23),
-                EndTime = new DateTime(2018, 7, 26),
-                EventDay = new DateTime(2018,7,26),
+                StartTime = new DateTime(2018, 8,3),
+                EndTime = new DateTime(2018, 8,10),
+                EventDay = new DateTime(2018,8,10),
                 LeftTime = -1,
                 Emergency = 0,
                 IsCompleted = false,
@@ -375,32 +404,32 @@ namespace CMDCalendar.DB.Database
             var taskE = new Task()
             {
                 Id = 3,
-                Comments = "Test Task Comments",
-                Content = "Test Task Content",
+                Comments = "for someone like you",
+                Content = "Preparation",
                 IsReapeatable = false,
                 StartTime = new DateTime(2018, 8, 10),
                 EndTime = new DateTime(2018, 8, 31),
-                EventDay = new DateTime(2018, 8, 22),
+                EventDay = new DateTime(2018, 8, 31),
                 LeftTime = -1,
                 Emergency = 0,
                 IsCompleted = false,
-                Location = "Test Task Location"
+                Location = "Homeland"
 
             };
 
             var eventE = new Event
             {
                 Id = 3,
-                Comments = "Test Event Comments",
-                Content = "Test Event Content",
+                Comments = "ovo",
+                Content = "Birthday",
                 IsNotify = false,
-                EventDay = new DateTime(2018, 3, 21),
-                StartTime = new DateTime(2018, 3, 24, 1, 1, 4),
-                EndTime = new DateTime(2018, 3, 26, 5, 1, 4),
+                EventDay = new DateTime(2018, 8,31),
+                StartTime = new DateTime(2018, 8, 31, 12, 0, 0),
+                EndTime = new DateTime(2018, 8, 31, 14, 0, 0),
 
                 LeftTime = -1,
                 Emergency = 0,
-                Location = "Test Event Location"
+                Location = "China"
             };
 
             await dbu.NewUserAsync(user4);

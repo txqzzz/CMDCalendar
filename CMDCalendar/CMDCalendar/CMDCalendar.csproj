@@ -126,6 +126,7 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <Content Include="Assets\Template2.png" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="CMDCalendar_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
@@ -181,6 +182,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="NewFolder1\" />
+    <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

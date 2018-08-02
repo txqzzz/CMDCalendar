@@ -1,5 +1,4 @@
-﻿using CMDCalendar.Database;
-using GalaSoft.MvvmLight;
+﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using System.Collections.ObjectModel;
 using Windows.ApplicationModel;
@@ -16,6 +15,9 @@ namespace CMDCalendar.ViewModels
         /// 被选中的任务
         /// </summary>
         private DB.Task _selectedTask;
+
+        private Event _selectedEvent;
+
         /// <summary>
         /// 刷新命令
         /// </summary>
@@ -51,6 +53,13 @@ namespace CMDCalendar.ViewModels
             get => _selectedTask;
             set => Set(nameof(SelectedTask), ref _selectedTask, value);
         }
+
+        public Event SelectedEvent
+        {
+            get => _selectedEvent;
+            set => Set(nameof(SelectedEvent), ref _selectedEvent,value);
+        }
+
         public SliberPageViewModel(IDatabaseUtils databaseUtils)
         {
             _databaseUtils = databaseUtils;

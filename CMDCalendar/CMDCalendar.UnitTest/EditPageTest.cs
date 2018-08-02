@@ -1,6 +1,5 @@
 ﻿using CMDCalendar.DB;
 using CMDCalendar.ViewModels;
-using CMDCalendar.Database;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
